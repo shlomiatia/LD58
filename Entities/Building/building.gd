@@ -21,10 +21,12 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
     if building_data:
+        var mouse_pos = get_global_mouse_position()
+        var sprite_rect = Rect2(sprite.global_position - sprite.texture.get_size() / 2, sprite.texture.get_size())
+        var is_hovered = sprite_rect.has_point(mouse_pos)
+        label.visible = is_hovered
         if building_data.input:
-            var mouse_pos = get_global_mouse_position()
-            var sprite_rect = Rect2(sprite.global_position - sprite.texture.get_size() / 2, sprite.texture.get_size())
-            conversion.visible = sprite_rect.has_point(mouse_pos)
+            conversion.visible = is_hovered
 
         if building_data.output:
             _update()
@@ -75,5 +77,5 @@ func buy(amount: int) -> int:
 
 func _update() -> void:
     var price = get_price_with_vat()
-    resource_label.value_text = "%3d - %3d" % [price, supply]
+    resource_label.value_text = "%d - %d" % [price, supply]
     money_label.value = money

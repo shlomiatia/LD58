@@ -33,6 +33,12 @@ func _on_taxes_set() -> void:
     await _handle_needs(buildings)
     await _handle_export(buildings)
     _place_new_building(buildings)
+
+    for building in buildings:
+        if building is Building:
+            building.supply = 0
+
+    market._initialize_demand()
     taxes.set_controls_enabled(true)
 
 func _calculate_total_demand(buildings: Array[Node]) -> Dictionary:

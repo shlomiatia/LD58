@@ -14,21 +14,22 @@ script = ExtResource("1_n24b0")
 position = Vector2(0, -56)
 texture = ExtResource("1_akj1o")
 
-[node name="Conversion" parent="." instance=ExtResource("3_a2p0t")]
-visible = false
-position = Vector2(-14, -41)
-
 [node name="Label" type="Label" parent="."]
+visible = false
 offset_left = -80.0
-offset_top = -133.0
+offset_top = -63.0
 offset_right = 80.0
-offset_bottom = -121.0
+offset_bottom = -51.0
 theme = ExtResource("3_58kuh")
 text = "Sheep farm"
 horizontal_alignment = 1
+
+[node name="Conversion" parent="." instance=ExtResource("3_a2p0t")]
+visible = false
+position = Vector2(-14, -42)
 
 [node name="ResourceLabel" parent="." instance=ExtResource("5_cachm")]
 position = Vector2(-25, -112)
 
 [node name="MoneyLabel" parent="." instance=ExtResource("6_gfy5h")]
-position = Vector2(-8, -141)
+position = Vector2(-8, -129)
