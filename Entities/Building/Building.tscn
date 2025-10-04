@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://cqxe7blllb7sq"]
 
 [ext_resource type="Texture2D" uid="uid://dxxkk6rmscm2w" path="res://Textures/house.png" id="1_akj1o"]
-[ext_resource type="Script" path="res://Entities/House/building.gd" id="1_n24b0"]
+[ext_resource type="Script" path="res://Entities/Building/building.gd" id="1_n24b0"]
 [ext_resource type="FontFile" uid="uid://df6qrekpgy2cl" path="res://Fonts/Analog Whispers FREE.ttf" id="2_ckfqw"]
 
 [sub_resource type="Theme" id="Theme_m7wwj"]
