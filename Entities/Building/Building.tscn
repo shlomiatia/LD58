@@ -28,7 +28,7 @@ text = "Sheep farm"
 horizontal_alignment = 1
 
 [node name="ResourceLabel" parent="." instance=ExtResource("5_cachm")]
-position = Vector2(-8, -112)
+position = Vector2(-25, -112)
 
 [node name="MoneyLabel" parent="." instance=ExtResource("6_gfy5h")]
 position = Vector2(-8, -141)
