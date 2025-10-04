@@ -1,0 +1,34 @@
+[remap]
+
+importer="font_data_dynamic"
+type="FontFile"
+uid="uid://df6qrekpgy2cl"
+path="res://.godot/imported/Analog Whispers FREE.ttf-7058c8d112b4b835a9f98759dc0d0630.fontdata"
+
+[deps]
+
+source_file="res://Fonts/Analog Whispers FREE.ttf"
+dest_files=["res://.godot/imported/Analog Whispers FREE.ttf-7058c8d112b4b835a9f98759dc0d0630.fontdata"]
+
+[params]
+
+Rendering=null
+antialiasing=1
+generate_mipmaps=false
+disable_embedded_bitmaps=true
+multichannel_signed_distance_field=false
+msdf_pixel_range=8
+msdf_size=48
+allow_system_fallback=true
+force_autohinter=false
+hinting=1
+subpixel_positioning=1
+oversampling=0.0
+Fallbacks=null
+fallbacks=[]
+Compress=null
+compress=true
+preload=[]
+language_support={}
+script_support={}
+opentype_features={}
