@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cqxe7blllb7sq"]
+[gd_scene load_steps=9 format=3 uid="uid://cqxe7blllb7sq"]
 
 [ext_resource type="Texture2D" uid="uid://dxxkk6rmscm2w" path="res://Textures/building.png" id="1_akj1o"]
 [ext_resource type="Script" path="res://Entities/Building/building.gd" id="1_n24b0"]
@@ -6,6 +6,10 @@
 [ext_resource type="PackedScene" uid="uid://cvsxe0o3w0am4" path="res://Entities/Conversion/Conversion.tscn" id="3_a2p0t"]
 [ext_resource type="PackedScene" uid="uid://br5guff0j3e2m" path="res://Entities/ResourceLabel/ResourceLabel.tscn" id="5_cachm"]
 [ext_resource type="PackedScene" uid="uid://brcna04fqs171" path="res://Entities/MoneyLabel/MoneyLabel.tscn" id="6_gfy5h"]
+[ext_resource type="PackedScene" uid="uid://djny86sgor10g" path="res://Entities/Worker/Worker.tscn" id="7_fuohf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ri8y3"]
+size = Vector2(80, 16)
 
 [node name="Building" type="Node2D" groups=["buildings"]]
 script = ExtResource("1_n24b0")
@@ -30,7 +34,16 @@ position = Vector2(-14, -42)
 
 [node name="MoneyLabel" parent="." instance=ExtResource("6_gfy5h")]
 visible = false
-position = Vector2(-8, -112)
+position = Vector2(0, -112)
 
 [node name="ResourceLabel" parent="." instance=ExtResource("5_cachm")]
-position = Vector2(-8, -111)
+position = Vector2(0, -112)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_ri8y3")
+
+[node name="Worker" parent="." instance=ExtResource("7_fuohf")]
+position = Vector2(0, -7)

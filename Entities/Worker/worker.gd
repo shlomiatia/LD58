@@ -1,0 +1,1 @@
+class_name Worker extends CharacterBody2D
