@@ -45,4 +45,6 @@ position = Vector2(0, -8)
 shape = SubResource("RectangleShape2D_ri8y3")
 
 [node name="Worker" parent="." instance=ExtResource("7_fuohf")]
-position = Vector2(0, -7)
+position = Vector2(0, 9)
+collision_layer = 2
+collision_mask = 2
