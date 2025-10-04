@@ -37,16 +37,26 @@ func update_demand(resource_name: String) -> void:
         var demand = randi_range(resource.min_external_demand, resource.max_external_demand)
         demand_values[resource_name] = demand
 
+func set_demand(resource_name: String, demand: int) -> void:
+    demand_values[resource_name] = demand
+    _update_prices()
+
+func get_price_with_tariff(resource_name: String) -> int:
+    var resource = ResourceData.get_resource(resource_name)
+    if resource:
+        var tariff_tax = TaxData.get_tax("Tariff")
+        var base_price = resource.cost
+        return int(base_price * (1.0 + tariff_tax.value / 100.0))
+    return 0
+
 func _update_prices() -> void:
-    var tariff_tax = TaxData.get_tax("Tariff")
     var all_resources = ResourceData.get_all_resources()
 
     for resource in all_resources:
-        var base_price = resource.cost
-        var buy_price = base_price * (1.0 + tariff_tax.value / 100.0)
-        var sell_price = base_price
+        var buy_price = get_price_with_tariff(resource.resource_name)
+        var sell_price = resource.cost
         var demand = demand_values.get(resource.resource_name, 0)
-        _set_price_for_resource(resource.resource_name, int(buy_price), sell_price, demand)
+        _set_price_for_resource(resource.resource_name, buy_price, sell_price, demand)
 
 func _set_price_for_resource(resource_name: String, buy_price: int, sell_price: int, demand: int) -> void:
     var label_text = "%d - %d - %d" % [buy_price, sell_price, demand]

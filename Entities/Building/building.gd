@@ -7,10 +7,11 @@ class_name Building extends Node2D
 
 var building_data: BuildingData
 var money: int = 0
+var supply: int = 0
 
 @onready var label = $Label
 @onready var conversion = $Conversion
-@onready var resource_price = $ResourcePrice
+@onready var resource_label = $ResourceLabel
 @onready var sprite = $Sprite2D
 
 func _ready() -> void:
@@ -37,10 +38,18 @@ func _update_building() -> void:
                 conversion.output_resource_name = building_data.output.resource_name
 
             if building_data.output:
-                resource_price.resource_name = building_data.output.resource_name
+                resource_label.resource_name = building_data.output.resource_name
 
-func _update_price() -> void:
+func get_price_with_vat() -> int:
     var vat_tax = TaxData.get_tax("VAT")
     var base_price = building_data.output.cost
-    var final_price = base_price * (1.0 + vat_tax.value / 100.0)
-    resource_price.value = int(final_price)
+    return int(base_price * (1.0 + vat_tax.value / 100.0))
+
+func _update_price() -> void:
+    var price = get_price_with_vat()
+    resource_label.value_text = "%3d - %3d" % [price, supply]
+
+func update_supply(new_supply: int) -> void:
+    supply = new_supply
+    if building_data and building_data.output:
+        _update_price()
