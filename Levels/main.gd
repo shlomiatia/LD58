@@ -48,7 +48,7 @@ func _on_taxes_set() -> void:
 
     var total_demand := {}
     for resource_name in ["Sheep", "Wool", "Milk", "Meat", "Food", "Clothes", "Drink"]:
-        var external_demand = market.demand_values.get(resource_name, 0)
+        var external_demand = market.get_demand(resource_name)
         total_demand[resource_name] = int(internal_demand[resource_name] + external_demand)
 
     var sheep_producers = _get_producers_of(buildings, "Sheep")
@@ -66,6 +66,11 @@ func _on_taxes_set() -> void:
             var result = await _buy(buildings, need, 1)
             building.update_money(-result["total_cost"])
             await get_tree().create_timer(1.0).timeout
+
+    for resource_name in ["Sheep", "Wool", "Milk", "Meat", "Food", "Clothes", "Drink"]:
+        var result = await _buy(buildings, resource_name, market.get_demand(resource_name))
+        market.update_demand(resource_name, result["total_amount"])
+        await get_tree().create_timer(1.0).timeout
 
 func _set_internal_demand(internal_demand: Dictionary, buildings: Array[Node], resource_name: String) -> void:
     var producers: Array[BuildingData] = []

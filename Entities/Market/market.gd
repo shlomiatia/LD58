@@ -16,7 +16,7 @@ func _ready() -> void:
     _initialize_demand()
 
 func _process(_delta: float) -> void:
-    _update_prices()
+    _update()
 
 func _setup_resource_labels() -> void:
     sheep_label.resource_name = "Sheep"
@@ -30,17 +30,16 @@ func _setup_resource_labels() -> void:
 func _initialize_demand() -> void:
     var all_resources = ResourceData.get_all_resources()
     for resource in all_resources:
-        update_demand(resource.resource_name)
-
-func update_demand(resource_name: String) -> void:
-    var resource = ResourceData.get_resource(resource_name)
-    if resource:
         var demand = randi_range(resource.min_external_demand, resource.max_external_demand)
-        demand_values[resource_name] = demand
+        demand_values[resource.resource_name] = demand
 
-func set_demand(resource_name: String, demand: int) -> void:
+
+func get_demand(resource_name: String) -> int:
+    return demand_values.get(resource_name, 0)
+
+func update_demand(resource_name: String, demand: int) -> void:
     demand_values[resource_name] = demand
-    _update_prices()
+    _update()
 
 func get_price_with_tariff(resource_name: String) -> int:
     var resource = ResourceData.get_resource(resource_name)
@@ -50,7 +49,7 @@ func get_price_with_tariff(resource_name: String) -> int:
         return int(base_price * (1.0 + tariff_tax.value / 100.0))
     return 0
 
-func _update_prices() -> void:
+func _update() -> void:
     var all_resources = ResourceData.get_all_resources()
 
     for resource in all_resources:
