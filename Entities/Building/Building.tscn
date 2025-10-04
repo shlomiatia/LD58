@@ -26,5 +26,5 @@ theme = ExtResource("3_58kuh")
 text = "Sheep farm"
 horizontal_alignment = 1
 
-[node name="ResourceLabel" parent="." instance=ExtResource("5_cachm")]
+[node name="ResourcePrice" parent="." instance=ExtResource("5_cachm")]
 position = Vector2(-8, -128)

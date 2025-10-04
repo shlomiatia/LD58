@@ -9,10 +9,9 @@ signal taxes_set
 @onready var vbox = $VBoxContainer
 
 func _ready() -> void:
-    var all_taxes = TaxData.get_all_taxes()
-    tariff_tax.tax_data = all_taxes[0]
-    vat_tax.tax_data = all_taxes[1]
-    income_tax.tax_data = all_taxes[2]
+    tariff_tax.tax_name = "Tariff"
+    vat_tax.tax_name = "VAT"
+    income_tax.tax_name = "Income tax"
 
     set_button.pressed.connect(_on_set_button_pressed)
 

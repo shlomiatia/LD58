@@ -1,4 +1,4 @@
-class_name BuildingData extends Node
+class_name BuildingData
 
 var building_name: String
 var input: ResourceData
@@ -6,6 +6,7 @@ var output: ResourceData
 var tags: Array[ResourceData]
 
 static var _buildings: Array[BuildingData] = []
+static var _building_map: Dictionary = {}
 
 func _init(p_name: String, p_input: ResourceData, p_output: ResourceData, p_tags: Array[ResourceData]):
 	building_name = p_name
@@ -34,4 +35,11 @@ static func get_all_buildings() -> Array[BuildingData]:
 			BuildingData.new("Tanner", meat, clothes, [sheep, meat, drink]),
 			BuildingData.new("Milkmaid", milk, drink, [sheep, milk, drink])
 		]
+		for building in _buildings:
+			_building_map[building.building_name.to_lower()] = building
 	return _buildings
+
+static func get_building(name: String) -> BuildingData:
+	if _buildings.is_empty():
+		get_all_buildings()
+	return _building_map.get(name.to_lower())

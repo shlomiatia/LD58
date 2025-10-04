@@ -1,5 +1,3 @@
-extends Node
-
 class_name ResourceData
 
 var resource_name: String

@@ -1,9 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://cvsxe0o3w0am4"]
+[gd_scene load_steps=4 format=3 uid="uid://cvsxe0o3w0am4"]
 
+[ext_resource type="Script" path="res://Entities/Conversion/conversion.gd" id="1_5smhx"]
 [ext_resource type="PackedScene" uid="uid://ddkmdxbjpvb03" path="res://Entities/ResourceIcon/ResourceIcon.tscn" id="1_ckbm3"]
 [ext_resource type="Theme" uid="uid://dk74o3jdyxswq" path="res://Entities/Themes/Label.tres" id="2_lehux"]
 
 [node name="Conversion" type="Node2D"]
+script = ExtResource("1_5smhx")
 
 [node name="Input" parent="." instance=ExtResource("1_ckbm3")]
 

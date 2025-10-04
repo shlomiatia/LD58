@@ -1,11 +1,29 @@
 class_name ResourceLabel extends Node2D
 
+@export var resource_name: String:
+	set(v):
+		resource_name = v
+		_update_resource()
 
-# Called when the node enters the scene tree for the first time.
+@export var value: int = 0:
+	set(v):
+		value = v
+		_update_label()
+
+var resource_data: ResourceData
+
+@onready var resource_icon = $ResourceIcon
+@onready var label = $Label
+
 func _ready() -> void:
-    pass # Replace with function body.
+	_update_resource()
+	_update_label()
 
+func _update_resource() -> void:
+	if resource_name && is_node_ready():
+		resource_data = ResourceData.get_resource(resource_name)
+		resource_icon.resource_name = resource_name
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-    pass
+func _update_label() -> void:
+	if is_node_ready():
+		label.text = str(value)
