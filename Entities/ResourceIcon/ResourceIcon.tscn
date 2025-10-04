@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://ddkmdxbjpvb03"]
+
+[ext_resource type="Texture2D" uid="uid://deyysahjmo8rc" path="res://Textures/Food.png" id="1_oynrr"]
+[ext_resource type="Script" path="res://Entities/ResourceIcon/resource_icon.gd" id="1_uyhlq"]
+
+[node name="ResourceIcon" type="Sprite2D"]
+texture = ExtResource("1_oynrr")
+script = ExtResource("1_uyhlq")

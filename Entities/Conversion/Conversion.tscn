@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://cvsxe0o3w0am4"]
+
+[ext_resource type="PackedScene" uid="uid://ddkmdxbjpvb03" path="res://Entities/ResourceIcon/ResourceIcon.tscn" id="1_ckbm3"]
+[ext_resource type="Theme" uid="uid://dk74o3jdyxswq" path="res://Entities/Themes/Label.tres" id="2_lehux"]
+
+[node name="Conversion" type="Node2D"]
+
+[node name="Input" parent="." instance=ExtResource("1_ckbm3")]
+
+[node name="Label" type="Label" parent="."]
+offset_left = 9.0
+offset_top = -5.0
+offset_right = 21.0
+offset_bottom = 7.0
+theme = ExtResource("2_lehux")
+text = "to"
+
+[node name="Output" parent="." instance=ExtResource("1_ckbm3")]
+position = Vector2(29, 0)

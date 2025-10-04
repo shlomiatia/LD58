@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://br5guff0j3e2m"]
+
+[ext_resource type="Script" path="res://Entities/ResourceLabel/resource_label.gd" id="1_w37tf"]
+[ext_resource type="PackedScene" uid="uid://ddkmdxbjpvb03" path="res://Entities/ResourceIcon/ResourceIcon.tscn" id="2_3sotf"]
+[ext_resource type="Theme" uid="uid://dk74o3jdyxswq" path="res://Entities/Themes/Label.tres" id="2_ya4fb"]
+
+[node name="ResourceLabel" type="Node2D"]
+script = ExtResource("1_w37tf")
+
+[node name="ResourceIcon" parent="." instance=ExtResource("2_3sotf")]
+
+[node name="Label" type="Label" parent="."]
+offset_left = 9.0
+offset_top = -5.0
+offset_right = 17.0
+offset_bottom = 7.0
+theme = ExtResource("2_ya4fb")
+text = "0"
