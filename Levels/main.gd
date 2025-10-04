@@ -28,6 +28,12 @@ func _place_building(building_data: BuildingData, slot_index: int) -> void:
 
 func _on_taxes_set() -> void:
     var buildings = get_tree().get_nodes_in_group("buildings")
+    var total_demand = _calculate_total_demand(buildings)
+    await _handle_production(buildings, total_demand)
+    await _handle_needs(buildings)
+    await _handle_export(buildings)
+
+func _calculate_total_demand(buildings: Array[Node]) -> Dictionary:
     var num_buildings = buildings.size()
     var internal_demand := {
         "Food": num_buildings,
@@ -51,6 +57,9 @@ func _on_taxes_set() -> void:
         var external_demand = market.get_demand(resource_name)
         total_demand[resource_name] = int(internal_demand[resource_name] + external_demand)
 
+    return total_demand
+
+func _handle_production(buildings: Array[Node], total_demand: Dictionary) -> void:
     var sheep_producers = _get_producers_of(buildings, "Sheep")
     if sheep_producers.size() > 0:
         for producer in sheep_producers:
@@ -62,13 +71,14 @@ func _on_taxes_set() -> void:
     await _handle_resources_production(buildings, total_demand, ["Meat", "Milk", "Wool"])
     await _handle_resources_production(buildings, total_demand, ["Food", "Drink", "Clothes"])
 
-    
+func _handle_needs(buildings: Array[Node]) -> void:
     for building in buildings:
         prints("_handle_needs", building.building_data.building_name)
         for need in ["Food", "Drink", "Clothes"]:
             var result = await _buy(buildings, need, 1)
             building.update_money(-result["total_cost"])
 
+func _handle_export(buildings: Array[Node]) -> void:
     print("_export")
     for resource_name in ["Sheep", "Wool", "Milk", "Meat", "Food", "Clothes", "Drink"]:
         var result = await _buy_from_buildings(buildings, resource_name, market.get_demand(resource_name))
