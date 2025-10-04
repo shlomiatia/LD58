@@ -8,8 +8,11 @@ class_name Market extends Node2D
 @onready var clothes_label: ResourceLabel = $Clothes
 @onready var drink_label: ResourceLabel = $Drink
 
+var demand_values: Dictionary = {}
+
 func _ready() -> void:
     _setup_resource_labels()
+    _initialize_demand()
 
 func _process(_delta: float) -> void:
     _update_prices()
@@ -23,28 +26,42 @@ func _setup_resource_labels() -> void:
     clothes_label.resource_name = "Clothes"
     drink_label.resource_name = "Drink"
 
+func _initialize_demand() -> void:
+    var all_resources = ResourceData.get_all_resources()
+    for resource in all_resources:
+        update_demand(resource.resource_name)
+
+func update_demand(resource_name: String) -> void:
+    var resource = ResourceData.get_resource(resource_name)
+    if resource:
+        var demand = randi_range(resource.min_external_demand, resource.max_external_demand)
+        demand_values[resource_name] = demand
+
 func _update_prices() -> void:
     var tariff_tax = TaxData.get_tax("Tariff")
     var all_resources = ResourceData.get_all_resources()
 
     for resource in all_resources:
         var base_price = resource.cost
-        var final_price = base_price * (1.0 + tariff_tax.value / 100.0)
-        _set_price_for_resource(resource.resource_name, int(final_price))
+        var buy_price = base_price * (1.0 + tariff_tax.value / 100.0)
+        var sell_price = base_price
+        var demand = demand_values.get(resource.resource_name, 0)
+        _set_price_for_resource(resource.resource_name, int(buy_price), sell_price, demand)
 
-func _set_price_for_resource(resource_name: String, price: int) -> void:
+func _set_price_for_resource(resource_name: String, buy_price: int, sell_price: int, demand: int) -> void:
+    var label_text = "%d - %d - %d" % [buy_price, sell_price, demand]
     match resource_name:
         "Sheep":
-            sheep_label.value = price
+            sheep_label.value_text = label_text
         "Wool":
-            wool_label.value = price
+            wool_label.value_text = label_text
         "Milk":
-            milk_label.value = price
+            milk_label.value_text = label_text
         "Meat":
-            meat_label.value = price
+            meat_label.value_text = label_text
         "Food":
-            food_label.value = price
+            food_label.value_text = label_text
         "Clothes":
-            clothes_label.value = price
+            clothes_label.value_text = label_text
         "Drink":
-            drink_label.value = price
+            drink_label.value_text = label_text

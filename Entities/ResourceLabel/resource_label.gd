@@ -10,6 +10,11 @@ class_name ResourceLabel extends Node2D
 		value = v
 		_update_label()
 
+@export var value_text: String = "":
+	set(v):
+		value_text = v
+		_update_label_text()
+
 var resource_data: ResourceData
 
 @onready var resource_icon = $ResourceIcon
@@ -27,3 +32,7 @@ func _update_resource() -> void:
 func _update_label() -> void:
 	if is_node_ready():
 		label.text = str(value)
+
+func _update_label_text() -> void:
+	if is_node_ready():
+		label.text = value_text

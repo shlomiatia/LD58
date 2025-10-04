@@ -23,4 +23,4 @@ step = 5.0
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 theme = ExtResource("1_1m4ay")
-text = "90"
+text = "90 "

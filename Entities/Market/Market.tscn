@@ -11,22 +11,22 @@ script = ExtResource("1_jvw1p")
 texture = ExtResource("1_emjft")
 
 [node name="Sheep" parent="." instance=ExtResource("3_3cr8p")]
-position = Vector2(-32, -166)
+position = Vector2(-53, -166)
 
 [node name="Milk" parent="." instance=ExtResource("3_3cr8p")]
-position = Vector2(-32, -149)
+position = Vector2(-53, -149)
 
 [node name="Meat" parent="." instance=ExtResource("3_3cr8p")]
-position = Vector2(-32, -132)
+position = Vector2(-53, -132)
 
 [node name="Wool" parent="." instance=ExtResource("3_3cr8p")]
-position = Vector2(-32, -115)
+position = Vector2(-53, -115)
 
 [node name="Food" parent="." instance=ExtResource("3_3cr8p")]
-position = Vector2(-32, -98)
+position = Vector2(-53, -98)
 
 [node name="Drink" parent="." instance=ExtResource("3_3cr8p")]
-position = Vector2(-32, -81)
+position = Vector2(-53, -81)
 
 [node name="Clothes" parent="." instance=ExtResource("3_3cr8p")]
-position = Vector2(-32, -64)
+position = Vector2(-53, -64)
