@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://cqxe7blllb7sq"]
 
-[ext_resource type="Texture2D" uid="uid://dxxkk6rmscm2w" path="res://Textures/house.png" id="1_akj1o"]
+[ext_resource type="Texture2D" uid="uid://dxxkk6rmscm2w" path="res://Textures/building.png" id="1_akj1o"]
 [ext_resource type="Script" path="res://Entities/Building/building.gd" id="1_n24b0"]
 [ext_resource type="Theme" uid="uid://dk74o3jdyxswq" path="res://Entities/Themes/Label.tres" id="3_58kuh"]
 [ext_resource type="PackedScene" uid="uid://cvsxe0o3w0am4" path="res://Entities/Conversion/Conversion.tscn" id="3_a2p0t"]

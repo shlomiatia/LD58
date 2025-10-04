@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://hxb001fogts0"]
+
+[ext_resource type="Texture2D" uid="uid://dxxkk6rmscm2w" path="res://Textures/building.png" id="1_emjft"]
+[ext_resource type="Script" path="res://Entities/Market/market.gd" id="1_jvw1p"]
+[ext_resource type="PackedScene" uid="uid://ddkmdxbjpvb03" path="res://Entities/ResourceIcon/ResourceIcon.tscn" id="2_iajmm"]
+
+[node name="Market" type="Node2D"]
+script = ExtResource("1_jvw1p")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_emjft")
+
+[node name="Sheep" parent="." instance=ExtResource("2_iajmm")]
+position = Vector2(-32, -154)
+
+[node name="Milk" parent="." instance=ExtResource("2_iajmm")]
+position = Vector2(-32, -139)
+
+[node name="Meat" parent="." instance=ExtResource("2_iajmm")]
+position = Vector2(-32, -124)
+
+[node name="Wool" parent="." instance=ExtResource("2_iajmm")]
+position = Vector2(-32, -109)
+
+[node name="Food" parent="." instance=ExtResource("2_iajmm")]
+position = Vector2(-32, -94)
+
+[node name="Drink" parent="." instance=ExtResource("2_iajmm")]
+position = Vector2(-32, -79)
+
+[node name="Clothes" parent="." instance=ExtResource("2_iajmm")]
+position = Vector2(-32, -64)
