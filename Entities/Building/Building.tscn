@@ -14,6 +14,7 @@ position = Vector2(0, -64)
 texture = ExtResource("1_akj1o")
 
 [node name="Conversion" parent="." instance=ExtResource("3_a2p0t")]
+visible = false
 position = Vector2(-14, -60)
 
 [node name="Label" type="Label" parent="."]
