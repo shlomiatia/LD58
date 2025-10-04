@@ -17,13 +17,13 @@ func _init(p_name: String, p_cost: int, p_min_demand: int, p_max_demand: int):
 static func get_all_resources() -> Array[ResourceData]:
 	if _resources.is_empty():
 		_resources = [
-			ResourceData.new("Sheep", 10, 12, 120),
-			ResourceData.new("Wool", 20, 12, 120),
-			ResourceData.new("Milk", 20, 12, 120),
-			ResourceData.new("Meat", 20, 12, 120),
-			ResourceData.new("Food", 40, 5, 60),
-			ResourceData.new("Clothes", 40, 5, 60),
-			ResourceData.new("Drink", 40, 5, 60)
+			ResourceData.new("Sheep", 10, 12, 228),
+			ResourceData.new("Wool", 20, 12, 228),
+			ResourceData.new("Milk", 20, 12, 228),
+			ResourceData.new("Meat", 20, 12, 228),
+			ResourceData.new("Food", 40, 5, 95),
+			ResourceData.new("Clothes", 40, 5, 95),
+			ResourceData.new("Drink", 40, 5, 95)
 		]
 		for resource in _resources:
 			_resource_map[resource.resource_name.to_lower()] = resource
