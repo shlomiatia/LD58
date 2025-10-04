@@ -55,12 +55,12 @@ func _on_taxes_set() -> void:
     if sheep_producers.size() > 0:
         for producer in sheep_producers:
             producer.set_supply(total_demand["Sheep"])
-            prints("_handle_production", producer.building_data.building_name, total_demand["Sheep"])
+            prints("_handle_resources_production", producer.building_data.building_name, total_demand["Sheep"])
 
         await get_tree().create_timer(1.0).timeout
 
-    await _handle_production(buildings, total_demand, ["Meat", "Milk", "Wool"])
-    await _handle_production(buildings, total_demand, ["Food", "Drink", "Clothes"])
+    await _handle_resources_production(buildings, total_demand, ["Meat", "Milk", "Wool"])
+    await _handle_resources_production(buildings, total_demand, ["Food", "Drink", "Clothes"])
 
     
     for building in buildings:
@@ -88,7 +88,7 @@ func _set_internal_demand(internal_demand: Dictionary, buildings: Array[Node], r
         internal_demand[producers[0].input.resource_name] += split_demand
         internal_demand[producers[1].input.resource_name] += split_demand
 
-func _handle_production(buildings: Array[Node], total_demand: Dictionary, resources: Array[String]) -> void:
+func _handle_resources_production(buildings: Array[Node], total_demand: Dictionary, resources: Array[String]) -> void:
     for intermediate in resources:
         var producers = _get_producers_of(buildings, intermediate)
         if producers.size() == 0:
@@ -102,7 +102,7 @@ func _handle_production(buildings: Array[Node], total_demand: Dictionary, resour
             var result = await _buy(buildings, input_resource, input_needed)
             producer.update_supply(result["total_amount"])
             producer.update_money(-result["total_cost"])
-            prints("_handle_production", producer.building_data.building_name, result["total_amount"])
+            prints("_handle_resources_production", producer.building_data.building_name, result["total_amount"])
             await get_tree().create_timer(1.0).timeout
     
 
