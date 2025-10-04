@@ -1,12 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://cqxe7blllb7sq"]
+[gd_scene load_steps=4 format=3 uid="uid://cqxe7blllb7sq"]
 
 [ext_resource type="Texture2D" uid="uid://dxxkk6rmscm2w" path="res://Textures/house.png" id="1_akj1o"]
 [ext_resource type="Script" path="res://Entities/Building/building.gd" id="1_n24b0"]
-[ext_resource type="FontFile" uid="uid://df6qrekpgy2cl" path="res://Fonts/Analog Whispers FREE.ttf" id="2_ckfqw"]
-
-[sub_resource type="Theme" id="Theme_m7wwj"]
-Label/font_sizes/font_size = 13
-Label/fonts/font = ExtResource("2_ckfqw")
+[ext_resource type="Theme" uid="uid://dk74o3jdyxswq" path="res://Entities/Themes/Label.tres" id="3_58kuh"]
 
 [node name="Building" type="Node2D"]
 script = ExtResource("1_n24b0")
@@ -20,6 +16,6 @@ offset_left = -80.0
 offset_top = -137.0
 offset_right = 80.0
 offset_bottom = -121.0
-theme = SubResource("Theme_m7wwj")
+theme = ExtResource("3_58kuh")
 text = "Sheep farm"
 horizontal_alignment = 1
