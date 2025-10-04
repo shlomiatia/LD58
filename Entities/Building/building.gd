@@ -13,6 +13,7 @@ var supply: int = 0
 @onready var conversion = $Conversion
 @onready var resource_label = $ResourceLabel
 @onready var sprite = $Sprite2D
+@onready var money_label = $MoneyLabel
 
 func _ready() -> void:
     _update_building()
@@ -25,7 +26,7 @@ func _process(_delta: float) -> void:
             conversion.visible = sprite_rect.has_point(mouse_pos)
 
         if building_data.output:
-            _update_price()
+            _update()
 
 func _update_building() -> void:
     if building_name && is_node_ready():
@@ -45,11 +46,19 @@ func get_price_with_vat() -> int:
     var base_price = building_data.output.cost
     return int(base_price * (1.0 + vat_tax.value / 100.0))
 
-func _update_price() -> void:
-    var price = get_price_with_vat()
-    resource_label.value_text = "%3d - %3d" % [price, supply]
+func set_supply(new_supply: int) -> void:
+    supply = new_supply
+    _update()
 
 func update_supply(new_supply: int) -> void:
-    supply = new_supply
-    if building_data and building_data.output:
-        _update_price()
+    supply += new_supply
+    _update()
+
+func update_money(delta: int) -> void:
+    money += delta
+    _update()
+
+func _update() -> void:
+    var price = get_price_with_vat()
+    resource_label.value_text = "%3d - %3d" % [price, supply]
+    money_label.value = money
