@@ -32,6 +32,8 @@ func _on_taxes_set() -> void:
     await _handle_production(buildings, total_demand)
     await _handle_needs(buildings)
     await _handle_export(buildings)
+    _place_new_building(buildings)
+    taxes.set_controls_enabled(true)
 
 func _calculate_total_demand(buildings: Array[Node]) -> Dictionary:
     var num_buildings = buildings.size()
@@ -169,3 +171,61 @@ func _get_producers_of(buildings: Array[Node], resource_name: String) -> Array[B
             if building.building_data.output.resource_name == resource_name:
                 producers.append(building)
     return producers
+
+func _place_new_building(buildings: Array[Node]) -> void:
+    var tariff = TaxData.get_tax("Tariff").value
+    var vat = TaxData.get_tax("VAT").value
+
+    var existing_building_names: Array[String] = []
+    for building in buildings:
+        existing_building_names.append(building.building_data.building_name)
+
+    var all_buildings = BuildingData.get_all_buildings()
+    var available_buildings: Array[BuildingData] = []
+    for building_data in all_buildings:
+        if not existing_building_names.has(building_data.building_name):
+            available_buildings.append(building_data)
+
+    if available_buildings.is_empty():
+        return
+
+    var selected_building: BuildingData = null
+
+    if tariff < vat:
+        var importers = _get_importers(available_buildings, buildings)
+        if importers.size() > 0:
+            selected_building = importers[randi() % importers.size()]
+    elif vat < tariff:
+        var non_importers = _get_non_importers(available_buildings, buildings)
+        if non_importers.size() > 0:
+            selected_building = non_importers[randi() % non_importers.size()]
+
+    if selected_building == null:
+        selected_building = available_buildings[randi() % available_buildings.size()]
+
+    var next_slot = buildings.size()
+    if next_slot < SLOT_POSITIONS.size():
+        _place_building(selected_building, next_slot)
+
+func _get_importers(available_buildings: Array[BuildingData], existing_buildings: Array[Node]) -> Array[BuildingData]:
+    var importers: Array[BuildingData] = []
+    for building_data in available_buildings:
+        if building_data.input == null:
+            continue
+        var input_produced = false
+        for building in existing_buildings:
+            if building is Building and building.building_data and building.building_data.output:
+                if building.building_data.output.resource_name == building_data.input.resource_name:
+                    input_produced = true
+                    break
+        if not input_produced:
+            importers.append(building_data)
+    return importers
+
+func _get_non_importers(available_buildings: Array[BuildingData], existing_buildings: Array[Node]) -> Array[BuildingData]:
+    var importers = _get_importers(available_buildings, existing_buildings)
+    var non_importers: Array[BuildingData] = []
+    for building_data in available_buildings:
+        if not importers.has(building_data):
+            non_importers.append(building_data)
+    return non_importers

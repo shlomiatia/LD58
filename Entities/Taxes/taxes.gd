@@ -20,12 +20,14 @@ func _ready() -> void:
     _update_money_label()
 
 func _on_set_button_pressed() -> void:
+    set_controls_enabled(false)
+    taxes_set.emit()
+
+func set_controls_enabled(enabled: bool) -> void:
     for tax in vbox.get_children():
         if tax is Tax:
-            tax.slider.editable = false
-    set_button.disabled = true
-
-    taxes_set.emit()
+            tax.slider.editable = enabled
+    set_button.disabled = not enabled
 
 func add_money(amount: int) -> void:
     money += amount
