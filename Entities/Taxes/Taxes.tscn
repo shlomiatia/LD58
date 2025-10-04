@@ -1,7 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://b722rbxhwbl7h"]
+[gd_scene load_steps=5 format=3 uid="uid://b722rbxhwbl7h"]
 
 [ext_resource type="Script" path="res://Entities/Taxes/taxes.gd" id="1_doj51"]
 [ext_resource type="PackedScene" uid="uid://d3juthjkm2nne" path="res://Entities/Tax/Tax.tscn" id="1_h3ow1"]
+[ext_resource type="FontFile" uid="uid://df6qrekpgy2cl" path="res://Fonts/Analog Whispers FREE.ttf" id="3_ldy3v"]
+
+[sub_resource type="Theme" id="Theme_odpdk"]
+Button/font_sizes/font_size = 13
+Button/fonts/font = ExtResource("3_ldy3v")
 
 [node name="Taxes" type="HBoxContainer"]
 offset_right = 35.0
@@ -23,4 +28,5 @@ layout_mode = 2
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 2
+theme = SubResource("Theme_odpdk")
 text = "Set"
