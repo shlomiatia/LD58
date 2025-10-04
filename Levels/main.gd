@@ -14,9 +14,20 @@ func _await_user_input() -> void:
     while not Input.is_anything_pressed():
         await get_tree().process_frame
 
+func _wait_for_all_workers_to_finish(buildings: Array[Building]) -> void:
+    while true:
+        var all_finished = true
+        for building in buildings:
+            if building.worker.is_navigating():
+                all_finished = false
+                break
+        if all_finished:
+            break
+        await get_tree().process_frame
+
 func _ready() -> void:
     var all_buildings = BuildingData.get_all_buildings()
-    all_buildings.shuffle()
+    #all_buildings.shuffle()
 
     var selected_buildings = all_buildings.slice(0, 2)
 
@@ -77,9 +88,13 @@ func _handle_production(buildings: Array[Node], total_demand: Dictionary) -> voi
     var sheep_producers = _get_producers_of(buildings, "Sheep")
     if sheep_producers.size() > 0:
         for producer in sheep_producers:
-            producer.set_supply(total_demand["Sheep"])
+            var target_position = producer.position + Vector2(0, 8)
+            producer.worker.navigate_to(target_position)
 
-        await _await_user_input()
+        await _wait_for_all_workers_to_finish(sheep_producers)
+
+        for producer in sheep_producers:
+            producer.set_supply(total_demand["Sheep"])
 
     await _handle_resources_production(buildings, total_demand, ["Meat", "Milk", "Wool"])
     await _handle_resources_production(buildings, total_demand, ["Food", "Drink", "Clothes"])
