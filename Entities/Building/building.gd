@@ -14,6 +14,7 @@ var supply: int = 0
 @onready var resource_label = $ResourceLabel
 @onready var sprite = $Sprite2D
 @onready var money_label = $MoneyLabel
+@onready var taxes = $/root/Main/CanvasLayer/Taxes
 
 func _ready() -> void:
     _update_building()
@@ -54,9 +55,22 @@ func update_supply(new_supply: int) -> void:
     supply += new_supply
     _update()
 
-func update_money(delta: int) -> void:
-    money += delta
+func update_money(amount: int) -> void:
+    money += amount
     _update()
+
+
+func buy(amount: int) -> int:
+    var resource_data = ResourceData.get_resource(building_data.output.resource_name)
+    var base_price = resource_data.cost
+    update_supply(-amount)
+    update_money(amount * base_price)
+
+    var vat_tax = TaxData.get_tax("VAT")
+    var vat_amount = int((base_price * vat_tax.value / 100.0) * amount)
+    taxes.add_money(vat_amount)
+    return get_price_with_vat() * amount
+
 
 func _update() -> void:
     var price = get_price_with_vat()

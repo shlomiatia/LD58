@@ -7,6 +7,7 @@ class_name Market extends Node2D
 @onready var food_label: ResourceLabel = $Food
 @onready var clothes_label: ResourceLabel = $Clothes
 @onready var drink_label: ResourceLabel = $Drink
+@onready var taxes = $/root/Main/CanvasLayer/Taxes
 
 var demand_values: Dictionary = {}
 
@@ -75,3 +76,13 @@ func _set_price_for_resource(resource_name: String, buy_price: int, sell_price: 
             clothes_label.value_text = label_text
         "Drink":
             drink_label.value_text = label_text
+
+func buy(resource_name: String, amount: int) -> int:
+    var resource = ResourceData.get_resource(resource_name)
+    var base_price = resource.cost
+    
+    var tariff_tax = TaxData.get_tax("Tariff")
+    var tariff_amount = int((base_price * tariff_tax.value / 100.0) * amount)
+    taxes.add_money(tariff_amount)
+
+    return get_price_with_tariff(resource_name) * amount
