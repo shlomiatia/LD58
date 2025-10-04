@@ -6,13 +6,12 @@ class_name Building extends Node2D
         _update_building()
 
 var building_data: BuildingData
+var money: int = 0
 
 @onready var label = $Label
 @onready var conversion = $Conversion
 @onready var resource_price = $ResourcePrice
 @onready var sprite = $Sprite2D
-
-var is_hovering: bool = false
 
 func _ready() -> void:
     _update_building()
@@ -22,8 +21,7 @@ func _process(_delta: float) -> void:
         if building_data.input:
             var mouse_pos = get_global_mouse_position()
             var sprite_rect = Rect2(sprite.global_position - sprite.texture.get_size() / 2, sprite.texture.get_size())
-            is_hovering = sprite_rect.has_point(mouse_pos)
-            conversion.visible = is_hovering
+            conversion.visible = sprite_rect.has_point(mouse_pos)
 
         if building_data.output:
             _update_price()

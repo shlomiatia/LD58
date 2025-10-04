@@ -75,4 +75,4 @@ tile_map_data = PackedByteArray("AAAAAAAAAAABAAQAAAABAAAAAAABAAQAAAACAAAAAAABAAQ
 tile_set = SubResource("TileSet_xdhe5")
 
 [node name="Market" parent="." instance=ExtResource("4_4755n")]
-position = Vector2(608, 178)
+position = Vector2(608, 296)

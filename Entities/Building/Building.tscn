@@ -1,30 +1,34 @@
-[gd_scene load_steps=6 format=3 uid="uid://cqxe7blllb7sq"]
+[gd_scene load_steps=7 format=3 uid="uid://cqxe7blllb7sq"]
 
 [ext_resource type="Texture2D" uid="uid://dxxkk6rmscm2w" path="res://Textures/building.png" id="1_akj1o"]
 [ext_resource type="Script" path="res://Entities/Building/building.gd" id="1_n24b0"]
 [ext_resource type="Theme" uid="uid://dk74o3jdyxswq" path="res://Entities/Themes/Label.tres" id="3_58kuh"]
 [ext_resource type="PackedScene" uid="uid://cvsxe0o3w0am4" path="res://Entities/Conversion/Conversion.tscn" id="3_a2p0t"]
 [ext_resource type="PackedScene" uid="uid://br5guff0j3e2m" path="res://Entities/ResourceLabel/ResourceLabel.tscn" id="5_cachm"]
+[ext_resource type="PackedScene" uid="uid://brcna04fqs171" path="res://Entities/MoneyLabel/MoneyLabel.tscn" id="6_gfy5h"]
 
 [node name="Building" type="Node2D" groups=["buildings"]]
 script = ExtResource("1_n24b0")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -64)
+position = Vector2(0, -56)
 texture = ExtResource("1_akj1o")
 
 [node name="Conversion" parent="." instance=ExtResource("3_a2p0t")]
 visible = false
-position = Vector2(-14, -60)
+position = Vector2(-14, -41)
 
 [node name="Label" type="Label" parent="."]
 offset_left = -80.0
-offset_top = -149.0
+offset_top = -133.0
 offset_right = 80.0
-offset_bottom = -137.0
+offset_bottom = -121.0
 theme = ExtResource("3_58kuh")
 text = "Sheep farm"
 horizontal_alignment = 1
 
 [node name="ResourcePrice" parent="." instance=ExtResource("5_cachm")]
-position = Vector2(-8, -128)
+position = Vector2(-8, -112)
+
+[node name="MoneyLabel" parent="." instance=ExtResource("6_gfy5h")]
+position = Vector2(-8, -141)

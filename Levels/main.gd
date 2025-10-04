@@ -64,5 +64,3 @@ func set_demand(internal_demand: Dictionary, buildings: Array[Node], resource_na
         var split_demand = demand / 2
         internal_demand[producers[0].input.resource_name] += split_demand
         internal_demand[producers[1].input.resource_name] += split_demand
-
-    prints(resource_name, internal_demand)
