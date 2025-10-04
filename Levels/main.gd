@@ -11,16 +11,16 @@ const SLOT_POSITIONS := [
 
 func _ready() -> void:
     var all_buildings = BuildingData.get_all_buildings()
-    # all_buildings.shuffle()
+    all_buildings.shuffle()
 
     var selected_buildings = all_buildings.slice(0, 2)
 
     for i in range(selected_buildings.size()):
-        place_building(selected_buildings[i], i)
+        _place_building(selected_buildings[i], i)
 
     taxes.taxes_set.connect(_on_taxes_set)
 
-func place_building(building_data: BuildingData, slot_index: int) -> void:
+func _place_building(building_data: BuildingData, slot_index: int) -> void:
     var building_instance = BUILDING_SCENE.instantiate()
     building_instance.building_name = building_data.building_name
     building_instance.position = SLOT_POSITIONS[slot_index]
@@ -39,12 +39,12 @@ func _on_taxes_set() -> void:
         "Sheep": 0
     }
 
-    set_demand(internal_demand, buildings, "Food")
-    set_demand(internal_demand, buildings, "Clothes")
-    set_demand(internal_demand, buildings, "Drink")
-    set_demand(internal_demand, buildings, "Meat")
-    set_demand(internal_demand, buildings, "Milk")
-    set_demand(internal_demand, buildings, "Wool")
+    _set_internal_demand(internal_demand, buildings, "Food")
+    _set_internal_demand(internal_demand, buildings, "Clothes")
+    _set_internal_demand(internal_demand, buildings, "Drink")
+    _set_internal_demand(internal_demand, buildings, "Meat")
+    _set_internal_demand(internal_demand, buildings, "Milk")
+    _set_internal_demand(internal_demand, buildings, "Wool")
 
     var total_demand := {}
     for resource_name in ["Sheep", "Wool", "Milk", "Meat", "Food", "Clothes", "Drink"]:
@@ -52,15 +52,22 @@ func _on_taxes_set() -> void:
         total_demand[resource_name] = int(internal_demand[resource_name] + external_demand)
 
     var sheep_producers = _get_producers_of(buildings, "Sheep")
-    for producer in sheep_producers:
-        producer.set_supply(total_demand["Sheep"])
+    if sheep_producers.size() > 0:
+        for producer in sheep_producers:
+            producer.set_supply(total_demand["Sheep"])
 
-    await get_tree().create_timer(1.0).timeout
+        await get_tree().create_timer(1.0).timeout
 
     await _handle_production(buildings, total_demand, ["Meat", "Milk", "Wool"])
     await _handle_production(buildings, total_demand, ["Food", "Drink", "Clothes"])
 
-func set_demand(internal_demand: Dictionary, buildings: Array[Node], resource_name: String) -> void:
+    for building in buildings:
+         for need in ["Food", "Drink", "Clothes"]:
+            var result = await _buy(buildings, need, 1)
+            building.update_money(-result["total_cost"])
+            await get_tree().create_timer(1.0).timeout
+
+func _set_internal_demand(internal_demand: Dictionary, buildings: Array[Node], resource_name: String) -> void:
     var producers: Array[BuildingData] = []
     for building in buildings:
         if building.building_data.output.resource_name == resource_name:
