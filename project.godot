@@ -23,6 +23,10 @@ window/stretch/mode="viewport"
 window/stretch/aspect="ignore"
 window/stretch/scale_mode="integer"
 
+[global_group]
+
+buildings=""
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
