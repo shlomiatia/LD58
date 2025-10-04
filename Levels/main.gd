@@ -11,7 +11,7 @@ const SLOT_POSITIONS := [
 
 func _ready() -> void:
     var all_buildings = BuildingData.get_all_buildings()
-    #all_buildings.shuffle()
+    all_buildings.shuffle()
 
     var selected_buildings = all_buildings.slice(0, 2)
 
@@ -57,15 +57,8 @@ func _on_taxes_set() -> void:
 
     await get_tree().create_timer(1.0).timeout
 
-    for intermediate in ["Meat", "Milk", "Wool"]:
-        var producers = _get_producers_of(buildings, intermediate)
-        if producers.size() == 0:
-            continue
-
-        var allocation = total_demand[intermediate] / producers.size()
-
-        for producer in producers:
-            _buy(producer, allocation, buildings)
+    await _handle_buy(buildings, total_demand, ["Meat", "Milk", "Wool"])
+    await _handle_buy(buildings, total_demand, ["Food", "Drink", "Clothes"])
 
 func set_demand(internal_demand: Dictionary, buildings: Array[Node], resource_name: String) -> void:
     var producers: Array[BuildingData] = []
@@ -89,6 +82,17 @@ func _get_producers_of(buildings: Array[Node], resource_name: String) -> Array[B
                 producers.append(building)
     return producers
 
+func _handle_buy(buildings: Array[Node], total_demand: Dictionary, resources: Array[String]) -> void:
+    for intermediate in resources:
+        var producers = _get_producers_of(buildings, intermediate)
+        if producers.size() == 0:
+            continue
+
+        var allocation = total_demand[intermediate] / producers.size()
+
+        for producer in producers:
+            await _buy(producer, allocation, buildings)
+
 func _buy(producer: Building, allocation: int, buildings: Array[Node]) -> void:
     var input = producer.building_data.input.resource_name
     var market_price = market.get_price_with_tariff(input)
@@ -106,24 +110,9 @@ func _buy(producer: Building, allocation: int, buildings: Array[Node]) -> void:
             var bought_from_building = min(producer_allocation, available_supply)
 
             if bought_from_building > 0:
-                input_producer.update_supply(-bought_from_building)
-                producer.update_supply(bought_from_building)
-
-                var total_cost = internal_price * bought_from_building
-                producer.money -= total_cost
-
-                var input_resource_data = ResourceData.get_resource(input)
-                var base_price = input_resource_data.cost
-                input_producer.update_money(base_price * bought_from_building)
-
-                var vat_tax = TaxData.get_tax("VAT")
-                var vat_amount = int((base_price * vat_tax.value / 100.0) * bought_from_building)
-                taxes.add_money(vat_amount)
-
+                await _buy_from(producer, input_producer, bought_from_building)
                 allocation = allocation - bought_from_building
 
-                await get_tree().create_timer(1.0).timeout
-    
     if allocation > 0:
         producer.update_supply(allocation)
         var sheep_resource = ResourceData.get_resource(input)
@@ -137,3 +126,21 @@ func _buy(producer: Building, allocation: int, buildings: Array[Node]) -> void:
         taxes.add_money(tariff_amount)
 
         await get_tree().create_timer(1.0).timeout
+
+func _buy_from(producer: Building, input_producer: Building, bought_from_building: int) -> void:
+    input_producer.update_supply(-bought_from_building)
+    producer.update_supply(bought_from_building)
+
+    var total_cost = input_producer.get_price_with_vat() * bought_from_building
+    producer.money -= total_cost
+
+    var input_resource_data = ResourceData.get_resource(producer.building_data.input.resource_name)
+    var base_price = input_resource_data.cost
+    input_producer.update_money(base_price * bought_from_building)
+
+    var vat_tax = TaxData.get_tax("VAT")
+    var vat_amount = int((base_price * vat_tax.value / 100.0) * bought_from_building)
+    taxes.add_money(vat_amount)
+
+    
+    await get_tree().create_timer(1.0).timeout
