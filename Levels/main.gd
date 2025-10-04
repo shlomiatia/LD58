@@ -55,22 +55,24 @@ func _on_taxes_set() -> void:
     if sheep_producers.size() > 0:
         for producer in sheep_producers:
             producer.set_supply(total_demand["Sheep"])
+            prints("_handle_production", producer.building_data.building_name, total_demand["Sheep"])
 
         await get_tree().create_timer(1.0).timeout
 
     await _handle_production(buildings, total_demand, ["Meat", "Milk", "Wool"])
     await _handle_production(buildings, total_demand, ["Food", "Drink", "Clothes"])
 
+    
     for building in buildings:
-         for need in ["Food", "Drink", "Clothes"]:
+        prints("_handle_needs", building.building_data.building_name)
+        for need in ["Food", "Drink", "Clothes"]:
             var result = await _buy(buildings, need, 1)
             building.update_money(-result["total_cost"])
-            await get_tree().create_timer(1.0).timeout
 
+    print("_export")
     for resource_name in ["Sheep", "Wool", "Milk", "Meat", "Food", "Clothes", "Drink"]:
-        var result = await _buy(buildings, resource_name, market.get_demand(resource_name))
+        var result = await _buy_from_buildings(buildings, resource_name, market.get_demand(resource_name))
         market.update_demand(resource_name, result["total_amount"])
-        await get_tree().create_timer(1.0).timeout
 
 func _set_internal_demand(internal_demand: Dictionary, buildings: Array[Node], resource_name: String) -> void:
     var producers: Array[BuildingData] = []
@@ -100,6 +102,7 @@ func _handle_production(buildings: Array[Node], total_demand: Dictionary, resour
             var result = await _buy(buildings, input_resource, input_needed)
             producer.update_supply(result["total_amount"])
             producer.update_money(-result["total_cost"])
+            prints("_handle_production", producer.building_data.building_name, result["total_amount"])
             await get_tree().create_timer(1.0).timeout
     
 
@@ -113,21 +116,35 @@ func _buy(buildings: Array[Node], resource_name: String, amount: int) -> Diction
         internal_price = producers[0].get_price_with_vat()
 
     if producers.size() > 0 && internal_price <= market_price:
-        for producer in producers:
-            var amount_to_buy = min(amount, producer.supply)
-
-            if amount_to_buy > 0:
-                var cost = producer.buy(amount_to_buy)
-                amount -= amount_to_buy
-                total_cost += cost
-                total_amount += amount_to_buy
-                await get_tree().create_timer(1.0).timeout
-
+        var result = await _buy_from_buildings(buildings, resource_name, amount)
+        total_cost = result["total_cost"]
+        total_amount = result["total_amount"]
+        amount -= total_amount
+        
     if amount > 0:
         var cost = market.buy(resource_name, amount)
         total_cost += cost
         total_amount += amount
         await get_tree().create_timer(1.0).timeout
+
+    return {
+        "total_cost": total_cost,
+        "total_amount": total_amount
+    }
+
+func _buy_from_buildings(buildings: Array[Node], resource_name: String, amount: int) -> Dictionary:
+    var producers = _get_producers_of(buildings, resource_name)
+    var total_cost = 0
+    var total_amount = 0
+    for producer in producers:
+        var amount_to_buy = min(amount, producer.supply)
+
+        if amount_to_buy > 0:
+            var cost = producer.buy(amount_to_buy)
+            amount -= amount_to_buy
+            total_cost += cost
+            total_amount += amount_to_buy
+            await get_tree().create_timer(1.0).timeout
 
     return {
         "total_cost": total_cost,

@@ -84,4 +84,6 @@ func buy(resource_name: String, amount: int) -> int:
     var tariff_amount = int((base_price * tariff_tax.value / 100.0) * amount)
     taxes.add_money(tariff_amount)
 
+    prints("market.buy", resource_name, amount)
+
     return get_price_with_tariff(resource_name) * amount

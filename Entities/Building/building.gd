@@ -69,6 +69,7 @@ func buy(amount: int) -> int:
     var vat_tax = TaxData.get_tax("VAT")
     var vat_amount = int((base_price * vat_tax.value / 100.0) * amount)
     taxes.add_money(vat_amount)
+    prints("building.buy", building_data.building_name, amount)
     return get_price_with_vat() * amount
 
 
