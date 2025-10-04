@@ -54,12 +54,10 @@ func _update() -> void:
 
     for resource in all_resources:
         var buy_price = get_price_with_tariff(resource.resource_name)
-        var sell_price = resource.cost
-        var demand = demand_values.get(resource.resource_name, 0)
-        _set_price_for_resource(resource.resource_name, buy_price, sell_price, demand)
+        _set_price_for_resource(resource.resource_name, buy_price)
 
-func _set_price_for_resource(resource_name: String, buy_price: int, sell_price: int, demand: int) -> void:
-    var label_text = "%d - %d - %d" % [buy_price, sell_price, demand]
+func _set_price_for_resource(resource_name: String, buy_price: int) -> void:
+    var label_text = "%d" % buy_price
     match resource_name:
         "Sheep":
             sheep_label.value_text = label_text
@@ -83,7 +81,5 @@ func buy(resource_name: String, amount: int) -> int:
     var tariff_tax = TaxData.get_tax("Tariff")
     var tariff_amount = int((base_price * tariff_tax.value / 100.0) * amount)
     taxes.add_money(tariff_amount)
-
-    prints("market.buy", resource_name, amount)
 
     return get_price_with_tariff(resource_name) * amount

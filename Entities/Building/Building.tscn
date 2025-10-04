@@ -28,8 +28,9 @@ horizontal_alignment = 1
 visible = false
 position = Vector2(-14, -42)
 
-[node name="ResourceLabel" parent="." instance=ExtResource("5_cachm")]
-position = Vector2(-25, -112)
-
 [node name="MoneyLabel" parent="." instance=ExtResource("6_gfy5h")]
-position = Vector2(-8, -129)
+visible = false
+position = Vector2(-8, -112)
+
+[node name="ResourceLabel" parent="." instance=ExtResource("5_cachm")]
+position = Vector2(-8, -111)

@@ -10,7 +10,6 @@ const SLOT_POSITIONS := [
 @onready var market = $Market
 
 func _await_user_input() -> void:
-    print("waiting for input")
     await get_tree().create_timer(0.1).timeout
     while not Input.is_anything_pressed():
         await get_tree().process_frame
@@ -79,7 +78,6 @@ func _handle_production(buildings: Array[Node], total_demand: Dictionary) -> voi
     if sheep_producers.size() > 0:
         for producer in sheep_producers:
             producer.set_supply(total_demand["Sheep"])
-            prints("_handle_resources_production", producer.building_data.building_name, total_demand["Sheep"])
 
         await _await_user_input()
 
@@ -88,14 +86,12 @@ func _handle_production(buildings: Array[Node], total_demand: Dictionary) -> voi
 
 func _handle_needs(buildings: Array[Node]) -> void:
     for building in buildings:
-        prints("_handle_needs", building.building_data.building_name)
         for need in ["Food", "Drink", "Clothes"]:
             var result = _buy(buildings, need, 1)
             building.update_money(-result["total_cost"])
         await _await_user_input()
 
 func _handle_export(buildings: Array[Node]) -> void:
-    print("_export")
     for resource_name in ["Sheep", "Wool", "Milk", "Meat", "Food", "Clothes", "Drink"]:
         var result = _buy_from_buildings(buildings, resource_name, market.get_demand(resource_name))
         if result["total_amount"] > 0:
@@ -130,7 +126,6 @@ func _handle_resources_production(buildings: Array[Node], total_demand: Dictiona
             var result = _buy(buildings, input_resource, input_needed)
             producer.update_supply(result["total_amount"])
             producer.update_money(-result["total_cost"])
-            prints("_handle_resources_production", producer.building_data.building_name, result["total_amount"])
             await _await_user_input()
     
 
