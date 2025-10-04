@@ -19,7 +19,6 @@ position = Vector2(0, -56)
 texture = ExtResource("1_akj1o")
 
 [node name="Label" type="Label" parent="."]
-visible = false
 offset_left = -80.0
 offset_top = -63.0
 offset_right = 80.0

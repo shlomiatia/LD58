@@ -1,9 +1,10 @@
-[gd_scene load_steps=20 format=3 uid="uid://djny86sgor10g"]
+[gd_scene load_steps=21 format=3 uid="uid://djny86sgor10g"]
 
 [ext_resource type="Texture2D" uid="uid://biulctm833avh" path="res://Textures/person.png" id="1_7eycj"]
 [ext_resource type="Script" path="res://Entities/Worker/worker.gd" id="1_ta25y"]
 [ext_resource type="Theme" uid="uid://dk74o3jdyxswq" path="res://Entities/Themes/Label.tres" id="3_otgtf"]
 [ext_resource type="PackedScene" uid="uid://brcna04fqs171" path="res://Entities/MoneyLabel/MoneyLabel.tscn" id="4_0oege"]
+[ext_resource type="PackedScene" uid="uid://br5guff0j3e2m" path="res://Entities/ResourceLabel/ResourceLabel.tscn" id="5_7kd2j"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nnj2v"]
 atlas = ExtResource("1_7eycj")
@@ -144,3 +145,6 @@ text = "Farmer"
 
 [node name="MoneyLabel" parent="." instance=ExtResource("4_0oege")]
 position = Vector2(0, -32)
+
+[node name="ResourceLabel" parent="." instance=ExtResource("5_7kd2j")]
+position = Vector2(0, -49)
