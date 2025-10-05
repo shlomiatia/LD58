@@ -135,6 +135,8 @@ func _setup_palette_swap() -> void:
         shader_material.set_shader_parameter("replace_11", Color(window_colors[2]))
 
 func _animate_building_drop() -> void:
+    worker.hide()
+
     var sprite_initial_y = sprite.position.y
     var roof_initial_y = roof.position.y
 
@@ -148,3 +150,11 @@ func _animate_building_drop() -> void:
 
     tween.tween_property(sprite, "position:y", sprite_initial_y, 2.0)
     tween.tween_property(roof, "position:y", roof_initial_y, 2.0)
+
+    await tween.finished
+    await get_tree().create_timer(0.5).timeout
+    _show_and_move_worker()
+
+func _show_and_move_worker() -> void:
+    worker.show()
+    worker.navigate_to(position + Vector2(0, 16))
