@@ -17,10 +17,12 @@ var supply: int = 0
 
 @onready var taxes = $/root/Main/CanvasLayer/Taxes
 @onready var sprite = $Sprite2D
+@onready var roof = $Roof
 @onready var worker = $Worker
 
 func _ready() -> void:
     _initialize_building()
+    _setup_palette_swap()
 
 func _process(_delta: float) -> void:
     _update()
@@ -93,3 +95,40 @@ func _update() -> void:
         conversion.visible = false
         price_label.visible = false
         money_label.visible = false
+
+
+func _setup_palette_swap() -> void:
+    var sprite_material = sprite.material as ShaderMaterial
+    var roof_material = roof.material as ShaderMaterial
+
+    if not sprite_material or not roof_material:
+        return
+
+    var original_colors = [
+        Color("#ae454a"), Color("#8c3132"), Color("#542323"),
+        Color("#d49577"), Color("#9f705a"), Color("#3f2323"),
+        Color("#845750"), Color("#633b3f"), Color("#3f2323"),
+        Color("#7dbefa"), Color("#668faf"), Color("#585d81")
+    ]
+
+    var roof_colors = PaletteUtils.select_random_colors_from_palettes(range(0, 5) + [13, 14], 3)
+    var walls_colors = PaletteUtils.select_random_colors_from_palettes(range(0, 7) + [13, 14], 3)
+    var door_colors = PaletteUtils.select_random_colors_from_palettes(range(0, 4) + range(6, 8), 3)
+    var window_colors = PaletteUtils.select_random_colors_from_palettes([5, 6, 10, 11], 3)
+
+    for material in [sprite_material, roof_material]:
+        for i in range(original_colors.size()):
+            material.set_shader_parameter("original_%d" % i, original_colors[i])
+
+        material.set_shader_parameter("replace_0", Color(roof_colors[0]))
+        material.set_shader_parameter("replace_1", Color(roof_colors[1]))
+        material.set_shader_parameter("replace_2", Color(roof_colors[2]))
+        material.set_shader_parameter("replace_3", Color(walls_colors[0]))
+        material.set_shader_parameter("replace_4", Color(walls_colors[1]))
+        material.set_shader_parameter("replace_5", Color(walls_colors[2]))
+        material.set_shader_parameter("replace_6", Color(door_colors[0]))
+        material.set_shader_parameter("replace_7", Color(door_colors[1]))
+        material.set_shader_parameter("replace_8", Color(door_colors[2]))
+        material.set_shader_parameter("replace_9", Color(window_colors[0]))
+        material.set_shader_parameter("replace_10", Color(window_colors[1]))
+        material.set_shader_parameter("replace_11", Color(window_colors[2]))
