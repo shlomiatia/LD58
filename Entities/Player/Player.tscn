@@ -39,6 +39,7 @@ z_index = 3
 position = Vector2(0, -39)
 
 [node name="TutorialLabel" type="Label" parent="."]
+z_index = 3
 offset_left = -180.0
 offset_top = 7.0
 offset_right = 180.0

@@ -58,5 +58,6 @@ shape = SubResource("RectangleShape2D_rjk7q")
 position = Vector2(265, 260)
 
 [node name="TutorialWorker" parent="." instance=ExtResource("7_e6otw")]
+visible = false
 position = Vector2(600, 260)
 tax = 10

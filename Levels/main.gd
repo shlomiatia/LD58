@@ -258,6 +258,7 @@ func _advance_tutorial_step() -> void:
 
     if tutorial_step == 2:
         tutorial_label.hide()
+        tutorial_worker.show()
         tutorial_worker.navigate_to(Vector2(500, 260))
         await _wait_for_worker_to_finish(tutorial_worker)
 
@@ -294,9 +295,22 @@ func _advance_tutorial_step() -> void:
 
         var all_buildings = BuildingData.get_all_buildings()
         var selected_buildings = all_buildings.slice(0, 1)
-        for i in range(selected_buildings.size()):
-            _place_building(selected_buildings[i], i)
+        _place_building(selected_buildings[0], 0)
 
+        await get_tree().create_timer(2.2).timeout
+
+        _wait_for_all_workers_to_finish()
+
+        tutorial_texts = [
+            "The first villager has moved",
+            "He will need to import goods from the market",
+            "Set a tariff and collect the tax"
+        ]
+        current_text_index = 0
+        _show_next_tutorial_text()
+
+    elif tutorial_step == 4:
+        tutorial_label.hide()
         tutorial_active = false
         player.can_move = true
 
