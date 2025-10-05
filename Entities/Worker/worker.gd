@@ -66,8 +66,8 @@ func _update() -> void:
         tax_label.visible = index == 2
     else:
         label.visible = false
-        money_label.visible = false
-        tax_label.visible = tax > 0
+        money_label.visible = true
+        #tax_label.visible = tax > 0
 
 func navigate_to(target_position: Vector2) -> void:
     var navigation_map = get_world_2d().navigation_map
@@ -120,8 +120,6 @@ func _physics_process(_delta: float) -> void:
                 if current_amount > 0:
                     target_export2 = true
                     navigate_to(market.position + Vector2(0, 8))
-                #money = parent_building.money
-                #parent_building.money = 0
             elif target_export2:
                 target_export2 = false
                 var result = market.sell(target_resource_name, current_amount)

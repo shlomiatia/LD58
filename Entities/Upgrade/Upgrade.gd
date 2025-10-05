@@ -36,19 +36,19 @@ func _update_labels() -> void:
     match upgrade_type:
         UpgradeType.TARIFF:
             title_label.text = "Tariff - Level %d" % level
-            description_label.text = "Tax %d%% from market imports" % tax_percentage
+            description_label.text = "Tax %d percent from market imports" % tax_percentage
         UpgradeType.VAT:
             title_label.text = "VAT - Level %d" % level
-            description_label.text = "Tax %d%% from village trades" % tax_percentage
+            description_label.text = "Tax %d percent from village trades" % tax_percentage
         UpgradeType.SPEED:
             title_label.text = "Speed - Level %d" % level
-            description_label.text = "Move %d%% faster" % player_percentage
+            description_label.text = "Move %d percent faster" % player_percentage
         UpgradeType.AURA:
             title_label.text = "Aura - Level %d" % level
-            description_label.text = "Tax collection aura radius %d%% larger" % player_percentage
+            description_label.text = "Tax collection aura radius %d percent larger" % player_percentage
         UpgradeType.TAX_RATE:
             title_label.text = "Collection Rate - Level %d" % level
-            description_label.text = "Collect taxes %d%% faster" % player_percentage
+            description_label.text = "Collect taxes %d percent faster" % player_percentage
 
 func _on_mouse_entered() -> void:
     color = hover_color
