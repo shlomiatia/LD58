@@ -1,6 +1,6 @@
 class_name Worker extends CharacterBody2D
 
-const SPEED := 150
+var SPEED := 150
 
 var parent_building: Building
 
@@ -25,6 +25,9 @@ var tax: int
 @onready var resource_label = $UI/ResourceLabel
 @onready var tax_label = $UI/TaxLabel
 @onready var market = $/root/Main/Market
+
+func _ready() -> void:
+    SPEED = randi() % 50 + 150
 
 func set_worker_name(new_name: String) -> void:
     if is_node_ready():
