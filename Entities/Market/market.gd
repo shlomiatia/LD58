@@ -82,3 +82,14 @@ func buy(resource_name: String, amount: int) -> Dictionary:
         "total_cost": get_price_with_tariff(resource_name) * amount,
         "total_tax": tariff_amount
     }
+
+func sell(resource_name: String, amount: int) -> Dictionary:
+    var resource = ResourceData.get_resource(resource_name)
+    var base_price = resource.cost
+    var actual_amount = min(amount, demand_values.get(resource_name, 0))
+    demand_values[resource_name] -= actual_amount
+    
+    return {
+        "total_amount": actual_amount,
+        "total_cost": actual_amount * base_price
+    }

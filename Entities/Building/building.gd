@@ -38,6 +38,7 @@ func _initialize_building() -> void:
         if building_data:
             label.text = building_data.building_name
             worker.set_worker_name(building_data.building_name)
+            worker.parent_building = self
 
             if building_data.input:
                 conversion.input_resource_name = building_data.input.resource_name

@@ -44,7 +44,10 @@ func _on_taxes_set() -> void:
     await _handle_production(buildings, total_demand)
 
     await get_tree().create_timer(1.0).timeout
-    #_handle_export(buildings)
+
+    await _handle_export(buildings)
+
+    await get_tree().create_timer(1.0).timeout
     #await _handle_needs(buildings)
     
     _place_new_building(buildings)
@@ -112,9 +115,11 @@ func _get_producers_of(buildings: Array[Node], resource_name: String) -> Array[B
 #            building.update_money(-result["total_cost"])
 #        await _await_user_input()
 
-#func _handle_export(buildings: Array[Node]) -> void:
-#    for resource_name in ["Sheep", "Wool", "Milk", "Meat", "Food", "Clothes", "Drink"]:
-#        var result = _buy_from_buildings(buildings, resource_name, market.get_demand(resource_name))
+func _handle_export(buildings: Array[Node]) -> void:
+    for building in buildings:
+        building.worker.export_to_market(market.get_demand(building.building_data.output.resource_name))
+
+    await _wait_for_all_workers_to_finish()
 
 func _set_internal_demand(internal_demand: Dictionary, buildings: Array[Node], resource_name: String) -> void:
     var producers: Array[BuildingData] = []
@@ -139,9 +144,8 @@ func _handle_resources_production(buildings: Array[Node], total_demand: Dictiona
         var allocation = total_demand[intermediate] / producers.size()
 
         for producer in producers:
-            var input_resource = producer.building_data.input.resource_name
             var input_needed = allocation
-            producer.worker.produce(input_resource, input_needed, producer)
+            producer.worker.produce(input_needed)
 
     await _wait_for_all_workers_to_finish()
 

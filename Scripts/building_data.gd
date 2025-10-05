@@ -25,10 +25,10 @@ static func get_all_buildings() -> Array[BuildingData]:
 		var drink = ResourceData.get_resource("Drink")
 
 		_buildings = [
-			BuildingData.new("Farmer", null, sheep, [sheep, wool, milk, meat, food, clothes, drink]),
-			BuildingData.new("Shearer", sheep, wool, [sheep, wool, drink]),
-			BuildingData.new("Milker", sheep, milk, [sheep, milk, drink]),
-			BuildingData.new("Slaughterer", sheep, meat, [sheep, meat, food, drink]),
+			#BuildingData.new("Farmer", null, sheep, [sheep, wool, milk, meat, food, clothes, drink]),
+			#BuildingData.new("Shearer", sheep, wool, [sheep, wool, drink]),
+			#BuildingData.new("Milker", sheep, milk, [sheep, milk, drink]),
+			#BuildingData.new("Slaughterer", sheep, meat, [sheep, meat, food, drink]),
 			BuildingData.new("Fromager", milk, food, [sheep, milk, food]),
 			BuildingData.new("Cooker", meat, food, [sheep, meat, food]),
 			BuildingData.new("Weaver", wool, clothes, [sheep, wool, clothes]),

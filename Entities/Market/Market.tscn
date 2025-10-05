@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://br5guff0j3e2m" path="res://Entities/ResourceLabel/ResourceLabel.tscn" id="3_3cr8p"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rqu5h"]
-size = Vector2(80, 16)
+size = Vector2(80, 32)
 
 [node name="Market" type="Node2D"]
 script = ExtResource("1_jvw1p")
@@ -39,5 +39,5 @@ position = Vector2(0, -112)
 position = Vector2(0, -56)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(0, 48)
+position = Vector2(0, 40)
 shape = SubResource("RectangleShape2D_rqu5h")

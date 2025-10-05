@@ -2,14 +2,18 @@ class_name Worker extends CharacterBody2D
 
 const SPEED := 150
 
+var parent_building: Building
+
 var navigation_path: PackedVector2Array = []
 var current_path_index: int = 0
 
-var target_producer: Building
-var target_producer2: Building
+var target_parent_production: bool
+var target_parent_production2: bool
 var target_resource_name: String
 var target_amount: int
 var target_market: bool
+var target_export: bool
+var target_export2: bool
 var target_supplier: Building
 var building_amount: int
 var current_amount: int
@@ -67,14 +71,32 @@ func _physics_process(_delta: float) -> void:
                 target_amount = 0
                 money -= result["total_cost"]
                 tax += result["total_tax"]
-                if target_producer:
-                    navigate_to(target_producer.position + Vector2(0, 8))
-                    target_producer2 = target_producer
-                    target_producer = null
-            elif target_producer2:
-                target_producer2.update_supply(current_amount)
+                if target_parent_production:
+                    navigate_to(parent_building.position + Vector2(0, 8))
+                    target_parent_production2 = true
+                    target_parent_production = false
+            elif target_parent_production2:
+                target_parent_production2 = false
+                parent_building.update_supply(current_amount)
                 current_amount = 0
-                target_producer2 = null
+            elif target_export:
+                target_export = false
+                var amount = min(parent_building.supply, target_amount)
+                parent_building.update_supply(-amount)
+                current_amount += amount
+                if current_amount > 0:
+                    target_export2 = true
+                    navigate_to(market.position + Vector2(0, 8))
+                #money = parent_building.money
+                #parent_building.money = 0
+            elif target_export2:
+                target_export2 = false
+                var result = market.sell(target_resource_name, current_amount)
+                money += result["total_cost"]
+                current_amount = current_amount - result["total_amount"]
+                if current_amount > 0:
+                    target_parent_production2 = true
+                    navigate_to(parent_building.position + Vector2(0, 8))
     else:
         velocity = direction * SPEED
         move_and_slide()
@@ -82,10 +104,18 @@ func _physics_process(_delta: float) -> void:
 func is_navigating() -> bool:
     return current_path_index < navigation_path.size()
 
-func produce(resource_name: String, amount: int, parent: Building) -> void:
-    target_producer = parent
-    target_producer2 = null
-    buy(resource_name, amount)
+func produce(amount: int) -> void:
+    target_parent_production = true
+    target_parent_production2 = false
+    buy(parent_building.building_data.input.resource_name, amount)
+
+func export_to_market(amount: int) -> void:
+    prints("expoort_to_market", amount)
+    target_resource_name = parent_building.building_data.output.resource_name
+    target_export = true
+    target_export2 = true
+    target_amount = amount
+    navigate_to(parent_building.position + Vector2(0, 8))
 
 func buy(resource_name: String, amount: int) -> void:
     target_market = false
@@ -109,10 +139,10 @@ func buy(resource_name: String, amount: int) -> void:
         target_market = true
         return
     
-    if target_producer:
-        navigate_to(target_producer.position + Vector2(0, 8))
-        target_producer2 = target_producer
-        target_producer = null
+    if target_parent_production:
+        navigate_to(parent_building.position + Vector2(0, 8))
+        target_parent_production2 = true
+        target_parent_production = false
         
 func _buy_from_buildings(buildings: Array[Node]) -> bool:
     var producers = _get_producers_of(buildings, target_resource_name)
