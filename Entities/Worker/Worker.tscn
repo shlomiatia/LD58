@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://brcna04fqs171" path="res://Entities/MoneyLabel/MoneyLabel.tscn" id="4_0oege"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4oj8t"]
+resource_local_to_scene = true
 shader = ExtResource("2_dyj58")
 shader_parameter/is_disabled = null
 shader_parameter/original_0 = Color(0, 0, 0, 1)

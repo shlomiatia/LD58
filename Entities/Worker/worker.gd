@@ -28,8 +28,28 @@ var tax: int
 @onready var taxes: Taxes = $/root/Main/CanvasLayer/Taxes
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
+const COLOR_PALETTE = [
+    ["#fdbd8f", "#f0886b", "#d36853", "#ae454a", "#8c3132", "#542323"],
+    ["#a85848", "#83404c", "#67314b", "#3f2323"],
+    ["#d49577", "#9f705a", "#845750", "#633b3f"],
+    ["#fcc539", "#f87b1b", "#f8401b", "#bd2709", "#7c122b"],
+    ["#ffe08b", "#fac05a", "#eb8f48", "#d17441", "#c75239", "#b12935"],
+    ["#ffffff", "#eaeae8", "#cecac9", "#abafb9", "#a18897", "#756276"],
+    ["#dbcfb1", "#a9a48d", "#7b8382", "#5f5f6e"],
+    ["#7bd7a9", "#52b281", "#148568", "#146756", "#22474c", "#102f34"],
+    ["#ebff8b", "#b3e363", "#4cbd56", "#2f8735", "#0b5931"],
+    ["#97bf6e", "#899f66", "#61855a", "#4c6051"],
+    ["#73dff2", "#2abbd0", "#315dcd", "#472a9c"],
+    ["#a0d8d7", "#7dbefa", "#668faf", "#585d81", "#45365d"],
+    ["#5d4660", "#4c3250", "#432641", "#28192f"],
+    ["#fb7575", "#fb3b64", "#c83157", "#8e375c", "#4f2351", "#351544"],
+    ["#f74a53", "#f22f46", "#bc1642"],
+    ["#f6bafe", "#d59ff4", "#b070eb", "#7c3ce1"]
+]
+
 func _ready() -> void:
     SPEED = randi() % 50 + 150
+    _setup_palette_swap()
 
 func set_worker_name(new_name: String) -> void:
     if is_node_ready():
@@ -198,3 +218,67 @@ func _update_animation() -> void:
             animated_sprite.play("walk_down")
         else:
             animated_sprite.play("walk_up")
+
+
+func _setup_palette_swap() -> void:
+    var shader_material = animated_sprite.material as ShaderMaterial
+    if not shader_material:
+        return
+
+    var original_colors = [
+        Color("#ae454a"), Color("#8c3132"), Color("#542323"),
+        Color("#fdbd8f"), Color("#f0886b"),
+        Color("#bd2709"), Color("#7c122b"),
+        Color("#315dcd"), Color("#472a9c"),
+        Color("#67314b"), Color("#3f2323"),
+        Color("#845750"), Color("#633b3f")
+    ]
+
+    var hair_palette_index = randi_range(1, 6)
+    var hair_start = randi_range(0, COLOR_PALETTE[hair_palette_index].size() - 3)
+    var hair_colors = _get_adjacent_colors(hair_palette_index, hair_start, 3)
+
+    var skin_palette_index = randi_range(0, 0)
+    var skin_start = randi_range(0, COLOR_PALETTE[skin_palette_index].size() - 2)
+    var skin_colors = _get_adjacent_colors(skin_palette_index, skin_start, 2)
+
+    var shirt_palette_index = randi_range(7, 16)
+    var shirt_start = randi_range(0, COLOR_PALETTE[shirt_palette_index].size() - 2)
+    var shirt_colors = _get_adjacent_colors(shirt_palette_index, shirt_start, 2)
+
+    var pants_palette_index = randi_range(7, 16)
+    var pants_start = randi_range(0, COLOR_PALETTE[pants_palette_index].size() - 2)
+    var pants_colors = _get_adjacent_colors(pants_palette_index, pants_start, 2)
+
+    var shoes_palette_index = randi_range(1, 2)
+    var shoes_start = randi_range(0, COLOR_PALETTE[shoes_palette_index].size() - 2)
+    var shoes_colors = _get_adjacent_colors(shoes_palette_index, shoes_start, 2)
+
+    var eyes_options = [1, 2] + range(7, 12)
+    var eyes_palette_index = eyes_options[randi() % eyes_options.size()]
+    var eyes_start = randi_range(0, COLOR_PALETTE[eyes_palette_index].size() - 2)
+    var eyes_colors = _get_adjacent_colors(eyes_palette_index, eyes_start, 2)
+
+    for i in range(original_colors.size()):
+        shader_material.set_shader_parameter("original_%d" % i, original_colors[i])
+
+    shader_material.set_shader_parameter("replace_0", Color(hair_colors[0]))
+    shader_material.set_shader_parameter("replace_1", Color(hair_colors[1]))
+    shader_material.set_shader_parameter("replace_2", Color(hair_colors[2]))
+    shader_material.set_shader_parameter("replace_3", Color(skin_colors[0]))
+    shader_material.set_shader_parameter("replace_4", Color(skin_colors[1]))
+    shader_material.set_shader_parameter("replace_5", Color(shirt_colors[0]))
+    shader_material.set_shader_parameter("replace_6", Color(shirt_colors[1]))
+    shader_material.set_shader_parameter("replace_7", Color(pants_colors[0]))
+    shader_material.set_shader_parameter("replace_8", Color(pants_colors[1]))
+    shader_material.set_shader_parameter("replace_9", Color(shoes_colors[0]))
+    shader_material.set_shader_parameter("replace_10", Color(shoes_colors[1]))
+    shader_material.set_shader_parameter("replace_11", Color(eyes_colors[0]))
+    shader_material.set_shader_parameter("replace_12", Color(eyes_colors[1]))
+
+
+func _get_adjacent_colors(palette_index: int, start_index: int, count: int) -> Array:
+    var colors = []
+    for i in range(count):
+        colors.append(COLOR_PALETTE[palette_index][start_index + i])
+    return colors
