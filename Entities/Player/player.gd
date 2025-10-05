@@ -10,6 +10,11 @@ const TAX_PER_SECOND = 10
 var worker_tax_accumulator: Dictionary = {}
 
 func _physics_process(delta: float) -> void:
+	if taxes.are_controls_enabled():
+		velocity = Vector2.ZERO
+		_update_animation()
+		return
+
 	var input_direction = Vector2(
 		Input.get_axis("left", "right"),
 		Input.get_axis("up", "down")

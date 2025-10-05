@@ -34,7 +34,6 @@ z_index = 3
 position = Vector2(0, -8)
 
 [node name="Label" type="Label" parent="UI"]
-visible = false
 offset_left = -80.0
 offset_top = -36.0
 offset_right = 80.0
@@ -44,9 +43,7 @@ text = "Farmer"
 horizontal_alignment = 1
 
 [node name="MoneyLabel" parent="UI" instance=ExtResource("4_0oege")]
-visible = false
 position = Vector2(0, -31)
 
 [node name="TaxLabel" parent="UI" instance=ExtResource("4_0oege")]
-visible = false
 position = Vector2(0, -31)

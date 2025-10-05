@@ -20,11 +20,17 @@ var current_amount: int
 var money: int
 var tax: int
 
+var label_timer: float = 0.0
+var current_label_index: int = 0
+const LABEL_SWITCH_TIME: float = 2.5
+
 @onready var label = $UI/Label
 @onready var money_label = $UI/MoneyLabel
 @onready var tax_label = $UI/TaxLabel
 @onready var resource_icon = $ResourceIcon
 @onready var market = $/root/Main/Market
+@onready var taxes: Taxes = $/root/Main/CanvasLayer/Taxes
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 func _ready() -> void:
     SPEED = randi() % 50 + 150
@@ -40,13 +46,30 @@ func _update() -> void:
     if resource_icon.visible:
         resource_icon.resource_name = target_resource_name
 
+    if taxes.are_controls_enabled():
+        label.visible = current_label_index == 0
+        money_label.visible = current_label_index == 1
+        tax_label.visible = current_label_index == 2
+    else:
+        label.visible = false
+        money_label.visible = false
+        tax_label.visible = true
+
 func navigate_to(target_position: Vector2) -> void:
     var navigation_map = get_world_2d().navigation_map
     navigation_path = NavigationServer2D.map_get_path(navigation_map, global_position, target_position, true)
     current_path_index = 0
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
     _update()
+
+    if taxes.are_controls_enabled():
+        label_timer += delta
+        if label_timer >= LABEL_SWITCH_TIME:
+            label_timer = 0.0
+            current_label_index = (current_label_index + 1) % 3
+
+    _update_animation()
 
     if current_path_index >= navigation_path.size():
         return
@@ -164,3 +187,22 @@ func _get_producers_of(buildings: Array[Node], resource_name: String) -> Array[B
             if building.building_data.output.resource_name == resource_name:
                 producers.append(building)
     return producers
+
+
+func _update_animation() -> void:
+    if velocity.length() == 0:
+        animated_sprite.play("default")
+        return
+
+    if abs(velocity.x) > abs(velocity.y):
+        animated_sprite.play("walk_right")
+        if velocity.x > 0:
+            animated_sprite.flip_h = false
+        else:
+            animated_sprite.flip_h = true
+    else:
+        animated_sprite.flip_h = false
+        if velocity.y > 0:
+            animated_sprite.play("walk_down")
+        else:
+            animated_sprite.play("walk_up")
