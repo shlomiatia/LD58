@@ -124,6 +124,8 @@ func _handle_needs(buildings: Array[Node]) -> void:
             building.worker.current_amount = 0
             building.worker.navigate_to(building.position + Vector2(0, 8))
 
+    await _wait_for_all_workers_to_finish()
+
 func _handle_export(buildings: Array[Node]) -> void:
     for building in buildings:
         building.worker.export_to_market(market.get_demand(building.building_data.output.resource_name))
