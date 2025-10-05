@@ -61,7 +61,10 @@ func _on_taxes_set() -> void:
     
     await get_tree().create_timer(0.1).timeout
     
-    _place_new_building(buildings)
+    if !_place_new_building(buildings):
+        await $CanvasLayer/Fade.fade_out()
+        get_tree().change_scene_to_file("res://Levels/Outro.tscn")
+        return
 
     for building in buildings:
         if building is Building:
@@ -170,7 +173,7 @@ func _handle_resources_production(buildings: Array[Node], total_demand: Dictiona
     await _wait_for_all_workers_to_finish()
 
 
-func _place_new_building(buildings: Array[Node]) -> void:
+func _place_new_building(buildings: Array[Node]) -> bool:
     var tariff = TaxData.get_tax("Tariff").value
     var vat = TaxData.get_tax("VAT").value
 
@@ -185,9 +188,7 @@ func _place_new_building(buildings: Array[Node]) -> void:
             available_buildings.append(building_data)
 
     if available_buildings.is_empty():
-        await $CanvasLayer/Fade.fade_out()
-        get_tree().change_scene_to_file("res://Levels/Outro.tscn")
-        return
+        return false
 
     var selected_building: BuildingData = null
 
@@ -206,6 +207,8 @@ func _place_new_building(buildings: Array[Node]) -> void:
     var next_slot = buildings.size()
     if next_slot < SLOT_POSITIONS.size():
         _place_building(selected_building, next_slot)
+
+    return true
 
 func _get_importers(available_buildings: Array[BuildingData], existing_buildings: Array[Node]) -> Array[BuildingData]:
     var importers: Array[BuildingData] = []
