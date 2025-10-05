@@ -20,10 +20,6 @@ var current_amount: int
 var money: int
 var tax: int
 
-var label_timer: float = 0.0
-var current_label_index: int = 0
-const LABEL_SWITCH_TIME: float = 2.5
-
 @onready var label = $UI/Label
 @onready var money_label = $UI/MoneyLabel
 @onready var tax_label = $UI/TaxLabel
@@ -47,9 +43,9 @@ func _update() -> void:
         resource_icon.resource_name = target_resource_name
 
     if taxes.are_controls_enabled():
-        label.visible = current_label_index == 0
-        money_label.visible = current_label_index == 1
-        tax_label.visible = current_label_index == 2
+        label.visible = LabelRotation.current_label_index == 0
+        money_label.visible = LabelRotation.current_label_index == 1
+        tax_label.visible = LabelRotation.current_label_index == 2
     else:
         label.visible = false
         money_label.visible = false
@@ -60,14 +56,8 @@ func navigate_to(target_position: Vector2) -> void:
     navigation_path = NavigationServer2D.map_get_path(navigation_map, global_position, target_position, true)
     current_path_index = 0
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
     _update()
-
-    if taxes.are_controls_enabled():
-        label_timer += delta
-        if label_timer >= LABEL_SWITCH_TIME:
-            label_timer = 0.0
-            current_label_index = (current_label_index + 1) % 3
 
     if current_path_index >= navigation_path.size():
         velocity = Vector2.ZERO

@@ -57,7 +57,7 @@ position = Vector2(-13, -112)
 
 [node name="MoneyLabel" parent="UI" instance=ExtResource("6_gfy5h")]
 visible = false
-position = Vector2(0, -112)
+position = Vector2(0, -113)
 
 [node name="PriceLabel" parent="UI" instance=ExtResource("5_cachm")]
 visible = false

@@ -12,8 +12,8 @@ var supply: int = 0
 @onready var label = $UI/Label
 @onready var conversion = $UI/Conversion
 @onready var price_label = $UI/PriceLabel
-@onready var resource_icon = $ResourceIcon
 @onready var money_label = $UI/MoneyLabel
+@onready var resource_icon = $ResourceIcon
 
 @onready var taxes = $/root/Main/CanvasLayer/Taxes
 @onready var sprite = $Sprite2D
@@ -23,14 +23,6 @@ func _ready() -> void:
     _initialize_building()
 
 func _process(_delta: float) -> void:
-    if building_data:
-        var mouse_pos = get_global_mouse_position()
-        var sprite_rect = Rect2(sprite.global_position - sprite.texture.get_size() / 2, sprite.texture.get_size())
-        var is_hovered = sprite_rect.has_point(mouse_pos)
-        label.visible = is_hovered
-        if building_data.input:
-            conversion.visible = is_hovered
-            
     _update()
 
 func _initialize_building() -> void:
@@ -89,3 +81,14 @@ func _update() -> void:
     price_label.value_text = "%d" % price
     money_label.value = money
     resource_icon.visible = supply > 0
+
+    if taxes.are_controls_enabled():
+        label.visible = LabelRotation.current_label_index == 0
+        conversion.visible = LabelRotation.current_label_index == 1
+        price_label.visible = LabelRotation.current_label_index == 2
+        money_label.visible = LabelRotation.current_label_index == 3
+    else:
+        label.visible = false
+        conversion.visible = false
+        price_label.visible = false
+        money_label.visible = false
