@@ -60,3 +60,6 @@ position = Vector2(265, 260)
 visible = false
 position = Vector2(600, 260)
 tax = 10
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -12.0
