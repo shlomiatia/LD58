@@ -11,6 +11,9 @@ const SLOT_POSITIONS := [
 @onready var player = $Player
 @onready var tutorial_worker = $TutorialWorker
 @onready var tutorial_label = $Player/TutorialLabel
+@onready var audio_player: AudioStreamPlayer = $AudioStreamPlayer
+
+var confirm_sounds: Array[AudioStream] = []
 
 var tutorial_active: bool = true
 var tutorial_step: int = 0
@@ -31,6 +34,9 @@ func _wait_for_all_workers_to_finish() -> void:
         await get_tree().process_frame
 
 func _ready() -> void:
+    for i in range(1, 4):
+        confirm_sounds.append(load("res://Sounds/confirm%d.wav" % i))
+
     taxes.taxes_set.connect(_on_taxes_set)
     _start_tutorial()
 
@@ -243,8 +249,14 @@ func _show_next_tutorial_text() -> void:
         tutorial_label.text = tutorial_texts[current_text_index]
         tutorial_label.show()
         waiting_for_input = true
+        _play_random_confirm_sound()
     else:
         _advance_tutorial_step()
+
+func _play_random_confirm_sound() -> void:
+    if confirm_sounds.size() > 0:
+        audio_player.stream = confirm_sounds[randi() % confirm_sounds.size()]
+        audio_player.play()
 
 func _input(event: InputEvent) -> void:
     if not tutorial_active:

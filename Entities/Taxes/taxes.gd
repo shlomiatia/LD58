@@ -17,6 +17,7 @@ var selected_index: int = 0
 
 @onready var player: Player = $/root/Main/Player
 @onready var center_container: VBoxContainer = $VBoxContainer
+@onready var audio_player: AudioStreamPlayer = $/root/Main/AudioStreamPlayer
 
 func set_controls_enabled() -> void:
     _generate_upgrades()
@@ -99,6 +100,9 @@ func _clear_upgrades() -> void:
     current_upgrades.clear()
 
 func _on_upgrade_selected(upgrade: Upgrade) -> void:
+    audio_player.stream = load("res://Sounds/confirm_big.wav")
+    audio_player.play()
+
     var tax_percentage_increase = upgrade.level * 5
     var player_percentage_increase = upgrade.level * 0.1
 

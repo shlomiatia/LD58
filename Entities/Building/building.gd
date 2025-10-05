@@ -19,6 +19,7 @@ var supply: int = 0
 @onready var sprite = $Sprite2D
 @onready var roof = $Roof
 @onready var worker = $Worker
+@onready var audio_player: AudioStreamPlayer = $/root/Main/AudioStreamPlayer
 
 func _ready() -> void:
     _initialize_building()
@@ -151,9 +152,20 @@ func _animate_building_drop() -> void:
     tween.tween_property(sprite, "position:y", sprite_initial_y, 2.0)
     tween.tween_property(roof, "position:y", roof_initial_y, 2.0)
 
+    _play_building_fall_sounds()
+
     await tween.finished
     await get_tree().create_timer(0.5).timeout
     _show_and_move_worker()
+
+func _play_building_fall_sounds() -> void:
+    var building_fall_stream = load("res://Sounds/building_fall.wav")
+    for i in range(4):
+        audio_player.stream = building_fall_stream
+        audio_player.volume_db = -6.0 * i
+        audio_player.play()
+        await get_tree().create_timer(0.5).timeout
+    audio_player.volume_db = -12.0
 
 func _show_and_move_worker() -> void:
     worker.show()

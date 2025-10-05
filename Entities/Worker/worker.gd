@@ -18,7 +18,12 @@ var target_supplier: Building
 var building_amount: int
 var current_amount: int
 var money: int
-@export var tax: int
+@export var tax: int:
+    set(value):
+        var old_tax = tax
+        tax = value
+        if old_tax == 0 and tax > 0:
+            _play_random_money_sound()
 
 @onready var label = $UI/Label
 @onready var money_label = $UI/MoneyLabel
@@ -27,14 +32,25 @@ var money: int
 @onready var market = $/root/Main/Market
 @onready var taxes: Taxes = $/root/Main/CanvasLayer/Taxes
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var audio_player: AudioStreamPlayer = $/root/Main/AudioStreamPlayer
+
+var money_sounds: Array[AudioStream] = []
 
 func _ready() -> void:
+    for i in range(1, 4):
+        money_sounds.append(load("res://Sounds/money%d.wav" % i))
+
     SPEED = randi() % 50 + 150
     _setup_palette_swap()
 
 func set_worker_name(new_name: String) -> void:
     if is_node_ready():
         label.text = new_name
+
+func _play_random_money_sound() -> void:
+    if money_sounds.size() > 0:
+        audio_player.stream = money_sounds[randi() % money_sounds.size()]
+        audio_player.play()
 
 func _update() -> void:
     money_label.value = money
