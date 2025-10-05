@@ -7,7 +7,7 @@ signal taxes_set
 @onready var income_tax = $"VBoxContainer/Income tax"
 @onready var set_button = $Button
 @onready var vbox = $VBoxContainer
-@onready var money_label = $VBoxContainer/MoneyLabel
+@onready var money_label = $MoneyLabel
 
 var money: int = 0
 

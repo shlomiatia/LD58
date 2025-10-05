@@ -22,8 +22,8 @@ var tax: int
 
 @onready var label = $UI/Label
 @onready var money_label = $UI/MoneyLabel
-@onready var resource_label = $UI/ResourceLabel
 @onready var tax_label = $UI/TaxLabel
+@onready var resource_icon = $ResourceIcon
 @onready var market = $/root/Main/Market
 
 func _ready() -> void:
@@ -36,10 +36,9 @@ func set_worker_name(new_name: String) -> void:
 func _update() -> void:
     money_label.value = money
     tax_label.value = tax
-    resource_label.visible = current_amount > 0
-    if resource_label.visible:
-        resource_label.resource_name = target_resource_name
-        resource_label.value_text = "%d" % current_amount
+    resource_icon.visible = current_amount > 0
+    if resource_icon.visible:
+        resource_icon.resource_name = target_resource_name
 
 func navigate_to(target_position: Vector2) -> void:
     var navigation_map = get_world_2d().navigation_map

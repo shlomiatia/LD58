@@ -14,6 +14,13 @@ offset_right = 35.0
 offset_bottom = 56.0
 script = ExtResource("1_doj51")
 
+[node name="MoneyLabel" parent="." instance=ExtResource("3_dey20")]
+position = Vector2(9, 9)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_right = 26
+
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -26,9 +33,6 @@ layout_mode = 2
 
 [node name="Income tax" parent="VBoxContainer" instance=ExtResource("1_h3ow1")]
 layout_mode = 2
-
-[node name="MoneyLabel" parent="VBoxContainer" instance=ExtResource("3_dey20")]
-position = Vector2(8, -9)
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 2

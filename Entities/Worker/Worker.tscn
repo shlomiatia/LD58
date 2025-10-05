@@ -3,8 +3,8 @@
 [ext_resource type="Script" path="res://Entities/Worker/worker.gd" id="1_ta25y"]
 [ext_resource type="SpriteFrames" uid="uid://cw1kftktydlx4" path="res://Entities/Worker.tres" id="2_2k54u"]
 [ext_resource type="Theme" uid="uid://dk74o3jdyxswq" path="res://Entities/Themes/Label.tres" id="3_otgtf"]
+[ext_resource type="PackedScene" uid="uid://ddkmdxbjpvb03" path="res://Entities/ResourceIcon/ResourceIcon.tscn" id="3_p32nj"]
 [ext_resource type="PackedScene" uid="uid://brcna04fqs171" path="res://Entities/MoneyLabel/MoneyLabel.tscn" id="4_0oege"]
-[ext_resource type="PackedScene" uid="uid://br5guff0j3e2m" path="res://Entities/ResourceLabel/ResourceLabel.tscn" id="5_7kd2j"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r0uua"]
 size = Vector2(6, 28)
@@ -16,17 +16,22 @@ script = ExtResource("1_ta25y")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 1
-position = Vector2(0, -1)
+position = Vector2(0, -16)
 sprite_frames = ExtResource("2_2k54u")
 autoplay = "default"
 frame_progress = 0.640192
 
+[node name="ResourceIcon" parent="." instance=ExtResource("3_p32nj")]
+z_index = 1
+position = Vector2(-6, -10)
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -15)
 shape = SubResource("RectangleShape2D_r0uua")
 
 [node name="UI" type="Node2D" parent="."]
 z_index = 3
-position = Vector2(0, 7)
+position = Vector2(0, -8)
 
 [node name="Label" type="Label" parent="UI"]
 offset_left = -18.0
@@ -41,6 +46,3 @@ position = Vector2(0, -40)
 
 [node name="TaxLabel" parent="UI" instance=ExtResource("4_0oege")]
 position = Vector2(0, -73)
-
-[node name="ResourceLabel" parent="UI" instance=ExtResource("5_7kd2j")]
-position = Vector2(0, -56)

@@ -9,13 +9,14 @@ var building_data: BuildingData
 var money: int = 0
 var supply: int = 0
 
-@onready var label = $Label
-@onready var conversion = $Conversion
-@onready var price_label = $PriceLabel
-@onready var supply_label = $SupplyLabel
-@onready var sprite = $Sprite2D
-@onready var money_label = $MoneyLabel
+@onready var label = $UI/Label
+@onready var conversion = $UI/Conversion
+@onready var price_label = $UI/PriceLabel
+@onready var supply_label = $UI/SupplyLabel
+@onready var money_label = $UI/MoneyLabel
+
 @onready var taxes = $/root/Main/CanvasLayer/Taxes
+@onready var sprite = $Sprite2D
 @onready var worker = $Worker
 
 func _ready() -> void:
