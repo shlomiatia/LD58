@@ -8,6 +8,19 @@ func _ready() -> void:
     var total_taxes = GlobalData.total_taxes_collected if GlobalData else 0
 
     if total_taxes >= QUOTA:
-        label.text = "We collected %d taxes, well over the %d quota\n\nHis majesty will be pleased\n\nThanks for playing!" % [total_taxes, QUOTA]
+        label.text = "We collected %s taxes, well over the %s quota\n\nHis majesty will be pleased\n\nThanks for playing!" % [_format_number(total_taxes), _format_number(QUOTA)]
     else:
-        label.text = "We collected %d taxes but failed to reach the %d quota\n\nHis majesty will not be pleased...\n\nThanks for playing!" % [total_taxes, QUOTA]
+        label.text = "We collected %s taxes but failed to reach the %s quota\n\nHis majesty will not be pleased...\n\nThanks for playing!" % [_format_number(total_taxes), _format_number(QUOTA)]
+
+func _format_number(num: int) -> String:
+    var num_str = str(num)
+    var result = ""
+    var count = 0
+
+    for i in range(num_str.length() - 1, -1, -1):
+        if count > 0 and count % 3 == 0:
+            result = "," + result
+        result = num_str[i] + result
+        count += 1
+
+    return result
