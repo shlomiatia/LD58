@@ -67,14 +67,17 @@ func update_money(amount: int) -> void:
 func buy(amount: int) -> Dictionary:
     var resource_data = ResourceData.get_resource(building_data.output.resource_name)
     var base_price = resource_data.cost
-    update_supply(-amount)
-    update_money(amount * base_price)
+    var total_amount = min(amount, supply)
+    update_supply(-total_amount)
+    var base_cost = total_amount * base_price
+    update_money(base_cost)
 
     var vat_tax = TaxData.get_tax("VAT")
-    var vat_amount = int((base_price * vat_tax.value / 100.0) * amount)
+    var vat_amount = int((base_price * vat_tax.value / 100.0) * total_amount)
     #taxes.add_money(vat_amount)
     return {
-        "total_cost": amount * get_price_with_vat(),
+        "total_amount": total_amount,
+        "total_cost": base_cost + vat_amount,
         "total_tax": vat_amount
     }
 

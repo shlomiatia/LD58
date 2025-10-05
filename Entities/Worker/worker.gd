@@ -16,10 +16,10 @@ var current_amount: int
 var money: int
 var tax: int
 
-@onready var label = $Label
-@onready var money_label = $MoneyLabel
-@onready var resource_label = $ResourceLabel
-@onready var tax_label = $TaxLabel
+@onready var label = $UI/Label
+@onready var money_label = $UI/MoneyLabel
+@onready var resource_label = $UI/ResourceLabel
+@onready var tax_label = $UI/TaxLabel
 @onready var market = $/root/Main/Market
 
 func set_worker_name(new_name: String) -> void:
@@ -54,8 +54,9 @@ func _physics_process(_delta: float) -> void:
         if !is_navigating():
             if target_supplier:
                 var result = target_supplier.buy(building_amount)
-                target_amount -= building_amount
-                current_amount += building_amount
+                var actual_amount = result["total_amount"]
+                target_amount -= actual_amount
+                current_amount += actual_amount
                 money -= result["total_cost"]
                 tax += result["total_tax"]
                 buy(target_resource_name, target_amount)

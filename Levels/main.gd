@@ -177,6 +177,8 @@ func _place_new_building(buildings: Array[Node]) -> void:
     if selected_building == null:
         selected_building = available_buildings[randi() % available_buildings.size()]
 
+    selected_building = available_buildings[0]
+
     var next_slot = buildings.size()
     if next_slot < SLOT_POSITIONS.size():
         _place_building(selected_building, next_slot)

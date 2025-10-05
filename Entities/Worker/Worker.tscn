@@ -124,34 +124,37 @@ animations = [{
 size = Vector2(6, 28)
 
 [node name="Worker" type="CharacterBody2D"]
-z_index = 1
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_ta25y")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -16)
+y_sort_enabled = true
+position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_l14q6")
 autoplay = "default"
 frame_progress = 0.640192
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -15)
+position = Vector2(0, -7)
 shape = SubResource("RectangleShape2D_r0uua")
 
-[node name="Label" type="Label" parent="."]
+[node name="UI" type="Node2D" parent="."]
+z_index = 1
+
+[node name="Label" type="Label" parent="UI"]
 offset_left = -18.0
-offset_top = -40.0
+offset_top = -32.0
 offset_right = 22.0
-offset_bottom = -17.0
+offset_bottom = -9.0
 theme = ExtResource("3_otgtf")
 text = "Farmer"
 
-[node name="MoneyLabel" parent="." instance=ExtResource("4_0oege")]
-position = Vector2(0, -48)
+[node name="MoneyLabel" parent="UI" instance=ExtResource("4_0oege")]
+position = Vector2(0, -40)
 
-[node name="TaxLabel" parent="." instance=ExtResource("4_0oege")]
-position = Vector2(0, -81)
+[node name="TaxLabel" parent="UI" instance=ExtResource("4_0oege")]
+position = Vector2(0, -73)
 
-[node name="ResourceLabel" parent="." instance=ExtResource("5_7kd2j")]
-position = Vector2(0, -64)
+[node name="ResourceLabel" parent="UI" instance=ExtResource("5_7kd2j")]
+position = Vector2(0, -56)

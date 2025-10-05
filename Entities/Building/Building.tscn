@@ -9,13 +9,14 @@
 [ext_resource type="PackedScene" uid="uid://djny86sgor10g" path="res://Entities/Worker/Worker.tscn" id="7_fuohf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ri8y3"]
-size = Vector2(80, 16)
+size = Vector2(80, 32)
 
 [node name="Building" type="Node2D" groups=["buildings"]]
 script = ExtResource("1_n24b0")
 building_name = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
 position = Vector2(0, -56)
 texture = ExtResource("1_akj1o")
 
@@ -45,7 +46,7 @@ position = Vector2(0, -146)
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(0, -8)
+position = Vector2(0, -16)
 shape = SubResource("RectangleShape2D_ri8y3")
 
 [node name="Worker" parent="." instance=ExtResource("7_fuohf")]
