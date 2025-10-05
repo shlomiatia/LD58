@@ -9,12 +9,14 @@ var upgrade_levels: Dictionary = {
     "tariff": 0,
     "vat": 0,
     "speed": 0,
-    "aura": 0
+    "aura": 0,
+    "tax_rate": 0
 }
 var is_first_upgrade: bool = true
 var current_upgrades: Array[Upgrade] = []
 
 @onready var player: Player = $/root/Main/Player
+@onready var center_container: VBoxContainer = $VBoxContainer
 
 func set_controls_enabled() -> void:
     _generate_upgrades()
@@ -34,7 +36,8 @@ func _generate_upgrades() -> void:
             Upgrade.UpgradeType.TARIFF,
             Upgrade.UpgradeType.VAT,
             Upgrade.UpgradeType.SPEED,
-            Upgrade.UpgradeType.AURA
+            Upgrade.UpgradeType.AURA,
+            Upgrade.UpgradeType.TAX_RATE
         ]
         available_types.shuffle()
 
@@ -54,11 +57,13 @@ func _create_upgrade(type: Upgrade.UpgradeType) -> void:
             type_key = "speed"
         Upgrade.UpgradeType.AURA:
             type_key = "aura"
+        Upgrade.UpgradeType.TAX_RATE:
+            type_key = "tax_rate"
 
     var level = upgrade_levels[type_key] + 1
     upgrade_instance.upgrade_selected.connect(_on_upgrade_selected)
 
-    add_child(upgrade_instance)
+    center_container.add_child(upgrade_instance)
     upgrade_instance.setup(type, level)
     current_upgrades.append(upgrade_instance)
 
@@ -68,28 +73,28 @@ func _clear_upgrades() -> void:
     current_upgrades.clear()
 
 func _on_upgrade_selected(upgrade: Upgrade) -> void:
-    # Apply the upgrade
-    var percentage_increase = upgrade.level * 0.05
+    var tax_percentage_increase = upgrade.level * 5
+    var player_percentage_increase = upgrade.level * 0.1
 
     match upgrade.upgrade_type:
         Upgrade.UpgradeType.TARIFF:
             upgrade_levels["tariff"] = upgrade.level
-            TaxData.get_tax("Tariff").value = percentage_increase
+            TaxData.get_tax("Tariff").value = tax_percentage_increase
         Upgrade.UpgradeType.VAT:
             upgrade_levels["vat"] = upgrade.level
-            TaxData.get_tax("VAT").value = percentage_increase
+            TaxData.get_tax("VAT").value = tax_percentage_increase
         Upgrade.UpgradeType.SPEED:
             upgrade_levels["speed"] = upgrade.level
-            player.speed_multiplier = 1.0 + percentage_increase
+            player.speed_multiplier = 1.0 + player_percentage_increase
         Upgrade.UpgradeType.AURA:
             upgrade_levels["aura"] = upgrade.level
-            player.aura_multiplier = 1.0 + percentage_increase
+            player.aura_multiplier = 1.0 + player_percentage_increase
+        Upgrade.UpgradeType.TAX_RATE:
+            upgrade_levels["tax_rate"] = upgrade.level
+            player.tax_rate_multiplier = 1.0 + player_percentage_increase
 
-    # Emit taxes_set signal
     taxes_set.emit()
 
-    # Clear upgrades
     _clear_upgrades()
 
-    # Disable controls
     is_enabled = false

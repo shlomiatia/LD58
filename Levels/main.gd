@@ -62,7 +62,7 @@ func _on_taxes_set() -> void:
             building.supply = 0
 
     market._initialize_demand()
-    taxes.set_controls_enabled(true)
+    taxes.set_controls_enabled()
 
 func _calculate_total_demand(buildings: Array[Node]) -> Dictionary:
     var num_buildings = buildings.size()

@@ -40,7 +40,7 @@ shader_parameter/replace_12 = null
 shader_parameter/modulate = Color(1, 1, 1, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r0uua"]
-size = Vector2(6, 28)
+size = Vector2(14, 29)
 
 [node name="Worker" type="CharacterBody2D"]
 collision_layer = 2
@@ -60,7 +60,7 @@ z_index = 1
 position = Vector2(-6, -10)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -15)
+position = Vector2(0, -15.5)
 shape = SubResource("RectangleShape2D_r0uua")
 
 [node name="UI" type="Node2D" parent="."]

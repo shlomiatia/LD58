@@ -21,6 +21,7 @@ var aura_multiplier: float = 1.0:
     set(value):
         aura_multiplier = value
         _update_aura_radius()
+var tax_rate_multiplier: float = 1.0
 
 func _physics_process(delta: float) -> void:
     if taxes && taxes.are_controls_enabled():
@@ -72,7 +73,7 @@ func _update_animation() -> void:
 
 
 func _collect_taxes(delta: float) -> void:
-    var tax_amount_per_frame = TAX_PER_SECOND * delta
+    var tax_amount_per_frame = TAX_PER_SECOND * delta * tax_rate_multiplier
     var nearby_bodies = area_2d.get_overlapping_bodies()
     var nearby_worker_ids = []
 
@@ -112,7 +113,7 @@ func add_money(amount: int) -> void:
 
 func _update_aura_radius() -> void:
     if collision_shape and collision_shape.shape is CapsuleShape2D:
-        var base_radius = 25.0  # Default radius
-        var base_height = 75.0  # Default height
+        var base_radius = 25.0
+        var base_height = 75.0
         collision_shape.shape.radius = base_radius * aura_multiplier
         collision_shape.shape.height = base_height * aura_multiplier
