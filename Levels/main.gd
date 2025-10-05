@@ -120,12 +120,16 @@ func _handle_needs(buildings: Array[Node]) -> void:
 
         for building in buildings:
             building.worker.current_amount = 0
+            building.worker.navigate_to(building.position + Vector2(0, 8))
 
 func _handle_export(buildings: Array[Node]) -> void:
     for building in buildings:
         building.worker.export_to_market(market.get_demand(building.building_data.output.resource_name))
 
     await _wait_for_all_workers_to_finish()
+
+    for building in buildings:
+        building.worker.navigate_to(building.position + Vector2(0, 8))
 
 func _set_internal_demand(internal_demand: Dictionary, buildings: Array[Node], resource_name: String) -> void:
     var producers: Array[BuildingData] = []

@@ -113,7 +113,7 @@ func _physics_process(_delta: float) -> void:
                 current_amount = current_amount - result["total_amount"]
                 if current_amount > 0:
                     target_parent_production2 = true
-                    navigate_to(parent_building.position + Vector2(0, 8))
+                navigate_to(parent_building.position + Vector2(0, 8))
     else:
         velocity = direction * SPEED
         _update_animation()

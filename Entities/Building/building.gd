@@ -111,10 +111,10 @@ func _setup_palette_swap() -> void:
         Color("#7dbefa"), Color("#668faf"), Color("#585d81")
     ]
 
-    var roof_colors = PaletteUtils.select_random_colors_from_palettes(range(0, 3), 3)
-    var walls_colors = PaletteUtils.select_random_colors_from_palettes(range(0, 3) + [5, 6], 3)
+    var roof_colors = PaletteUtils.select_random_colors_from_palettes([0, 2], 3)
+    var walls_colors = PaletteUtils.select_random_colors_from_palettes([0, 2, 5, 6], 3)
     var door_colors = PaletteUtils.select_random_colors_from_palettes(range(0, 3) + range(6, 8), 3)
-    var window_colors = PaletteUtils.select_random_colors_from_palettes([6, 10, 11], 3)
+    var window_colors = PaletteUtils.select_random_colors_from_palettes([10, 11], 3)
 
     for shader_material in [sprite_material, roof_material]:
         for i in range(original_colors.size()):
