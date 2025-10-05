@@ -18,7 +18,7 @@ var target_supplier: Building
 var building_amount: int
 var current_amount: int
 var money: int
-var tax: int
+@export var tax: int
 
 @onready var label = $UI/Label
 @onready var money_label = $UI/MoneyLabel

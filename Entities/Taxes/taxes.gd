@@ -14,6 +14,7 @@ func _ready() -> void:
     vat_tax.tax_name = "VAT"
     income_tax.tax_name = "Income tax"
 
+    set_controls_enabled(false)
     set_button.pressed.connect(_on_set_button_pressed)
 
 func _on_set_button_pressed() -> void:

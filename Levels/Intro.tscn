@@ -1,12 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://chn3j24re0nt1"]
+[gd_scene load_steps=7 format=3 uid="uid://chn3j24re0nt1"]
 
+[ext_resource type="Script" path="res://Levels/intro.gd" id="1_5tsnl"]
 [ext_resource type="PackedScene" uid="uid://6jy8lp78cmyv" path="res://Entities/TileMapLayers/tile_map_layers.tscn" id="1_v80p8"]
 [ext_resource type="FontFile" uid="uid://ystbwyqr5t1k" path="res://Fonts/Jacquard24-Regular.ttf" id="2_v724r"]
 [ext_resource type="Theme" uid="uid://dk74o3jdyxswq" path="res://Entities/Themes/Label.tres" id="3_el6lv"]
 [ext_resource type="PackedScene" uid="uid://c6o8c7ihgcm2t" path="res://Entities/SinWaveTransform/Blink.tscn" id="4_kfo1b"]
-[ext_resource type="PackedScene" uid="uid://7rr0wdwxp3e4" path="res://Entities/Player/Player.tscn" id="5_v3yng"]
+[ext_resource type="PackedScene" uid="uid://dnwug4pxdwecg" path="res://Entities/SinWaveTransform/Fade.tscn" id="5_jh6sm"]
 
 [node name="Intro" type="Node2D"]
+script = ExtResource("1_5tsnl")
 
 [node name="TileMapLayers" parent="." instance=ExtResource("1_v80p8")]
 
@@ -56,5 +58,4 @@ text = "Press any key to start"
 position = Vector2(-257.5, -168.5)
 blink_duration = 1.0
 
-[node name="Player" parent="." instance=ExtResource("5_v3yng")]
-position = Vector2(48, 228)
+[node name="Fade" parent="CanvasLayer" instance=ExtResource("5_jh6sm")]

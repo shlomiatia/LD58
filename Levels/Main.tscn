@@ -1,10 +1,12 @@
-[gd_scene load_steps=8 format=3 uid="uid://cyc4vg185agib"]
+[gd_scene load_steps=10 format=3 uid="uid://cyc4vg185agib"]
 
 [ext_resource type="Script" path="res://Levels/main.gd" id="1_tcvwd"]
+[ext_resource type="PackedScene" uid="uid://dnwug4pxdwecg" path="res://Entities/SinWaveTransform/Fade.tscn" id="3_es3qq"]
 [ext_resource type="PackedScene" uid="uid://6jy8lp78cmyv" path="res://Entities/TileMapLayers/tile_map_layers.tscn" id="3_h2gwf"]
 [ext_resource type="PackedScene" uid="uid://b722rbxhwbl7h" path="res://Entities/Taxes/Taxes.tscn" id="3_ti5si"]
 [ext_resource type="PackedScene" uid="uid://hxb001fogts0" path="res://Entities/Market/Market.tscn" id="4_4755n"]
 [ext_resource type="PackedScene" uid="uid://7rr0wdwxp3e4" path="res://Entities/Player/Player.tscn" id="5_c7rcj"]
+[ext_resource type="PackedScene" uid="uid://djny86sgor10g" path="res://Entities/Worker/Worker.tscn" id="7_e6otw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_idycf"]
 size = Vector2(16, 392)
@@ -18,7 +20,10 @@ script = ExtResource("1_tcvwd")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Taxes" parent="CanvasLayer" instance=ExtResource("3_ti5si")]
+visible = false
 offset_right = 298.0
+
+[node name="Fade" parent="CanvasLayer" instance=ExtResource("3_es3qq")]
 
 [node name="TileMapLayers" parent="." instance=ExtResource("3_h2gwf")]
 
@@ -50,4 +55,8 @@ position = Vector2(320, 368)
 shape = SubResource("RectangleShape2D_rjk7q")
 
 [node name="Player" parent="." instance=ExtResource("5_c7rcj")]
-position = Vector2(424, 208)
+position = Vector2(265, 260)
+
+[node name="TutorialWorker" parent="." instance=ExtResource("7_e6otw")]
+position = Vector2(600, 260)
+tax = 10

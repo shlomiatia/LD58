@@ -12,7 +12,7 @@ var worker_tax_accumulator: Dictionary = {}
 var money: int = 0
 
 func _physics_process(delta: float) -> void:
-    if taxes.are_controls_enabled():
+    if taxes && taxes.are_controls_enabled():
         velocity = Vector2.ZERO
         _update_animation()
         return

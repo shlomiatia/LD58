@@ -22,14 +22,11 @@ func _wait_for_all_workers_to_finish() -> void:
         await get_tree().process_frame
 
 func _ready() -> void:
-    var all_buildings = BuildingData.get_all_buildings()
-    #all_buildings.shuffle()
-
-    var selected_buildings = all_buildings.slice(0, 2)
-
-    for i in range(selected_buildings.size()):
-        _place_building(selected_buildings[i], i)
-
+    #var all_buildings = BuildingData.get_all_buildings()
+    ##all_buildings.shuffle()
+    #var selected_buildings = all_buildings.slice(0, 1)
+    #for i in range(selected_buildings.size()):
+    #    _place_building(selected_buildings[i], i)
     taxes.taxes_set.connect(_on_taxes_set)
 
 func _place_building(building_data: BuildingData, slot_index: int) -> void:
