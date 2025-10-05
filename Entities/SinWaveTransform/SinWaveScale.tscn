@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bp7vbx2marf1v"]
+
+[ext_resource type="Script" path="res://Entities/SinWaveTransform/sin_wave_scale.gd" id="1_aqmqn"]
+
+[node name="SinWaveScale" type="Node2D"]
+script = ExtResource("1_aqmqn")
