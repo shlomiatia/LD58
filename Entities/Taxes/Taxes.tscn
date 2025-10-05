@@ -3,6 +3,13 @@
 [ext_resource type="Script" path="res://Entities/Taxes/taxes.gd" id="1_doj51"]
 
 [node name="Taxes" type="VBoxContainer"]
-offset_right = 266.0
-offset_bottom = 56.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_doj51")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_top = 92

@@ -3,6 +3,7 @@
 [ext_resource type="Theme" uid="uid://dk74o3jdyxswq" path="res://Entities/Themes/Label.tres" id="1_5wekm"]
 
 [node name="Upgrade" type="ColorRect"]
+custom_minimum_size = Vector2(216, 60)
 offset_right = 216.0
 offset_bottom = 60.0
 color = Color(0.670588, 0.686275, 0.72549, 1)
