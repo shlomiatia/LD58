@@ -23,7 +23,7 @@ func _wait_for_all_workers_to_finish() -> void:
 
 func _ready() -> void:
     var all_buildings = BuildingData.get_all_buildings()
-    all_buildings.shuffle()
+    #all_buildings.shuffle()
 
     var selected_buildings = all_buildings.slice(0, 2)
 
