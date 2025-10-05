@@ -1,12 +1,15 @@
 class_name Player extends CharacterBody2D
 
-
 const SPEED = 150.0
+const TAX_PER_SECOND = 10
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var area_2d: Area2D = $Area2D
+@onready var taxes: Taxes = $/root/Main/CanvasLayer/Taxes
 
+var worker_tax_accumulator: Dictionary = {}
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	var input_direction = Vector2(
 		Input.get_axis("left", "right"),
 		Input.get_axis("up", "down")
@@ -20,6 +23,8 @@ func _physics_process(_delta: float) -> void:
 	_update_animation()
 
 	move_and_slide()
+
+	_collect_taxes(delta)
 
 
 func _update_animation() -> void:
@@ -39,3 +44,39 @@ func _update_animation() -> void:
 			animated_sprite.play("walk_down")
 		else:
 			animated_sprite.play("walk_up")
+
+
+func _collect_taxes(delta: float) -> void:
+	var tax_amount_per_frame = TAX_PER_SECOND * delta
+	var nearby_bodies = area_2d.get_overlapping_bodies()
+	var nearby_worker_ids = []
+
+	for body in nearby_bodies:
+		if body is Worker:
+			var worker: Worker = body
+			var worker_id = worker.get_instance_id()
+			nearby_worker_ids.append(worker_id)
+
+			if worker.tax > 0:
+				if not worker_tax_accumulator.has(worker_id):
+					worker_tax_accumulator[worker_id] = 0.0
+
+				worker_tax_accumulator[worker_id] += tax_amount_per_frame
+
+				var tax_to_collect_int = int(worker_tax_accumulator[worker_id])
+				if tax_to_collect_int > 0:
+					tax_to_collect_int = min(tax_to_collect_int, worker.tax)
+
+					worker.tax -= tax_to_collect_int
+
+					taxes.add_money(tax_to_collect_int)
+
+					worker_tax_accumulator[worker_id] -= tax_to_collect_int
+
+	var keys_to_remove = []
+	for worker_id in worker_tax_accumulator.keys():
+		if not worker_id in nearby_worker_ids:
+			keys_to_remove.append(worker_id)
+
+	for worker_id in keys_to_remove:
+		worker_tax_accumulator.erase(worker_id)

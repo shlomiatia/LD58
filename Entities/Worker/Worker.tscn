@@ -15,7 +15,7 @@ collision_mask = 0
 script = ExtResource("1_ta25y")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-y_sort_enabled = true
+z_index = 1
 position = Vector2(0, -1)
 sprite_frames = ExtResource("2_2k54u")
 autoplay = "default"
@@ -25,7 +25,7 @@ frame_progress = 0.640192
 shape = SubResource("RectangleShape2D_r0uua")
 
 [node name="UI" type="Node2D" parent="."]
-z_index = 1
+z_index = 3
 position = Vector2(0, 7)
 
 [node name="Label" type="Label" parent="UI"]

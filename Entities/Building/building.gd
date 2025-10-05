@@ -75,7 +75,7 @@ func buy(amount: int) -> Dictionary:
 
     var vat_tax = TaxData.get_tax("VAT")
     var vat_amount = int((base_price * vat_tax.value / 100.0) * total_amount)
-    #taxes.add_money(vat_amount)
+
     return {
         "total_amount": total_amount,
         "total_cost": base_cost + vat_amount,

@@ -76,7 +76,6 @@ func buy(resource_name: String, amount: int) -> Dictionary:
     
     var tariff_tax = TaxData.get_tax("Tariff")
     var tariff_amount = int((base_price * tariff_tax.value / 100.0) * amount)
-    #taxes.add_money(tariff_amount)
 
     return {
         "total_cost": get_price_with_tariff(resource_name) * amount,

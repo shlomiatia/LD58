@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cqxe7blllb7sq"]
+[gd_scene load_steps=10 format=3 uid="uid://cqxe7blllb7sq"]
 
 [ext_resource type="Texture2D" uid="uid://dxxkk6rmscm2w" path="res://Textures/building.png" id="1_akj1o"]
 [ext_resource type="Script" path="res://Entities/Building/building.gd" id="1_n24b0"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://br5guff0j3e2m" path="res://Entities/ResourceLabel/ResourceLabel.tscn" id="5_cachm"]
 [ext_resource type="PackedScene" uid="uid://brcna04fqs171" path="res://Entities/MoneyLabel/MoneyLabel.tscn" id="6_gfy5h"]
 [ext_resource type="PackedScene" uid="uid://djny86sgor10g" path="res://Entities/Worker/Worker.tscn" id="7_fuohf"]
+[ext_resource type="Texture2D" uid="uid://qwtc7cc7hd3c" path="res://Textures/roof.png" id="8_6rw5b"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ri8y3"]
 size = Vector2(80, 32)
@@ -16,7 +17,6 @@ script = ExtResource("1_n24b0")
 building_name = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-y_sort_enabled = true
 position = Vector2(0, -56)
 texture = ExtResource("1_akj1o")
 
@@ -51,3 +51,8 @@ shape = SubResource("RectangleShape2D_ri8y3")
 
 [node name="Worker" parent="." instance=ExtResource("7_fuohf")]
 position = Vector2(0, 9)
+
+[node name="Roof" type="Sprite2D" parent="."]
+z_index = 2
+position = Vector2(0, -68)
+texture = ExtResource("8_6rw5b")

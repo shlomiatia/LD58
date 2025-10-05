@@ -6,13 +6,15 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lhpi8"]
 size = Vector2(8, 27)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_jcefm"]
-radius = 17.0294
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_khw6v"]
+radius = 25.0
+height = 75.0
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_u8v7r")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 1
 sprite_frames = ExtResource("1_8aug6")
 animation = &"walk_up"
 
@@ -21,6 +23,8 @@ position = Vector2(0, 1.5)
 shape = SubResource("RectangleShape2D_lhpi8")
 
 [node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("CircleShape2D_jcefm")
+shape = SubResource("CapsuleShape2D_khw6v")
