@@ -1,10 +1,14 @@
-[gd_resource type="SpriteFrames" load_steps=15 format=3 uid="uid://cw1kftktydlx4"]
+[gd_resource type="SpriteFrames" load_steps=16 format=3 uid="uid://cw1kftktydlx4"]
 
 [ext_resource type="Texture2D" uid="uid://biulctm833avh" path="res://Textures/person.png" id="1_l6vhi"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nnj2v"]
 atlas = ExtResource("1_l6vhi")
 region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eonqv"]
+atlas = ExtResource("1_l6vhi")
+region = Rect2(0, 96, 16, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y04h0"]
 atlas = ExtResource("1_l6vhi")
@@ -59,10 +63,13 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_nnj2v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eonqv")
 }],
 "loop": true,
 "name": &"default",
-"speed": 5.0
+"speed": 2.0
 }, {
 "frames": [{
 "duration": 1.0,
