@@ -13,17 +13,43 @@ var upgrade_levels: Dictionary = {
 }
 var is_first_upgrade: bool = true
 var current_upgrades: Array[Upgrade] = []
+var selected_index: int = 0
 
 @onready var player: Player = $/root/Main/Player
 @onready var center_container: VBoxContainer = $VBoxContainer
 
 func set_controls_enabled() -> void:
     _generate_upgrades()
-
+    selected_index = 0
+    _update_selection_highlight()
     visible = true
 
 func are_controls_enabled() -> bool:
     return visible
+
+func _unhandled_input(event: InputEvent) -> void:
+    if not visible:
+        return
+
+    if event.is_action_pressed("up"):
+        selected_index = max(0, selected_index - 1)
+        _update_selection_highlight()
+        get_viewport().set_input_as_handled()
+    elif event.is_action_pressed("down"):
+        selected_index = min(current_upgrades.size() - 1, selected_index + 1)
+        _update_selection_highlight()
+        get_viewport().set_input_as_handled()
+    elif event.is_action_pressed("confirm"):
+        if selected_index >= 0 and selected_index < current_upgrades.size():
+            _on_upgrade_selected(current_upgrades[selected_index])
+        get_viewport().set_input_as_handled()
+
+func _update_selection_highlight() -> void:
+    for i in range(current_upgrades.size()):
+        if i == selected_index:
+            current_upgrades[i].color = current_upgrades[i].hover_color
+        else:
+            current_upgrades[i].color = current_upgrades[i].default_color
 
 func _generate_upgrades() -> void:
     _clear_upgrades()

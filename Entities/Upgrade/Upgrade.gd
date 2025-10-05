@@ -17,7 +17,7 @@ var level: int = 1
 @onready var description_label: Label = $MarginContainer/VBoxContainer/Label2
 
 var default_color := Color(0.670588, 0.686275, 0.72549, 0.501961)
-var hover_color := Color(0.670588, 0.686275, 0.72549, 0.8)
+var hover_color := Color(0x75/255.0, 0x62/255.0, 0x76/255.0, 0.8)
 
 func _ready() -> void:
     mouse_entered.connect(_on_mouse_entered)

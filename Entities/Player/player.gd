@@ -1,7 +1,7 @@
 class_name Player extends CharacterBody2D
 
 const SPEED = 150.0
-const TAX_PER_SECOND = 10
+const TAX_PER_SECOND = 16
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var area_2d: Area2D = $Area2D
