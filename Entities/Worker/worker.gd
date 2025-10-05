@@ -217,8 +217,8 @@ func _setup_palette_swap() -> void:
 
     var hair_colors = PaletteUtils.select_random_colors_from_palettes(range(1, 7), 3)
     var skin_colors = PaletteUtils.select_random_colors_from_palettes(range(0, 5), 2)
-    var shirt_colors = PaletteUtils.select_random_colors_from_palettes(range(7, 17), 2)
-    var pants_colors = PaletteUtils.select_random_colors_from_palettes(range(7, 17), 2)
+    var shirt_colors = PaletteUtils.select_random_colors_from_palettes(range(7, 16), 2)
+    var pants_colors = PaletteUtils.select_random_colors_from_palettes(range(7, 16), 2)
     var shoes_colors = PaletteUtils.select_random_colors_from_palettes(range(1, 3), 2)
     var eyes_colors = PaletteUtils.select_random_colors_from_palettes([1, 2] + range(7, 12), 2)
 

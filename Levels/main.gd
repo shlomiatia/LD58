@@ -43,15 +43,15 @@ func _on_taxes_set() -> void:
     var total_demand = _calculate_total_demand(buildings)
     await _handle_production(buildings, total_demand)
 
-    await get_tree().create_timer(1.0).timeout
+    await get_tree().create_timer(0.1).timeout
 
     await _handle_export(buildings)
-
-    await get_tree().create_timer(1.0).timeout
+    
+    await get_tree().create_timer(0.1).timeout
     
     await _handle_needs(buildings)
-
-    await get_tree().create_timer(1.0).timeout
+    
+    await get_tree().create_timer(0.1).timeout
     
     _place_new_building(buildings)
 
