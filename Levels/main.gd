@@ -294,10 +294,11 @@ func _advance_tutorial_step() -> void:
         tutorial_worker.queue_free()
 
         var all_buildings = BuildingData.get_all_buildings()
-        var selected_buildings = all_buildings.slice(0, 1)
+        var selected_buildings = all_buildings.slice(1)
+        selected_buildings.shuffle()
         _place_building(selected_buildings[0], 0)
 
-        await get_tree().create_timer(2.2).timeout
+        await get_tree().create_timer(2.5).timeout
 
         _wait_for_all_workers_to_finish()
 
@@ -312,6 +313,7 @@ func _advance_tutorial_step() -> void:
     elif tutorial_step == 4:
         tutorial_label.hide()
         tutorial_active = false
+        taxes.set_controls_enabled()
         player.can_move = true
 
 func _wait_for_worker_to_finish(worker: Worker) -> void:

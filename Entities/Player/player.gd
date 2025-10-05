@@ -5,6 +5,7 @@ const TAX_PER_SECOND = 10
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var area_2d: Area2D = $Area2D
+@onready var collision_shape: CollisionShape2D = $Area2D/CollisionShape2D
 @onready var taxes: Taxes = $/root/Main/CanvasLayer/Taxes
 @onready var money_label: MoneyLabel = $MoneyLabel
 @onready var tutorial_label: Label = $TutorialLabel
@@ -13,6 +14,13 @@ var worker_tax_accumulator: Dictionary = {}
 var money: int = 0
 var can_move: bool = false
 var has_moved: bool = false
+var speed_multiplier: float = 1.0:
+    set(value):
+        speed_multiplier = value
+var aura_multiplier: float = 1.0:
+    set(value):
+        aura_multiplier = value
+        _update_aura_radius()
 
 func _physics_process(delta: float) -> void:
     if taxes && taxes.are_controls_enabled():
@@ -35,7 +43,7 @@ func _physics_process(delta: float) -> void:
         input_direction = input_direction.normalized()
         has_moved = true
 
-    velocity = input_direction * SPEED
+    velocity = input_direction * SPEED * speed_multiplier
 
     _update_animation()
 
@@ -101,3 +109,10 @@ func _collect_taxes(delta: float) -> void:
 func add_money(amount: int) -> void:
     money += amount
     money_label.value = money
+
+func _update_aura_radius() -> void:
+    if collision_shape and collision_shape.shape is CapsuleShape2D:
+        var base_radius = 25.0  # Default radius
+        var base_height = 75.0  # Default height
+        collision_shape.shape.radius = base_radius * aura_multiplier
+        collision_shape.shape.height = base_height * aura_multiplier

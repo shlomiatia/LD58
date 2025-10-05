@@ -20,10 +20,9 @@ script = ExtResource("1_tcvwd")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Taxes" parent="CanvasLayer" instance=ExtResource("3_ti5si")]
-visible = false
-offset_right = 298.0
 
 [node name="Fade" parent="CanvasLayer" instance=ExtResource("3_es3qq")]
+visible = true
 
 [node name="TileMapLayers" parent="." instance=ExtResource("3_h2gwf")]
 

@@ -1,12 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://bif4thnlrgnfq"]
+[gd_scene load_steps=3 format=3 uid="uid://bif4thnlrgnfq"]
 
 [ext_resource type="Theme" uid="uid://dk74o3jdyxswq" path="res://Entities/Themes/Label.tres" id="1_5wekm"]
+[ext_resource type="Script" path="res://Entities/Upgrade/Upgrade.gd" id="1_upgrade"]
 
 [node name="Upgrade" type="ColorRect"]
 custom_minimum_size = Vector2(216, 60)
 offset_right = 216.0
 offset_bottom = 60.0
 color = Color(0.670588, 0.686275, 0.72549, 0.501961)
+script = ExtResource("1_upgrade")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
