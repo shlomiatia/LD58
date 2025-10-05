@@ -37,10 +37,6 @@ func _initialize_demand() -> void:
 func get_demand(resource_name: String) -> int:
     return demand_values.get(resource_name, 0)
 
-func update_demand(resource_name: String, demand: int) -> void:
-    demand_values[resource_name] += demand
-    _update()
-
 func get_price_with_tariff(resource_name: String) -> int:
     var resource = ResourceData.get_resource(resource_name)
     if resource:

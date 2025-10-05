@@ -29,7 +29,10 @@ func set_worker_name(new_name: String) -> void:
 func _update() -> void:
     money_label.value = money
     tax_label.value = tax
-    resource_label.value_text = "%d" % current_amount
+    resource_label.visible = current_amount > 0
+    if resource_label.visible:
+        resource_label.resource_name = target_resource_name
+        resource_label.value_text = "%d" % current_amount
 
 func navigate_to(target_position: Vector2) -> void:
     var navigation_map = get_world_2d().navigation_map
@@ -70,7 +73,7 @@ func _physics_process(_delta: float) -> void:
             elif target_producer2:
                 target_producer2.update_supply(current_amount)
                 current_amount = 0
-                target_resource_name = ""
+                target_producer2 = null
     else:
         velocity = direction * SPEED
         move_and_slide()
@@ -80,6 +83,7 @@ func is_navigating() -> bool:
 
 func produce(resource_name: String, amount: int, parent: Building) -> void:
     target_producer = parent
+    target_producer2 = null
     buy(resource_name, amount)
 
 func buy(resource_name: String, amount: int) -> void:
@@ -99,7 +103,6 @@ func buy(resource_name: String, amount: int) -> void:
         if _buy_from_buildings(buildings):
             return
         
-
     if amount > 0:
         navigate_to(market.position + Vector2(0, 8))
         target_market = true
