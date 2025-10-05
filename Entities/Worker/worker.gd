@@ -19,16 +19,17 @@ var tax: int
 @onready var label = $Label
 @onready var money_label = $MoneyLabel
 @onready var resource_label = $ResourceLabel
+@onready var tax_label = $TaxLabel
 @onready var market = $/root/Main/Market
 
 func set_worker_name(new_name: String) -> void:
     if is_node_ready():
         label.text = new_name
 
-func update_money(amount: int) -> void:
-    money += amount
-    if is_node_ready() and money_label:
-        money_label.value = money
+func _update() -> void:
+    money_label.value = money
+    tax_label.value = tax
+    resource_label.value_text = "%d" % current_amount
 
 func navigate_to(target_position: Vector2) -> void:
     var navigation_map = get_world_2d().navigation_map
@@ -36,6 +37,8 @@ func navigate_to(target_position: Vector2) -> void:
     current_path_index = 0
 
 func _physics_process(_delta: float) -> void:
+    _update()
+
     if current_path_index >= navigation_path.size():
         return
 
@@ -47,7 +50,6 @@ func _physics_process(_delta: float) -> void:
         current_path_index += 1
         if !is_navigating():
             if target_supplier:
-                prints("worker reached supplier", target_supplier.name)
                 var result = target_supplier.buy(building_amount)
                 target_amount -= building_amount
                 current_amount += building_amount
@@ -55,7 +57,7 @@ func _physics_process(_delta: float) -> void:
                 tax += result["total_tax"]
                 buy(target_resource_name, target_amount)
             elif target_market:
-                prints("worker reached market")
+                target_market = false
                 var result = market.buy(target_resource_name, target_amount)
                 current_amount += target_amount
                 target_amount = 0
@@ -66,8 +68,7 @@ func _physics_process(_delta: float) -> void:
                     target_producer2 = target_producer
                     target_producer = null
             elif target_producer2:
-                prints("worker reached producer", target_producer2.name)
-                target_producer.update_supply(current_amount)
+                target_producer2.update_supply(current_amount)
                 current_amount = 0
                 target_resource_name = ""
     else:

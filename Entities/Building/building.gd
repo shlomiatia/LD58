@@ -3,7 +3,7 @@ class_name Building extends Node2D
 @export var building_name: String:
     set(value):
         building_name = value
-        _update_building()
+        _initialize_building()
 
 var building_data: BuildingData
 var money: int = 0
@@ -11,14 +11,15 @@ var supply: int = 0
 
 @onready var label = $Label
 @onready var conversion = $Conversion
-@onready var resource_label = $ResourceLabel
+@onready var price_label = $PriceLabel
+@onready var supply_label = $SupplyLabel
 @onready var sprite = $Sprite2D
 @onready var money_label = $MoneyLabel
 @onready var taxes = $/root/Main/CanvasLayer/Taxes
 @onready var worker = $Worker
 
 func _ready() -> void:
-    _update_building()
+    _initialize_building()
 
 func _process(_delta: float) -> void:
     if building_data:
@@ -29,10 +30,9 @@ func _process(_delta: float) -> void:
         if building_data.input:
             conversion.visible = is_hovered
 
-        if building_data.output:
-            _update()
+        _update()
 
-func _update_building() -> void:
+func _initialize_building() -> void:
     if building_name && is_node_ready():
         building_data = BuildingData.get_building(building_name)
         if building_data:
@@ -43,8 +43,8 @@ func _update_building() -> void:
                 conversion.input_resource_name = building_data.input.resource_name
                 conversion.output_resource_name = building_data.output.resource_name
 
-            if building_data.output:
-                resource_label.resource_name = building_data.output.resource_name
+            price_label.resource_name = building_data.output.resource_name
+            supply_label.resource_name = building_data.output.resource_name
 
 func get_price_with_vat() -> int:
     var vat_tax = TaxData.get_tax("VAT")
@@ -81,5 +81,6 @@ func buy(amount: int) -> Dictionary:
 
 func _update() -> void:
     var price = get_price_with_vat()
-    resource_label.value_text = "%d" % price
+    price_label.value_text = "%d" % price
+    supply_label.value_text = "%d" % supply
     money_label.value = money

@@ -42,6 +42,8 @@ func _on_taxes_set() -> void:
     var buildings = get_tree().get_nodes_in_group("buildings")
     var total_demand = _calculate_total_demand(buildings)
     await _handle_production(buildings, total_demand)
+
+    await get_tree().create_timer(1.0).timeout
     #await _handle_export(buildings)
     #await _handle_needs(buildings)
     
@@ -143,6 +145,8 @@ func _handle_resources_production(buildings: Array[Node], total_demand: Dictiona
             var input_resource = producer.building_data.input.resource_name
             var input_needed = allocation
             producer.worker.produce(input_resource, input_needed, producer)
+
+    await _wait_for_all_workers_to_finish()
 
 
 func _place_new_building(buildings: Array[Node]) -> void:

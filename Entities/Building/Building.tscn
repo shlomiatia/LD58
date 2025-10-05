@@ -20,6 +20,7 @@ position = Vector2(0, -56)
 texture = ExtResource("1_akj1o")
 
 [node name="Label" type="Label" parent="."]
+visible = false
 offset_left = -80.0
 offset_top = -63.0
 offset_right = 80.0
@@ -33,11 +34,13 @@ visible = false
 position = Vector2(-14, -42)
 
 [node name="MoneyLabel" parent="." instance=ExtResource("6_gfy5h")]
-visible = false
+position = Vector2(0, -129)
+
+[node name="PriceLabel" parent="." instance=ExtResource("5_cachm")]
 position = Vector2(0, -112)
 
-[node name="ResourceLabel" parent="." instance=ExtResource("5_cachm")]
-position = Vector2(0, -112)
+[node name="SupplyLabel" parent="." instance=ExtResource("5_cachm")]
+position = Vector2(0, -146)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
