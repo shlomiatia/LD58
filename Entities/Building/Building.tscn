@@ -13,6 +13,7 @@ size = Vector2(80, 16)
 
 [node name="Building" type="Node2D" groups=["buildings"]]
 script = ExtResource("1_n24b0")
+building_name = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -56)

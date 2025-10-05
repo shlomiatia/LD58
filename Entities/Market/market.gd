@@ -74,12 +74,15 @@ func _set_price_for_resource(resource_name: String, buy_price: int) -> void:
         "Drink":
             drink_label.value_text = label_text
 
-func buy(resource_name: String, amount: int) -> int:
+func buy(resource_name: String, amount: int) -> Dictionary:
     var resource = ResourceData.get_resource(resource_name)
     var base_price = resource.cost
     
     var tariff_tax = TaxData.get_tax("Tariff")
     var tariff_amount = int((base_price * tariff_tax.value / 100.0) * amount)
-    taxes.add_money(tariff_amount)
+    #taxes.add_money(tariff_amount)
 
-    return get_price_with_tariff(resource_name) * amount
+    return {
+        "total_cost": get_price_with_tariff(resource_name) * amount,
+        "total_tax": tariff_amount
+    }

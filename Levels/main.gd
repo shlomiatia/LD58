@@ -23,7 +23,7 @@ func _wait_for_all_workers_to_finish() -> void:
 
 func _ready() -> void:
     var all_buildings = BuildingData.get_all_buildings()
-    all_buildings.shuffle()
+    #all_buildings.shuffle()
 
     var selected_buildings = all_buildings.slice(0, 2)
 
@@ -95,6 +95,14 @@ func _handle_production(buildings: Array[Node], total_demand: Dictionary) -> voi
     await _handle_resources_production(buildings, total_demand, ["Meat", "Milk", "Wool"])
     await _handle_resources_production(buildings, total_demand, ["Food", "Drink", "Clothes"])
 
+func _get_producers_of(buildings: Array[Node], resource_name: String) -> Array[Building]:
+    var producers: Array[Building] = []
+    for building in buildings:
+        if building.building_data and building.building_data.output:
+            if building.building_data.output.resource_name == resource_name:
+                producers.append(building)
+    return producers
+
 #func _handle_needs(buildings: Array[Node]) -> void:
 #    for building in buildings:
 #        for need in ["Food", "Drink", "Clothes"]:
@@ -134,69 +142,8 @@ func _handle_resources_production(buildings: Array[Node], total_demand: Dictiona
         for producer in producers:
             var input_resource = producer.building_data.input.resource_name
             var input_needed = allocation
-            var result = await _buy(buildings, input_resource, input_needed, producer.worker)
-            producer.update_supply(result["total_amount"])
-            producer.update_money(-result["total_cost"])
+            producer.worker.produce(input_resource, input_needed, producer)
 
-func _buy(buildings: Array[Node], resource_name: String, amount: int, worker: Worker = null) -> Dictionary:
-    var producers = _get_producers_of(buildings, resource_name)
-    var market_price = market.get_price_with_tariff(resource_name)
-    var internal_price = 0
-    var total_cost = 0
-    var total_amount = 0
-    if producers.size() > 0:
-        internal_price = producers[0].get_price_with_vat()
-
-    if producers.size() > 0 && internal_price <= market_price:
-        var result = await _buy_from_buildings(buildings, resource_name, amount, worker)
-        total_cost = result["total_cost"]
-        total_amount = result["total_amount"]
-        amount -= total_amount
-
-    if amount > 0:
-        worker.navigate_to(market.position + Vector2(0, 8))
-        while worker.is_navigating():
-            await get_tree().process_frame
-
-        var cost = market.buy(resource_name, amount)
-        total_cost += cost
-        total_amount += amount
-
-    return {
-        "total_cost": total_cost,
-        "total_amount": total_amount
-    }
-
-func _buy_from_buildings(buildings: Array[Node], resource_name: String, amount: int, worker: Worker = null) -> Dictionary:
-    var producers = _get_producers_of(buildings, resource_name)
-    var total_cost = 0
-    var total_amount = 0
-    for producer in producers:
-        var amount_to_buy = min(amount, producer.supply)
-
-        if amount_to_buy > 0:
-            worker.navigate_to(producer.position + Vector2(0, 8))
-            while worker.is_navigating():
-                await get_tree().process_frame
-
-            var cost = producer.buy(amount_to_buy)
-            amount -= amount_to_buy
-            total_cost += cost
-            total_amount += amount_to_buy
-
-    return {
-        "total_cost": total_cost,
-        "total_amount": total_amount
-    }
-                
-
-func _get_producers_of(buildings: Array[Node], resource_name: String) -> Array[Building]:
-    var producers: Array[Building] = []
-    for building in buildings:
-        if building is Building and building.building_data and building.building_data.output:
-            if building.building_data.output.resource_name == resource_name:
-                producers.append(building)
-    return producers
 
 func _place_new_building(buildings: Array[Node]) -> void:
     var tariff = TaxData.get_tax("Tariff").value
