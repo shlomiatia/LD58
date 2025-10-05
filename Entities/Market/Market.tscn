@@ -11,30 +11,32 @@ size = Vector2(80, 16)
 script = ExtResource("1_jvw1p")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -56)
 texture = ExtResource("1_emjft")
 
 [node name="Sheep" parent="." instance=ExtResource("3_3cr8p")]
-position = Vector2(0, -158)
+position = Vector2(0, -214)
 
 [node name="Milk" parent="." instance=ExtResource("3_3cr8p")]
-position = Vector2(0, -141)
+position = Vector2(0, -197)
 
 [node name="Meat" parent="." instance=ExtResource("3_3cr8p")]
-position = Vector2(0, -124)
+position = Vector2(0, -180)
 
 [node name="Wool" parent="." instance=ExtResource("3_3cr8p")]
-position = Vector2(0, -107)
+position = Vector2(0, -163)
 
 [node name="Food" parent="." instance=ExtResource("3_3cr8p")]
-position = Vector2(0, -90)
+position = Vector2(0, -146)
 
 [node name="Drink" parent="." instance=ExtResource("3_3cr8p")]
-position = Vector2(0, -73)
+position = Vector2(0, -129)
 
 [node name="Clothes" parent="." instance=ExtResource("3_3cr8p")]
-position = Vector2(0, -56)
+position = Vector2(0, -112)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(0, -56)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(0, 48)

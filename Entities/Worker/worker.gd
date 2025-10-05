@@ -1,6 +1,6 @@
 class_name Worker extends CharacterBody2D
 
-const SPEED = 50.0
+const SPEED = 100.0
 
 var resource_name: String = ""
 var resource_amount: int = 0
@@ -27,7 +27,6 @@ func navigate_to(target_position: Vector2) -> void:
     var navigation_map = get_world_2d().navigation_map
     navigation_path = NavigationServer2D.map_get_path(navigation_map, global_position, target_position, true)
     current_path_index = 0
-    prints("Worker", worker_name, "navigating to", target_position, "with path:", navigation_path)
 
 func _physics_process(_delta: float) -> void:
     if current_path_index >= navigation_path.size():
