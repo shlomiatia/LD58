@@ -66,8 +66,8 @@ func _update() -> void:
         tax_label.visible = index == 2
     else:
         label.visible = false
-        money_label.visible = true
-        #tax_label.visible = tax > 0
+        money_label.visible = false
+        tax_label.visible = tax > 0
 
 func navigate_to(target_position: Vector2) -> void:
     var navigation_map = get_world_2d().navigation_map

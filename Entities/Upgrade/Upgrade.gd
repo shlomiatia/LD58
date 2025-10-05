@@ -3,6 +3,7 @@ class_name Upgrade extends ColorRect
 enum UpgradeType {
     TARIFF,
     VAT,
+    INCOME_TAX,
     SPEED,
     AURA,
     TAX_RATE
@@ -40,6 +41,9 @@ func _update_labels() -> void:
         UpgradeType.VAT:
             title_label.text = "VAT - Level %d" % level
             description_label.text = "Tax %d percent from village trades" % tax_percentage
+        UpgradeType.INCOME_TAX:
+            title_label.text = "Income Tax - Level %d" % level
+            description_label.text = "Tax %d percent from income" % tax_percentage
         UpgradeType.SPEED:
             title_label.text = "Speed - Level %d" % level
             description_label.text = "Move %d percent faster" % player_percentage

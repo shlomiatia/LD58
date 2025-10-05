@@ -66,6 +66,8 @@ func _on_taxes_set() -> void:
         get_tree().change_scene_to_file("res://Levels/Outro.tscn")
         return
 
+    _handle_income_tax_withdrawal(buildings)
+
     for building in buildings:
         if building is Building:
             building.supply = 0
@@ -143,6 +145,20 @@ func _handle_export(buildings: Array[Node]) -> void:
 
     for building in buildings:
         building.worker.navigate_to(building.position + Vector2(0, 8))
+
+func _handle_income_tax_withdrawal(buildings: Array[Node]) -> void:
+    var income_tax = TaxData.get_tax("Income tax")
+    var tax_rate = income_tax.value / 100.0
+
+    for building in buildings:
+        if building is Building and building.money > 0:
+            var building_money = building.money
+            var tax_amount = int(building_money * tax_rate)
+            var worker_income = building_money - tax_amount
+
+            building.worker.money += worker_income
+            building.worker.tax += tax_amount
+            building.money = 0
 
 func _set_internal_demand(internal_demand: Dictionary, buildings: Array[Node], resource_name: String) -> void:
     var producers: Array[BuildingData] = []

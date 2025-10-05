@@ -7,6 +7,7 @@ const UPGRADE_SCENE := preload("res://Entities/Upgrade/Upgrade.tscn")
 var upgrade_levels: Dictionary = {
     "tariff": 0,
     "vat": 0,
+    "income_tax": 0,
     "speed": 0,
     "aura": 0,
     "tax_rate": 0
@@ -62,6 +63,7 @@ func _generate_upgrades() -> void:
         var available_types = [
             Upgrade.UpgradeType.TARIFF,
             Upgrade.UpgradeType.VAT,
+            Upgrade.UpgradeType.INCOME_TAX,
             Upgrade.UpgradeType.SPEED,
             Upgrade.UpgradeType.AURA,
             Upgrade.UpgradeType.TAX_RATE
@@ -80,6 +82,8 @@ func _create_upgrade(type: Upgrade.UpgradeType) -> void:
             type_key = "tariff"
         Upgrade.UpgradeType.VAT:
             type_key = "vat"
+        Upgrade.UpgradeType.INCOME_TAX:
+            type_key = "income_tax"
         Upgrade.UpgradeType.SPEED:
             type_key = "speed"
         Upgrade.UpgradeType.AURA:
@@ -113,6 +117,9 @@ func _on_upgrade_selected(upgrade: Upgrade) -> void:
         Upgrade.UpgradeType.VAT:
             upgrade_levels["vat"] = upgrade.level
             TaxData.get_tax("VAT").value = tax_percentage_increase
+        Upgrade.UpgradeType.INCOME_TAX:
+            upgrade_levels["income_tax"] = upgrade.level
+            TaxData.get_tax("Income tax").value = tax_percentage_increase
         Upgrade.UpgradeType.SPEED:
             upgrade_levels["speed"] = upgrade.level
             player.speed_multiplier = 1.0 + player_percentage_increase

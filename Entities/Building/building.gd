@@ -97,7 +97,7 @@ func _update() -> void:
         label.visible = false
         conversion.visible = false
         price_label.visible = false
-        money_label.visible = true
+        money_label.visible = false
 
 
 func _setup_palette_swap() -> void:
