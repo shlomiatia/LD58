@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://hxb001fogts0"]
+[gd_scene load_steps=6 format=3 uid="uid://hxb001fogts0"]
 
 [ext_resource type="Texture2D" uid="uid://dxxkk6rmscm2w" path="res://Textures/building.png" id="1_emjft"]
 [ext_resource type="Script" path="res://Entities/Market/market.gd" id="1_jvw1p"]
 [ext_resource type="PackedScene" uid="uid://br5guff0j3e2m" path="res://Entities/ResourceLabel/ResourceLabel.tscn" id="3_3cr8p"]
+[ext_resource type="Theme" uid="uid://dk74o3jdyxswq" path="res://Entities/Themes/Label.tres" id="3_7cui2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rqu5h"]
 size = Vector2(80, 32)
@@ -14,30 +15,41 @@ script = ExtResource("1_jvw1p")
 position = Vector2(0, -56)
 texture = ExtResource("1_emjft")
 
-[node name="Sheep" parent="." instance=ExtResource("3_3cr8p")]
-position = Vector2(0, -214)
-
-[node name="Milk" parent="." instance=ExtResource("3_3cr8p")]
-position = Vector2(0, -197)
-
-[node name="Meat" parent="." instance=ExtResource("3_3cr8p")]
-position = Vector2(0, -180)
-
-[node name="Wool" parent="." instance=ExtResource("3_3cr8p")]
-position = Vector2(0, -163)
-
-[node name="Food" parent="." instance=ExtResource("3_3cr8p")]
-position = Vector2(0, -146)
-
-[node name="Drink" parent="." instance=ExtResource("3_3cr8p")]
-position = Vector2(0, -129)
-
-[node name="Clothes" parent="." instance=ExtResource("3_3cr8p")]
-position = Vector2(0, -112)
-
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 position = Vector2(0, -56)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(0, 40)
 shape = SubResource("RectangleShape2D_rqu5h")
+
+[node name="UI" type="Node2D" parent="."]
+
+[node name="Label" type="Label" parent="UI"]
+offset_left = -80.0
+offset_top = -234.0
+offset_right = 80.0
+offset_bottom = -222.0
+theme = ExtResource("3_7cui2")
+text = "Prices"
+horizontal_alignment = 1
+
+[node name="Sheep" parent="UI" instance=ExtResource("3_3cr8p")]
+position = Vector2(0, -214)
+
+[node name="Milk" parent="UI" instance=ExtResource("3_3cr8p")]
+position = Vector2(0, -197)
+
+[node name="Meat" parent="UI" instance=ExtResource("3_3cr8p")]
+position = Vector2(0, -180)
+
+[node name="Wool" parent="UI" instance=ExtResource("3_3cr8p")]
+position = Vector2(0, -163)
+
+[node name="Food" parent="UI" instance=ExtResource("3_3cr8p")]
+position = Vector2(0, -146)
+
+[node name="Drink" parent="UI" instance=ExtResource("3_3cr8p")]
+position = Vector2(0, -129)
+
+[node name="Clothes" parent="UI" instance=ExtResource("3_3cr8p")]
+position = Vector2(0, -112)

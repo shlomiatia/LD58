@@ -29,6 +29,9 @@ func set_controls_enabled(enabled: bool) -> void:
             tax.slider.editable = enabled
     set_button.disabled = not enabled
 
+func are_controls_enabled() -> bool:
+    return set_button.disabled == false
+
 func add_money(amount: int) -> void:
     money += amount
     _update_money_label()

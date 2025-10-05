@@ -12,7 +12,7 @@ var supply: int = 0
 @onready var label = $UI/Label
 @onready var conversion = $UI/Conversion
 @onready var price_label = $UI/PriceLabel
-@onready var supply_label = $UI/SupplyLabel
+@onready var resource_icon = $ResourceIcon
 @onready var money_label = $UI/MoneyLabel
 
 @onready var taxes = $/root/Main/CanvasLayer/Taxes
@@ -30,8 +30,8 @@ func _process(_delta: float) -> void:
         label.visible = is_hovered
         if building_data.input:
             conversion.visible = is_hovered
-
-        _update()
+            
+    _update()
 
 func _initialize_building() -> void:
     if building_name && is_node_ready():
@@ -46,7 +46,7 @@ func _initialize_building() -> void:
                 conversion.output_resource_name = building_data.output.resource_name
 
             price_label.resource_name = building_data.output.resource_name
-            supply_label.resource_name = building_data.output.resource_name
+            resource_icon.resource_name = building_data.output.resource_name
 
 func get_price_with_vat() -> int:
     var vat_tax = TaxData.get_tax("VAT")
@@ -87,5 +87,5 @@ func buy(amount: int) -> Dictionary:
 func _update() -> void:
     var price = get_price_with_vat()
     price_label.value_text = "%d" % price
-    supply_label.value_text = "%d" % supply
     money_label.value = money
+    resource_icon.visible = supply > 0

@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://cqxe7blllb7sq"]
+[gd_scene load_steps=11 format=3 uid="uid://cqxe7blllb7sq"]
 
 [ext_resource type="Texture2D" uid="uid://dxxkk6rmscm2w" path="res://Textures/building.png" id="1_akj1o"]
 [ext_resource type="Script" path="res://Entities/Building/building.gd" id="1_n24b0"]
 [ext_resource type="Theme" uid="uid://dk74o3jdyxswq" path="res://Entities/Themes/Label.tres" id="3_58kuh"]
 [ext_resource type="PackedScene" uid="uid://cvsxe0o3w0am4" path="res://Entities/Conversion/Conversion.tscn" id="3_a2p0t"]
+[ext_resource type="PackedScene" uid="uid://ddkmdxbjpvb03" path="res://Entities/ResourceIcon/ResourceIcon.tscn" id="3_dami8"]
 [ext_resource type="PackedScene" uid="uid://br5guff0j3e2m" path="res://Entities/ResourceLabel/ResourceLabel.tscn" id="5_cachm"]
 [ext_resource type="PackedScene" uid="uid://brcna04fqs171" path="res://Entities/MoneyLabel/MoneyLabel.tscn" id="6_gfy5h"]
 [ext_resource type="PackedScene" uid="uid://djny86sgor10g" path="res://Entities/Worker/Worker.tscn" id="7_fuohf"]
@@ -19,6 +20,9 @@ building_name = null
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -56)
 texture = ExtResource("1_akj1o")
+
+[node name="ResourceIcon" parent="." instance=ExtResource("3_dami8")]
+position = Vector2(-6, -1)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
@@ -39,23 +43,22 @@ z_index = 3
 
 [node name="Label" type="Label" parent="UI"]
 visible = false
-offset_left = -80.0
-offset_top = -63.0
-offset_right = 80.0
-offset_bottom = -51.0
+offset_left = -77.0
+offset_top = -117.0
+offset_right = 83.0
+offset_bottom = -105.0
 theme = ExtResource("3_58kuh")
 text = "Sheep farm"
 horizontal_alignment = 1
 
 [node name="Conversion" parent="UI" instance=ExtResource("3_a2p0t")]
 visible = false
-position = Vector2(-14, -42)
+position = Vector2(-13, -112)
 
 [node name="MoneyLabel" parent="UI" instance=ExtResource("6_gfy5h")]
-position = Vector2(0, -129)
-
-[node name="PriceLabel" parent="UI" instance=ExtResource("5_cachm")]
+visible = false
 position = Vector2(0, -112)
 
-[node name="SupplyLabel" parent="UI" instance=ExtResource("5_cachm")]
-position = Vector2(0, -146)
+[node name="PriceLabel" parent="UI" instance=ExtResource("5_cachm")]
+visible = false
+position = Vector2(0, -112)

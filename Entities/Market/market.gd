@@ -1,12 +1,12 @@
 class_name Market extends Node2D
 
-@onready var sheep_label: ResourceLabel = $Sheep
-@onready var wool_label: ResourceLabel = $Wool
-@onready var milk_label: ResourceLabel = $Milk
-@onready var meat_label: ResourceLabel = $Meat
-@onready var food_label: ResourceLabel = $Food
-@onready var clothes_label: ResourceLabel = $Clothes
-@onready var drink_label: ResourceLabel = $Drink
+@onready var sheep_label: ResourceLabel = $UI/Sheep
+@onready var wool_label: ResourceLabel = $UI/Wool
+@onready var milk_label: ResourceLabel = $UI/Milk
+@onready var meat_label: ResourceLabel = $UI/Meat
+@onready var food_label: ResourceLabel = $UI/Food
+@onready var clothes_label: ResourceLabel = $UI/Clothes
+@onready var drink_label: ResourceLabel = $UI/Drink
 @onready var taxes = $/root/Main/CanvasLayer/Taxes
 
 var demand_values: Dictionary = {}

@@ -112,7 +112,6 @@ func produce(amount: int) -> void:
     buy(parent_building.building_data.input.resource_name, amount)
 
 func export_to_market(amount: int) -> void:
-    prints("expoort_to_market", amount)
     target_resource_name = parent_building.building_data.output.resource_name
     target_export = true
     target_export2 = true
