@@ -40,8 +40,9 @@ position = Vector2(0, -39)
 
 [node name="TutorialLabel" type="Label" parent="."]
 offset_left = -180.0
+offset_top = 7.0
 offset_right = 180.0
-offset_bottom = 27.0
+offset_bottom = 34.0
 theme = ExtResource("4_1sh8k")
 horizontal_alignment = 1
 autowrap_mode = 3

@@ -80,7 +80,6 @@ shader_parameter/modulate = Color(1, 1, 1, 1)
 
 [node name="Building" type="Node2D" groups=["buildings"]]
 script = ExtResource("1_n24b0")
-building_name = null
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_nl0rg")
@@ -97,7 +96,8 @@ position = Vector2(0, -16)
 shape = SubResource("RectangleShape2D_ri8y3")
 
 [node name="Worker" parent="." instance=ExtResource("7_fuohf")]
-position = Vector2(0, 9)
+visible = false
+position = Vector2(0, 1)
 
 [node name="Roof" type="Sprite2D" parent="."]
 z_index = 2

@@ -23,6 +23,7 @@ var supply: int = 0
 func _ready() -> void:
     _initialize_building()
     _setup_palette_swap()
+    _animate_building_drop()
 
 func _process(_delta: float) -> void:
     _update()
@@ -132,3 +133,18 @@ func _setup_palette_swap() -> void:
         shader_material.set_shader_parameter("replace_9", Color(window_colors[0]))
         shader_material.set_shader_parameter("replace_10", Color(window_colors[1]))
         shader_material.set_shader_parameter("replace_11", Color(window_colors[2]))
+
+func _animate_building_drop() -> void:
+    var sprite_initial_y = sprite.position.y
+    var roof_initial_y = roof.position.y
+
+    sprite.position.y = sprite_initial_y - 360
+    roof.position.y = roof_initial_y - 360
+
+    var tween = create_tween()
+    tween.set_parallel(true)
+    tween.set_trans(Tween.TRANS_BOUNCE)
+    tween.set_ease(Tween.EASE_OUT)
+
+    tween.tween_property(sprite, "position:y", sprite_initial_y, 2.0)
+    tween.tween_property(roof, "position:y", roof_initial_y, 2.0)
