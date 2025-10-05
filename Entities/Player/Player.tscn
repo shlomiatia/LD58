@@ -3,7 +3,7 @@
 [ext_resource type="SpriteFrames" uid="uid://cw1kftktydlx4" path="res://Entities/Worker.tres" id="1_8aug6"]
 [ext_resource type="Script" path="res://Entities/Player/player.gd" id="1_u8v7r"]
 [ext_resource type="PackedScene" uid="uid://brcna04fqs171" path="res://Entities/MoneyLabel/MoneyLabel.tscn" id="3_pspwp"]
-[ext_resource type="FontFile" uid="uid://df6qrekpgy2cl" path="res://Fonts/Analog Whispers FREE.ttf" id="4_f7115"]
+[ext_resource type="Theme" uid="uid://dk74o3jdyxswq" path="res://Entities/Themes/Label.tres" id="4_1sh8k"]
 [ext_resource type="PackedScene" uid="uid://yllxp0ymbk6q" path="res://Entities/SinWaveTransform/SinWaveRotation.tscn" id="4_spnb6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lhpi8"]
@@ -38,13 +38,12 @@ shape = SubResource("CapsuleShape2D_khw6v")
 z_index = 3
 position = Vector2(0, -39)
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
-offset_left = -80.0
-offset_right = 80.0
-offset_bottom = 40.0
-theme_override_fonts/normal_font = ExtResource("4_f7115")
-theme_override_font_sizes/normal_font_size = 13
-bbcode_enabled = true
-text = "[center]Hello  [img]res://Textures/money.png[/img][/center]"
+[node name="TutorialLabel" type="Label" parent="."]
+offset_left = -180.0
+offset_right = 180.0
+offset_bottom = 27.0
+theme = ExtResource("4_1sh8k")
+horizontal_alignment = 1
+autowrap_mode = 3
 
-[node name="SinWaveRotation" parent="RichTextLabel" instance=ExtResource("4_spnb6")]
+[node name="SinWaveRotation" parent="TutorialLabel" instance=ExtResource("4_spnb6")]

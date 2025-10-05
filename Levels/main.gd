@@ -8,6 +8,15 @@ const SLOT_POSITIONS := [
 
 @onready var taxes = $CanvasLayer/Taxes
 @onready var market = $Market
+@onready var player = $Player
+@onready var tutorial_worker = $TutorialWorker
+@onready var tutorial_label = $Player/TutorialLabel
+
+var tutorial_active: bool = true
+var tutorial_step: int = 0
+var tutorial_texts: Array[String] = []
+var current_text_index: int = 0
+var waiting_for_input: bool = false
 
 func _wait_for_all_workers_to_finish() -> void:
     var buildings = get_tree().get_nodes_in_group("buildings")
@@ -22,12 +31,8 @@ func _wait_for_all_workers_to_finish() -> void:
         await get_tree().process_frame
 
 func _ready() -> void:
-    #var all_buildings = BuildingData.get_all_buildings()
-    ##all_buildings.shuffle()
-    #var selected_buildings = all_buildings.slice(0, 1)
-    #for i in range(selected_buildings.size()):
-    #    _place_building(selected_buildings[i], i)
     taxes.taxes_set.connect(_on_taxes_set)
+    _start_tutorial()
 
 func _place_building(building_data: BuildingData, slot_index: int) -> void:
     var building_instance = BUILDING_SCENE.instantiate()
@@ -214,3 +219,87 @@ func _get_non_importers(available_buildings: Array[BuildingData], existing_build
         if not importers.has(building_data):
             non_importers.append(building_data)
     return non_importers
+
+func _start_tutorial() -> void:
+    tutorial_label.hide()
+    await get_tree().create_timer(1.0).timeout
+
+    tutorial_texts = [
+        "My name is Tax Murphy",
+        "Im a tax collector",
+        "See the 0 over my head?",
+        "That means our kingdom coffers are empty",
+        "Our king planned an elaborate village, taking into account supply chains, market demand and the people needs",
+        "But I dont care about any of that"
+    ]
+    current_text_index = 0
+    tutorial_step = 1
+    _show_next_tutorial_text()
+
+func _show_next_tutorial_text() -> void:
+    if current_text_index < tutorial_texts.size():
+        tutorial_label.text = tutorial_texts[current_text_index]
+        tutorial_label.show()
+        waiting_for_input = true
+    else:
+        _advance_tutorial_step()
+
+func _input(event: InputEvent) -> void:
+    if not tutorial_active:
+        return
+
+    if waiting_for_input and event.is_pressed() and not event.is_echo():
+        waiting_for_input = false
+        current_text_index += 1
+        _show_next_tutorial_text()
+
+func _advance_tutorial_step() -> void:
+    tutorial_step += 1
+
+    if tutorial_step == 2:
+        tutorial_label.hide()
+        tutorial_worker.navigate_to(Vector2(500, 260))
+        await _wait_for_worker_to_finish(tutorial_worker)
+
+        tutorial_texts = [
+            "See the red coin above this serf?",
+            "Thats unpaid tax",
+            "Lets move to collect it"
+        ]
+        current_text_index = 0
+        _show_next_tutorial_text()
+
+    elif tutorial_step == 3:
+        tutorial_label.hide()
+        player.can_move = true
+
+        await get_tree().create_timer(1.0).timeout
+
+        if not player.has_moved:
+            tutorial_label.text = "WASD to move"
+            tutorial_label.show()
+
+            while not player.has_moved:
+                await get_tree().process_frame
+
+            tutorial_label.hide()
+
+        while tutorial_worker.tax > 0:
+            await get_tree().process_frame
+
+        player.can_move = false
+        tutorial_worker.navigate_to(Vector2(600, 260))
+        await _wait_for_worker_to_finish(tutorial_worker)
+        tutorial_worker.queue_free()
+
+        var all_buildings = BuildingData.get_all_buildings()
+        var selected_buildings = all_buildings.slice(0, 1)
+        for i in range(selected_buildings.size()):
+            _place_building(selected_buildings[i], i)
+
+        tutorial_active = false
+        player.can_move = true
+
+func _wait_for_worker_to_finish(worker: Worker) -> void:
+    while worker.is_navigating():
+        await get_tree().process_frame
