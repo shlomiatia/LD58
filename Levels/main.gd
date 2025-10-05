@@ -23,7 +23,7 @@ func _wait_for_all_workers_to_finish() -> void:
 
 func _ready() -> void:
     var all_buildings = BuildingData.get_all_buildings()
-    #all_buildings.shuffle()
+    all_buildings.shuffle()
 
     var selected_buildings = all_buildings.slice(0, 2)
 
@@ -48,7 +48,10 @@ func _on_taxes_set() -> void:
     await _handle_export(buildings)
 
     await get_tree().create_timer(1.0).timeout
-    #await _handle_needs(buildings)
+    
+    await _handle_needs(buildings)
+
+    await get_tree().create_timer(1.0).timeout
     
     _place_new_building(buildings)
 
@@ -108,12 +111,15 @@ func _get_producers_of(buildings: Array[Node], resource_name: String) -> Array[B
                 producers.append(building)
     return producers
 
-#func _handle_needs(buildings: Array[Node]) -> void:
-#    for building in buildings:
-#        for need in ["Food", "Drink", "Clothes"]:
-#            var result = _buy(buildings, need, 1)
-#            building.update_money(-result["total_cost"])
-#        await _await_user_input()
+func _handle_needs(buildings: Array[Node]) -> void:
+    for need in ["Food", "Drink", "Clothes"]:
+        for building in buildings:
+            building.worker.buy(need, 1)
+        
+        await _wait_for_all_workers_to_finish()
+
+        for building in buildings:
+            building.worker.current_amount = 0
 
 func _handle_export(buildings: Array[Node]) -> void:
     for building in buildings:
@@ -180,8 +186,6 @@ func _place_new_building(buildings: Array[Node]) -> void:
 
     if selected_building == null:
         selected_building = available_buildings[randi() % available_buildings.size()]
-
-    selected_building = available_buildings[0]
 
     var next_slot = buildings.size()
     if next_slot < SLOT_POSITIONS.size():
