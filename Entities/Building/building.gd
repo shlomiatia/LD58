@@ -20,6 +20,7 @@ var supply: int = 0
 @onready var roof = $Roof
 @onready var worker = $Worker
 @onready var audio_player: AudioStreamPlayer = $/root/Main/AudioStreamPlayer
+@onready var camera: ShakingCamera = $/root/Main/ShakingCamera
 
 func _ready() -> void:
     _initialize_building()
@@ -162,7 +163,9 @@ func _play_building_fall_sounds() -> void:
     var building_fall_stream = preload("res://Sounds/building_fall.wav")
     for i in range(4):
         if i == 0:
-            await get_tree().create_timer(2 * 0.5).timeout
+            await get_tree().create_timer(2 * 0.4).timeout
+            camera.start_screen_shake(1.0, 10.0, 0.1)
+            await get_tree().create_timer(2 * 0.1).timeout
         elif i == 1:
             await get_tree().create_timer(2 * 0.3).timeout
         elif i == 2:
