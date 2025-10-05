@@ -4,7 +4,6 @@ signal taxes_set
 
 const UPGRADE_SCENE := preload("res://Entities/Upgrade/Upgrade.tscn")
 
-var is_enabled: bool
 var upgrade_levels: Dictionary = {
     "tariff": 0,
     "vat": 0,
@@ -20,10 +19,11 @@ var current_upgrades: Array[Upgrade] = []
 
 func set_controls_enabled() -> void:
     _generate_upgrades()
-    is_enabled = true
+
+    visible = true
 
 func are_controls_enabled() -> bool:
-    return is_enabled
+    return visible
 
 func _generate_upgrades() -> void:
     _clear_upgrades()
@@ -97,4 +97,4 @@ func _on_upgrade_selected(upgrade: Upgrade) -> void:
 
     _clear_upgrades()
 
-    is_enabled = false
+    visible = false
