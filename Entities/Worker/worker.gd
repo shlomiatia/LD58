@@ -69,9 +69,9 @@ func _physics_process(delta: float) -> void:
             label_timer = 0.0
             current_label_index = (current_label_index + 1) % 3
 
-    _update_animation()
-
     if current_path_index >= navigation_path.size():
+        velocity = Vector2.ZERO
+        _update_animation()
         return
 
     var target = navigation_path[current_path_index]
@@ -124,6 +124,7 @@ func _physics_process(delta: float) -> void:
                     navigate_to(parent_building.position + Vector2(0, 8))
     else:
         velocity = direction * SPEED
+        _update_animation()
         move_and_slide()
 
 func is_navigating() -> bool:
