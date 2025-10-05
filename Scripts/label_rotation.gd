@@ -9,4 +9,4 @@ func _process(delta: float) -> void:
 	label_timer += delta
 	if label_timer >= LABEL_SWITCH_TIME:
 		label_timer = 0.0
-		current_label_index = (current_label_index + 1) % 4
+		current_label_index += 1

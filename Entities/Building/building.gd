@@ -83,10 +83,11 @@ func _update() -> void:
     resource_icon.visible = supply > 0
 
     if taxes.are_controls_enabled():
-        label.visible = LabelRotation.current_label_index == 0
-        conversion.visible = LabelRotation.current_label_index == 1
-        price_label.visible = LabelRotation.current_label_index == 2
-        money_label.visible = LabelRotation.current_label_index == 3
+        var index = LabelRotation.current_label_index % 4
+        label.visible = index == 0
+        conversion.visible = index == 1
+        price_label.visible = index == 2
+        money_label.visible = index == 3
     else:
         label.visible = false
         conversion.visible = false

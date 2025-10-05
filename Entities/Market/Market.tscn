@@ -26,11 +26,12 @@ shape = SubResource("RectangleShape2D_rqu5h")
 
 [node name="Label" type="Label" parent="UI"]
 offset_left = -80.0
-offset_top = -234.0
+offset_top = -250.0
 offset_right = 80.0
-offset_bottom = -222.0
+offset_bottom = -223.0
 theme = ExtResource("3_7cui2")
-text = "Prices"
+text = "Market
+Import price"
 horizontal_alignment = 1
 
 [node name="Sheep" parent="UI" instance=ExtResource("3_3cr8p")]

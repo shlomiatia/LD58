@@ -6,82 +6,88 @@ const TAX_PER_SECOND = 10
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var area_2d: Area2D = $Area2D
 @onready var taxes: Taxes = $/root/Main/CanvasLayer/Taxes
+@onready var money_label: MoneyLabel = $MoneyLabel
 
 var worker_tax_accumulator: Dictionary = {}
+var money: int = 0
 
 func _physics_process(delta: float) -> void:
-	if taxes.are_controls_enabled():
-		velocity = Vector2.ZERO
-		_update_animation()
-		return
+    if taxes.are_controls_enabled():
+        velocity = Vector2.ZERO
+        _update_animation()
+        return
 
-	var input_direction = Vector2(
-		Input.get_axis("left", "right"),
-		Input.get_axis("up", "down")
-	)
+    var input_direction = Vector2(
+        Input.get_axis("left", "right"),
+        Input.get_axis("up", "down")
+    )
 
-	if input_direction.length() > 0:
-		input_direction = input_direction.normalized()
+    if input_direction.length() > 0:
+        input_direction = input_direction.normalized()
 
-	velocity = input_direction * SPEED
+    velocity = input_direction * SPEED
 
-	_update_animation()
+    _update_animation()
 
-	move_and_slide()
+    move_and_slide()
 
-	_collect_taxes(delta)
+    _collect_taxes(delta)
 
 
 func _update_animation() -> void:
-	if velocity.length() == 0:
-		animated_sprite.play("default")
-		return
+    if velocity.length() == 0:
+        animated_sprite.play("default")
+        return
 
-	if abs(velocity.x) > abs(velocity.y):
-		animated_sprite.play("walk_right")
-		if velocity.x > 0:
-			animated_sprite.flip_h = false
-		else:
-			animated_sprite.flip_h = true
-	else:
-		animated_sprite.flip_h = false
-		if velocity.y > 0:
-			animated_sprite.play("walk_down")
-		else:
-			animated_sprite.play("walk_up")
+    if abs(velocity.x) > abs(velocity.y):
+        animated_sprite.play("walk_right")
+        if velocity.x > 0:
+            animated_sprite.flip_h = false
+        else:
+            animated_sprite.flip_h = true
+    else:
+        animated_sprite.flip_h = false
+        if velocity.y > 0:
+            animated_sprite.play("walk_down")
+        else:
+            animated_sprite.play("walk_up")
 
 
 func _collect_taxes(delta: float) -> void:
-	var tax_amount_per_frame = TAX_PER_SECOND * delta
-	var nearby_bodies = area_2d.get_overlapping_bodies()
-	var nearby_worker_ids = []
+    var tax_amount_per_frame = TAX_PER_SECOND * delta
+    var nearby_bodies = area_2d.get_overlapping_bodies()
+    var nearby_worker_ids = []
 
-	for body in nearby_bodies:
-		if body is Worker:
-			var worker: Worker = body
-			var worker_id = worker.get_instance_id()
-			nearby_worker_ids.append(worker_id)
+    for body in nearby_bodies:
+        if body is Worker:
+            var worker: Worker = body
+            var worker_id = worker.get_instance_id()
+            nearby_worker_ids.append(worker_id)
 
-			if worker.tax > 0:
-				if not worker_tax_accumulator.has(worker_id):
-					worker_tax_accumulator[worker_id] = 0.0
+            if worker.tax > 0:
+                if not worker_tax_accumulator.has(worker_id):
+                    worker_tax_accumulator[worker_id] = 0.0
 
-				worker_tax_accumulator[worker_id] += tax_amount_per_frame
+                worker_tax_accumulator[worker_id] += tax_amount_per_frame
 
-				var tax_to_collect_int = int(worker_tax_accumulator[worker_id])
-				if tax_to_collect_int > 0:
-					tax_to_collect_int = min(tax_to_collect_int, worker.tax)
+                var tax_to_collect_int = int(worker_tax_accumulator[worker_id])
+                if tax_to_collect_int > 0:
+                    tax_to_collect_int = min(tax_to_collect_int, worker.tax)
 
-					worker.tax -= tax_to_collect_int
+                    worker.tax -= tax_to_collect_int
 
-					taxes.add_money(tax_to_collect_int)
+                    add_money(tax_to_collect_int)
 
-					worker_tax_accumulator[worker_id] -= tax_to_collect_int
+                    worker_tax_accumulator[worker_id] -= tax_to_collect_int
 
-	var keys_to_remove = []
-	for worker_id in worker_tax_accumulator.keys():
-		if not worker_id in nearby_worker_ids:
-			keys_to_remove.append(worker_id)
+    var keys_to_remove = []
+    for worker_id in worker_tax_accumulator.keys():
+        if not worker_id in nearby_worker_ids:
+            keys_to_remove.append(worker_id)
 
-	for worker_id in keys_to_remove:
-		worker_tax_accumulator.erase(worker_id)
+    for worker_id in keys_to_remove:
+        worker_tax_accumulator.erase(worker_id)
+
+func add_money(amount: int) -> void:
+    money += amount
+    money_label.value = money

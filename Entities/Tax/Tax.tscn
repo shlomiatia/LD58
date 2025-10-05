@@ -13,7 +13,6 @@ layout_mode = 2
 theme = ExtResource("1_1m4ay")
 
 [node name="HSlider" type="HSlider" parent="."]
-visible = false
 custom_minimum_size = Vector2(160, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -21,7 +20,6 @@ max_value = 50.0
 step = 5.0
 
 [node name="Value" type="Label" parent="."]
-visible = false
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 theme = ExtResource("1_1m4ay")

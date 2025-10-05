@@ -8,6 +8,8 @@ class_name Market extends Node2D
 @onready var clothes_label: ResourceLabel = $UI/Clothes
 @onready var drink_label: ResourceLabel = $UI/Drink
 @onready var taxes = $/root/Main/CanvasLayer/Taxes
+@onready var ui = $UI
+@onready var market_label: Label = $UI/Label
 
 var demand_values: Dictionary = {}
 
@@ -46,11 +48,30 @@ func get_price_with_tariff(resource_name: String) -> int:
     return 0
 
 func _update() -> void:
+    if not taxes.are_controls_enabled():
+        ui.visible = false
+        return
+
+    ui.visible = true
     var all_resources = ResourceData.get_all_resources()
 
-    for resource in all_resources:
-        var buy_price = get_price_with_tariff(resource.resource_name)
-        _set_price_for_resource(resource.resource_name, buy_price)
+    var index = LabelRotation.current_label_index % 3
+    match index:
+        0:
+            market_label.text = "Market\nImport price"
+            for resource in all_resources:
+                var buy_price = get_price_with_tariff(resource.resource_name)
+                _set_price_for_resource(resource.resource_name, buy_price)
+        1:
+            market_label.text = "Market\nExport price"
+            for resource in all_resources:
+                var base_price = resource.cost
+                _set_price_for_resource(resource.resource_name, base_price)
+        2:
+            market_label.text = "Market\nDemand"
+            for resource in all_resources:
+                var demand = get_demand(resource.resource_name)
+                _set_price_for_resource(resource.resource_name, demand)
 
 func _set_price_for_resource(resource_name: String, buy_price: int) -> void:
     var label_text = "%d" % buy_price

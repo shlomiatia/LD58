@@ -43,13 +43,14 @@ func _update() -> void:
         resource_icon.resource_name = target_resource_name
 
     if taxes.are_controls_enabled():
-        label.visible = LabelRotation.current_label_index == 0
-        money_label.visible = LabelRotation.current_label_index == 1
-        tax_label.visible = LabelRotation.current_label_index == 2
+        var index = LabelRotation.current_label_index % 3
+        label.visible = index == 0
+        money_label.visible = index == 1
+        tax_label.visible = index == 2
     else:
         label.visible = false
         money_label.visible = false
-        tax_label.visible = true
+        tax_label.visible = tax > 0
 
 func navigate_to(target_position: Vector2) -> void:
     var navigation_map = get_world_2d().navigation_map
