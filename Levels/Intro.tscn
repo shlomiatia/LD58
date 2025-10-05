@@ -61,6 +61,7 @@ position = Vector2(-257.5, -168.5)
 blink_duration = 1.0
 
 [node name="Fade" parent="CanvasLayer" instance=ExtResource("5_jh6sm")]
+visible = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 volume_db = -12.0

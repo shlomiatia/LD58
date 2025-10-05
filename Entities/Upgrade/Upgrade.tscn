@@ -5,7 +5,7 @@
 
 [node name="Upgrade" type="ColorRect"]
 custom_minimum_size = Vector2(216, 60)
-offset_right = 216.0
+offset_right = 260.0
 offset_bottom = 60.0
 color = Color(0.670588, 0.686275, 0.72549, 0.501961)
 script = ExtResource("1_upgrade")
