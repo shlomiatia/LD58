@@ -159,12 +159,20 @@ func _animate_building_drop() -> void:
     _show_and_move_worker()
 
 func _play_building_fall_sounds() -> void:
-    var building_fall_stream = load("res://Sounds/building_fall.wav")
+    var building_fall_stream = preload("res://Sounds/building_fall.wav")
     for i in range(4):
+        if i == 0:
+            await get_tree().create_timer(2 * 0.5).timeout
+        elif i == 1:
+            await get_tree().create_timer(2 * 0.3).timeout
+        elif i == 2:
+            await get_tree().create_timer(2 * 0.2).timeout
+        elif i == 3:
+            await get_tree().create_timer(2 * 0.1).timeout
+
         audio_player.stream = building_fall_stream
         audio_player.volume_db = -6.0 * i
         audio_player.play()
-        await get_tree().create_timer(0.5).timeout
     audio_player.volume_db = -12.0
 
 func _show_and_move_worker() -> void:

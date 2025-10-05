@@ -100,7 +100,7 @@ func _clear_upgrades() -> void:
     current_upgrades.clear()
 
 func _on_upgrade_selected(upgrade: Upgrade) -> void:
-    audio_player.stream = load("res://Sounds/confirm_big.wav")
+    audio_player.stream = preload("res://Sounds/confirm_big.wav")
     audio_player.play()
 
     var tax_percentage_increase = upgrade.level * 5

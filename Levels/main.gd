@@ -312,7 +312,7 @@ func _advance_tutorial_step() -> void:
         selected_buildings.shuffle()
         _place_building(selected_buildings[0], 0)
 
-        await get_tree().create_timer(2.5).timeout
+        await get_tree().create_timer(3).timeout
 
         _wait_for_all_workers_to_finish()
 
