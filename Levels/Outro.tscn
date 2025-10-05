@@ -1,11 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://cxvc28t8g6ehc"]
+[gd_scene load_steps=6 format=3 uid="uid://cxvc28t8g6ehc"]
 
+[ext_resource type="Script" path="res://Levels/outro.gd" id="1_5tsnl"]
 [ext_resource type="PackedScene" uid="uid://6jy8lp78cmyv" path="res://Entities/TileMapLayers/tile_map_layers.tscn" id="1_pr3xj"]
 [ext_resource type="PackedScene" uid="uid://dnwug4pxdwecg" path="res://Entities/SinWaveTransform/Fade.tscn" id="2_73w47"]
 [ext_resource type="FontFile" uid="uid://ystbwyqr5t1k" path="res://Fonts/Jacquard24-Regular.ttf" id="3_lqmmd"]
 [ext_resource type="Theme" uid="uid://dk74o3jdyxswq" path="res://Entities/Themes/Label.tres" id="4_ovt4b"]
 
 [node name="Outro" type="Node2D"]
+script = ExtResource("1_5tsnl")
 
 [node name="TileMapLayers" parent="." instance=ExtResource("1_pr3xj")]
 
@@ -20,6 +22,7 @@ grow_vertical = 2
 color = Color(0.156863, 0.0980392, 0.184314, 0.752941)
 
 [node name="Fade" parent="CanvasLayer" instance=ExtResource("2_73w47")]
+visible = true
 
 [node name="Title" type="Label" parent="CanvasLayer"]
 anchors_preset = 8
@@ -28,9 +31,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -182.5
-offset_top = -179.5
+offset_top = -120.5
 offset_right = 182.5
-offset_bottom = -106.5
+offset_bottom = -47.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0.988235, 0.772549, 0.223529, 1)
@@ -53,4 +56,9 @@ offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("4_ovt4b")
-text = "Thanks for playing"
+text = "We collected X taxes, and failed to reach the 2500 quota
+
+His majesty will not be pleased
+
+Thanks for playing"
+horizontal_alignment = 1

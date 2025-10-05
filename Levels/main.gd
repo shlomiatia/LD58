@@ -185,6 +185,8 @@ func _place_new_building(buildings: Array[Node]) -> void:
             available_buildings.append(building_data)
 
     if available_buildings.is_empty():
+        await $CanvasLayer/Fade.fade_out()
+        get_tree().change_scene_to_file("res://Levels/Outro.tscn")
         return
 
     var selected_building: BuildingData = null
@@ -235,10 +237,10 @@ func _start_tutorial() -> void:
     tutorial_texts = [
         "My name is Tax Murphy",
         "Im a tax collector",
-        "See the 0 over my head?",
-        "That means our kingdom coffers are empty",
-        "Our king planned an elaborate village, taking into account supply chains, market demand and the people needs",
-        "But I dont care about any of that"
+        "See that 0 over my head?",
+        "That means our coffers are empty!",
+        "His highness, King Spendsalot, planned an elaborate village, taking into account supply chains, market demands and the needs of the people",
+        "But I dont care about any of that!"
     ]
     current_text_index = 0
     tutorial_step = 1
@@ -277,9 +279,9 @@ func _advance_tutorial_step() -> void:
         await _wait_for_worker_to_finish(tutorial_worker)
 
         tutorial_texts = [
-            "See the red coin above this serf?",
+            "See the red coin over that serfs head?",
             "Thats unpaid tax",
-            "Lets move to collect it"
+            "Lets go collect it"
         ]
         current_text_index = 0
         _show_next_tutorial_text()
@@ -318,8 +320,10 @@ func _advance_tutorial_step() -> void:
 
         tutorial_texts = [
             "The first villager has moved",
-            "He will need to import goods from the market",
-            "Set a tariff and collect the tax"
+            "He will need to trade goods in the market",
+            "Impose a tariff and collect the tax",
+            "Our quota today is 2,500",
+            "Good luck!"
         ]
         current_text_index = 0
         _show_next_tutorial_text()

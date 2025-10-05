@@ -110,6 +110,7 @@ func _collect_taxes(delta: float) -> void:
 func add_money(amount: int) -> void:
     money += amount
     money_label.value = money
+    GlobalData.total_taxes_collected += amount
 
 func _update_aura_radius() -> void:
     if collision_shape and collision_shape.shape is CapsuleShape2D:
