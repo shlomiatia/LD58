@@ -11,9 +11,9 @@ script = ExtResource("1_iva7a")
 texture = ExtResource("1_sv1ke")
 
 [node name="Label" type="Label" parent="."]
-offset_left = 9.0
+offset_left = 10.0
 offset_top = -5.0
-offset_right = 17.0
+offset_right = 18.0
 offset_bottom = 7.0
 theme = ExtResource("2_gjtsa")
 text = "0

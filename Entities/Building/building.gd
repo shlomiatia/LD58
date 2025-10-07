@@ -7,7 +7,15 @@ class_name Building extends Node2D
 
 var building_data: BuildingData
 var money: int = 0
-var supply: int = 0
+var supply: int = 0:
+    set(value):
+        var old_supply = supply
+        supply = value
+        if old_supply == 0 and supply > 0 and building_data and building_data.output:
+            if building_data.output.resource_name == "Sheep":
+                _play_random_sheep_sound()
+
+var sheep_sounds: Array[AudioStream] = []
 
 @onready var label = $UI/Label
 @onready var conversion = $UI/Conversion
@@ -20,9 +28,13 @@ var supply: int = 0
 @onready var roof = $Roof
 @onready var worker = $Worker
 @onready var audio_player: AudioStreamPlayer = $/root/Main/AudioStreamPlayer
+@onready var audio_player2: AudioStreamPlayer = $/root/Main/AudioStreamPlayer2
 @onready var camera: ShakingCamera = $/root/Main/ShakingCamera
 
 func _ready() -> void:
+    for i in range(1, 4):
+        sheep_sounds.append(load("res://Sounds/sheep%d.wav" % i))
+
     _initialize_building()
     _setup_palette_swap()
     _animate_building_drop()
@@ -88,13 +100,13 @@ func _update() -> void:
     resource_icon.visible = supply > 0
 
     if taxes.are_controls_enabled():
-        var index = LabelRotation.current_label_index % 4
+        var index = LabelRotation.current_label_index % 3
         label.visible = index == 0
         conversion.visible = index == 1
         price_label.visible = index == 2
-        money_label.visible = index == 3
+        #money_label.visible = index == 3
     else:
-        label.visible = false
+        label.visible = worker.visible
         conversion.visible = false
         price_label.visible = false
         money_label.visible = false
@@ -158,6 +170,7 @@ func _animate_building_drop() -> void:
     await tween.finished
     await get_tree().create_timer(0.5).timeout
     _show_and_move_worker()
+    
 
 func _play_building_fall_sounds() -> void:
     var building_fall_stream = preload("res://Sounds/building_fall.wav")
@@ -176,8 +189,13 @@ func _play_building_fall_sounds() -> void:
         audio_player.stream = building_fall_stream
         audio_player.volume_db = -6.0 * i
         audio_player.play()
-    audio_player.volume_db = -12.0
+    audio_player.volume_db = -6.0
 
 func _show_and_move_worker() -> void:
     worker.show()
     worker.navigate_to(position + Vector2(0, 16))
+
+func _play_random_sheep_sound() -> void:
+    if sheep_sounds.size() > 0:
+        audio_player2.stream = sheep_sounds[randi() % sheep_sounds.size()]
+        audio_player2.play()

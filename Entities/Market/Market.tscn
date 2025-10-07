@@ -24,6 +24,7 @@ position = Vector2(0, 40)
 shape = SubResource("RectangleShape2D_rqu5h")
 
 [node name="UI" type="Node2D" parent="."]
+position = Vector2(0, -1)
 
 [node name="Label" type="Label" parent="UI"]
 offset_left = -80.0
@@ -55,6 +56,15 @@ position = Vector2(0, -129)
 
 [node name="Clothes" parent="UI" instance=ExtResource("3_3cr8p")]
 position = Vector2(0, -112)
+
+[node name="Label2" type="Label" parent="."]
+offset_left = -80.0
+offset_top = -115.0
+offset_right = 80.0
+offset_bottom = -103.0
+theme = ExtResource("3_7cui2")
+text = "Market"
+horizontal_alignment = 1
 
 [node name="Roof" type="Sprite2D" parent="."]
 z_index = 2

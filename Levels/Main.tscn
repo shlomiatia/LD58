@@ -78,8 +78,11 @@ visible = false
 position = Vector2(600, 260)
 tax = 10
 
+[node name="ShakingCamera" parent="." instance=ExtResource("8_kjgyq")]
+anchor_mode = 0
+
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 volume_db = -6.0
 
-[node name="ShakingCamera" parent="." instance=ExtResource("8_kjgyq")]
-anchor_mode = 0
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
+volume_db = -16.0
