@@ -2,8 +2,8 @@ class_name Main extends Node2D
 
 const BUILDING_SCENE := preload("res://Entities/Building/Building.tscn")
 const SLOT_POSITIONS := [
-    Vector2(80, 160), Vector2(192, 160), Vector2(304, 160), Vector2(416, 160), Vector2(528, 160),
-    Vector2(80, 336), Vector2(192, 336), Vector2(304, 336), Vector2(416, 336), Vector2(528, 336)
+    Vector2(64, 160), Vector2(176, 160), Vector2(288, 160), Vector2(400, 160), Vector2(512, 160),
+    Vector2(64, 336), Vector2(176, 336), Vector2(288, 336), Vector2(400, 336), Vector2(512, 336)
 ]
 
 @onready var taxes = $CanvasLayer/Taxes
