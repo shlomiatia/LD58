@@ -268,6 +268,8 @@ func _start_tutorial() -> void:
 func _show_next_tutorial_text() -> void:
     if current_text_index < tutorial_texts.size():
         tutorial_label.text = tutorial_texts[current_text_index]
+        if tutorial_label.text == "Our quota today is 2,500":
+            $CanvasLayer/GoalLabel.show()
         tutorial_label.show()
         waiting_for_input = true
         _play_random_confirm_sound()
