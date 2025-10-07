@@ -1,11 +1,13 @@
-[gd_scene load_steps=11 format=3 uid="uid://cyc4vg185agib"]
+[gd_scene load_steps=13 format=3 uid="uid://cyc4vg185agib"]
 
 [ext_resource type="Script" path="res://Levels/main.gd" id="1_tcvwd"]
 [ext_resource type="PackedScene" uid="uid://dnwug4pxdwecg" path="res://Entities/SinWaveTransform/Fade.tscn" id="3_es3qq"]
 [ext_resource type="PackedScene" uid="uid://6jy8lp78cmyv" path="res://Entities/TileMapLayers/tile_map_layers.tscn" id="3_h2gwf"]
 [ext_resource type="PackedScene" uid="uid://b722rbxhwbl7h" path="res://Entities/Taxes/Taxes.tscn" id="3_ti5si"]
+[ext_resource type="Theme" uid="uid://dk74o3jdyxswq" path="res://Entities/Themes/Label.tres" id="4_50ony"]
 [ext_resource type="PackedScene" uid="uid://hxb001fogts0" path="res://Entities/Market/Market.tscn" id="4_4755n"]
 [ext_resource type="PackedScene" uid="uid://7rr0wdwxp3e4" path="res://Entities/Player/Player.tscn" id="5_c7rcj"]
+[ext_resource type="Texture2D" uid="uid://2v6ecfnev1om" path="res://Textures/money.png" id="5_jhbnp"]
 [ext_resource type="PackedScene" uid="uid://djny86sgor10g" path="res://Entities/Worker/Worker.tscn" id="7_e6otw"]
 [ext_resource type="PackedScene" uid="uid://bbrs3ouymdwi8" path="res://Entities/ShakingCamera/ShakingCamera.tscn" id="8_kjgyq"]
 
@@ -25,6 +27,19 @@ script = ExtResource("1_tcvwd")
 
 [node name="Fade" parent="CanvasLayer" instance=ExtResource("3_es3qq")]
 visible = true
+
+[node name="GoalLabel" type="Label" parent="CanvasLayer"]
+visible = false
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 74.0
+offset_bottom = 31.0
+theme = ExtResource("4_50ony")
+text = "Goal - 2,500"
+
+[node name="Money" type="Sprite2D" parent="CanvasLayer/GoalLabel"]
+position = Vector2(78, 4)
+texture = ExtResource("5_jhbnp")
 
 [node name="TileMapLayers" parent="." instance=ExtResource("3_h2gwf")]
 

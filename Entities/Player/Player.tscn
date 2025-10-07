@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://Entities/Player/player.gd" id="1_u8v7r"]
 [ext_resource type="PackedScene" uid="uid://brcna04fqs171" path="res://Entities/MoneyLabel/MoneyLabel.tscn" id="3_pspwp"]
 [ext_resource type="Theme" uid="uid://dk74o3jdyxswq" path="res://Entities/Themes/Label.tres" id="4_1sh8k"]
-[ext_resource type="PackedScene" uid="uid://yllxp0ymbk6q" path="res://Entities/SinWaveTransform/SinWaveRotation.tscn" id="4_spnb6"]
+[ext_resource type="PackedScene" uid="uid://bxwemukvgjghr" path="res://Entities/TypingLabel/TypingLabel.tscn" id="4_jbl2a"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lhpi8"]
 size = Vector2(8, 15)
@@ -40,14 +40,10 @@ shape = SubResource("CapsuleShape2D_khw6v")
 z_index = 4
 position = Vector2(0, -39)
 
-[node name="TutorialLabel" type="Label" parent="."]
+[node name="TutorialLabel" parent="." instance=ExtResource("4_jbl2a")]
 z_index = 3
 offset_left = -180.0
 offset_top = 7.0
 offset_right = 180.0
-offset_bottom = 34.0
+offset_bottom = 30.0
 theme = ExtResource("4_1sh8k")
-horizontal_alignment = 1
-autowrap_mode = 3
-
-[node name="SinWaveRotation" parent="TutorialLabel" instance=ExtResource("4_spnb6")]
