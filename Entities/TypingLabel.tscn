@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bxwemukvgjghr"]
+
+[node name="TypingLabel" type="Label"]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -12.0
