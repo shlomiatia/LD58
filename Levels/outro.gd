@@ -21,7 +21,7 @@ func _ready() -> void:
     await get_tree().create_timer(2.0).timeout
 
     if total_taxes >= QUOTA:
-        label.text = "We collected %s taxes, well over the %s quota\n\nHis majesty will be pleased\n\n\nThanks for playing!" % [_format_number(total_taxes), _format_number(QUOTA)]
+        label.text = "We collected %s taxes, well over the %s quota\n\nHis majesty will be very pleased\n\n\nThanks for playing!" % [_format_number(total_taxes), _format_number(QUOTA)]
     else:
         label.text = "We collected %s taxes but failed to reach the %s quota\n\nHis majesty will not be pleased...\n\n\nThanks for playing!" % [_format_number(total_taxes), _format_number(QUOTA)]
 

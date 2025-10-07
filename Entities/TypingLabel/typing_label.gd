@@ -2,6 +2,7 @@ class_name TypingLabel extends Label
 
 @export var characters_per_second: float = 30.0
 @export var sounds_per_second: float = 10.0
+@export var newline_pause_duration: float = 0.5
 
 @onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 
@@ -10,6 +11,7 @@ var _current_visible_chars: float = 0.0
 var _sound_timer: float = 0.0
 var _sound_interval: float = 0.0
 var _is_typing: bool = false
+var _pause_timer: float = 0.0
 
 var _sound_streams: Array[AudioStream] = []
 
@@ -34,11 +36,26 @@ func _process(delta: float) -> void:
     if not _is_typing:
         return
 
+    if _pause_timer > 0.0:
+        _pause_timer -= delta
+        return
+
     _current_visible_chars += characters_per_second * delta
     var new_visible = int(_current_visible_chars)
 
     if new_visible != visible_characters:
         visible_characters = new_visible
+
+        if visible_characters > 0 and visible_characters <= text.length():
+            var last_char = text[visible_characters - 1]
+            if last_char == "\n":
+                var newline_count = 1
+                while visible_characters < text.length() and text[visible_characters] == "\n":
+                    newline_count += 1
+                    visible_characters += 1
+                    _current_visible_chars = float(visible_characters)
+                _pause_timer = newline_pause_duration * newline_count
+                return
 
     if visible_characters >= _target_visible_chars:
         visible_characters = _target_visible_chars
@@ -55,6 +72,7 @@ func _start_typing() -> void:
     _current_visible_chars = 0.0
     visible_characters = 0
     _sound_timer = 0.0
+    _pause_timer = 0.0
     _is_typing = true
 
 func _play_random_sound() -> void:
