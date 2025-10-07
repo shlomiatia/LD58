@@ -56,6 +56,12 @@ func _physics_process(delta: float) -> void:
         Input.get_axis("up", "down")
     )
 
+    # Add mouse movement support
+    if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+        var mouse_pos = get_global_mouse_position()
+        var direction_to_mouse = (mouse_pos - global_position).normalized()
+        input_direction = direction_to_mouse
+
     if input_direction.length() > 0:
         input_direction = input_direction.normalized()
         has_moved = true
