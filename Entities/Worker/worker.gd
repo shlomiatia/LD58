@@ -112,22 +112,6 @@ func _physics_process(_delta: float) -> void:
                 target_parent_production2 = false
                 parent_building.update_supply(current_amount)
                 current_amount = 0
-            elif target_export:
-                target_export = false
-                var amount = min(parent_building.supply, target_amount)
-                parent_building.update_supply(-amount)
-                current_amount += amount
-                if current_amount > 0:
-                    target_export2 = true
-                    navigate_to(market.position + Vector2(0, 8))
-            elif target_export2:
-                target_export2 = false
-                var result = market.sell(target_resource_name, current_amount)
-                money += result["total_cost"]
-                current_amount = current_amount - result["total_amount"]
-                if current_amount > 0:
-                    target_parent_production2 = true
-                navigate_to(parent_building.position + Vector2(0, 8))
     else:
         velocity = direction * SPEED
         _update_animation()
@@ -141,12 +125,17 @@ func produce(amount: int) -> void:
     target_parent_production2 = false
     buy(parent_building.building_data.input.resource_name, amount)
 
-func export_to_market(amount: int) -> void:
+func export_to_market(_amount: int) -> void:
     target_resource_name = parent_building.building_data.output.resource_name
-    target_export = true
-    target_export2 = true
-    target_amount = amount
-    navigate_to(parent_building.position + Vector2(0, 8))
+    target_amount = _amount
+    var amount = min(parent_building.supply, target_amount)
+    parent_building.update_supply(-amount)
+    current_amount += amount
+    var result = market.sell(target_resource_name, current_amount)
+    money += result["total_cost"]
+    current_amount = current_amount - result["total_amount"]
+    parent_building.update_supply(current_amount)
+    current_amount = 0
 
 func buy(resource_name: String, amount: int) -> void:
     target_market = false
