@@ -17,7 +17,7 @@ var level: int = 1
 @onready var title_label: Label = $MarginContainer/VBoxContainer/Label
 @onready var description_label: Label = $MarginContainer/VBoxContainer/Label2
 
-var default_color := Color(0.670588, 0.686275, 0.72549, 0.501961)
+var default_color := Color(0.670588, 0.686275, 0.72549, 0.8)
 var hover_color := Color(0x75 / 255.0, 0x62 / 255.0, 0x76 / 255.0, 0.8)
 
 func _ready() -> void:
@@ -36,23 +36,23 @@ func _update_labels() -> void:
 
     match upgrade_type:
         UpgradeType.TARIFF:
-            title_label.text = "Tariff - Level %d" % level
-            description_label.text = "Tax %d percent from market imports" % tax_percentage
+            title_label.text = "Tariff - Level %d." % level
+            description_label.text = "Tax %d percent from market imports." % tax_percentage
         UpgradeType.VAT:
-            title_label.text = "VAT - Level %d" % level
-            description_label.text = "Tax %d percent from village trades" % tax_percentage
+            title_label.text = "VAT - Level %d." % level
+            description_label.text = "Tax %d percent from village trades." % tax_percentage
         UpgradeType.INCOME_TAX:
-            title_label.text = "Income Tax - Level %d" % level
-            description_label.text = "Tax %d percent from income" % tax_percentage
+            title_label.text = "Income Tax - Level %d." % level
+            description_label.text = "Tax %d percent from income." % tax_percentage
         UpgradeType.SPEED:
-            title_label.text = "Speed - Level %d" % level
-            description_label.text = "Move %d percent faster" % player_percentage
+            title_label.text = "Movement Speed - Level %d." % level
+            description_label.text = "Move %d percent faster." % player_percentage
         UpgradeType.AURA:
-            title_label.text = "Aura - Level %d" % level
-            description_label.text = "Tax collection aura radius %d percent larger" % player_percentage
+            title_label.text = "Aura - Level %d." % level
+            description_label.text = "Tax collection aura radius %d percent larger." % player_percentage
         UpgradeType.TAX_RATE:
-            title_label.text = "Collection Rate - Level %d" % level
-            description_label.text = "Collect taxes %d percent faster" % player_percentage
+            title_label.text = "Collection Rate - Level %d." % level
+            description_label.text = "Collect taxes %d percent faster." % player_percentage
 
 func _on_mouse_entered() -> void:
     color = hover_color

@@ -12,6 +12,7 @@ const SLOT_POSITIONS := [
 @onready var tutorial_worker = $TutorialWorker
 @onready var tutorial_label = $Player/TutorialLabel
 @onready var audio_player: AudioStreamPlayer = $AudioStreamPlayer
+@onready var days_label: Label = $CanvasLayer/GoalLabel/Label
 
 var confirm_sounds: Array[AudioStream] = []
 
@@ -74,6 +75,7 @@ func _on_taxes_set() -> void:
 
     market._initialize_demand()
     taxes.set_controls_enabled()
+    days_label.text = "%d days left" % (10 - get_tree().get_nodes_in_group("buildings").size())
 
 func _calculate_total_demand(buildings: Array[Node]) -> Dictionary:
     var num_buildings = buildings.size()
@@ -255,11 +257,12 @@ func _start_tutorial() -> void:
     await get_tree().create_timer(1.0).timeout
 
     tutorial_texts = [
-        "My name is Tax Murphy",
-        "Im a tax collector",
+        "My name is Tax Murphy.",
+        "Im a tax collector.",
         "See that 0 over my head?",
         "That means our coffers are empty!",
-        "His highness, King Spendsalot, planned an elaborate village, taking into account supply chains, market demands and the needs of the people",
+        "His highness, King Spendsalot, planned an elaborate village.",
+        "Taking into account supply chains, market demands and the people needs.",
         "But I dont care about any of that!"
     ]
     current_text_index = 0
@@ -269,8 +272,10 @@ func _start_tutorial() -> void:
 func _show_next_tutorial_text() -> void:
     if current_text_index < tutorial_texts.size():
         tutorial_label.text = tutorial_texts[current_text_index]
-        if tutorial_label.text == "Our quota today is 2,500":
+        if tutorial_label.text == "Our tax goal is 2,500.":
             $CanvasLayer/GoalLabel.show()
+        elif tutorial_label.text == "We have 9 days to reach it.":
+            days_label.show()
         tutorial_label.show()
         waiting_for_input = true
         _play_random_confirm_sound()
@@ -303,8 +308,8 @@ func _advance_tutorial_step() -> void:
 
         tutorial_texts = [
             "See the red coin over that serfs head?",
-            "Thats unpaid tax",
-            "Lets go collect it"
+            "Thats unpaid tax.",
+            "Lets go collect it."
         ]
         current_text_index = 0
         _show_next_tutorial_text()
@@ -317,7 +322,7 @@ func _advance_tutorial_step() -> void:
         await get_tree().create_timer(1.0).timeout
 
         if not player.has_moved:
-            tutorial_label.text = "WASD to move"
+            tutorial_label.text = "WASD to move."
             tutorial_label.show()
 
             while not player.has_moved:
@@ -344,10 +349,11 @@ func _advance_tutorial_step() -> void:
         _wait_for_all_workers_to_finish()
 
         tutorial_texts = [
-            "The first villager has moved",
-            "He will need to trade goods in the market",
-            "Impose a tariff and collect the tax",
-            "Our quota today is 2,500",
+            "The first villager has moved.",
+            "He will need to import goods from the market.",
+            "Impose a tariff and collect the tax.",
+            "Our tax goal is 2,500.",
+            "We have 9 days to reach it.",
             "Good luck!"
         ]
         current_text_index = 0

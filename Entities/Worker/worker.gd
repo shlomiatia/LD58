@@ -31,15 +31,12 @@ var money: int
 @onready var taxes: Taxes = $/root/Main/CanvasLayer/Taxes
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var audio_player: AudioStreamPlayer = $/root/Main/AudioStreamPlayer
-@onready var audio_player2: AudioStreamPlayer = $/root/Main/AudioStreamPlayer2
 
 var money_sounds: Array[AudioStream] = []
-var sheep_sounds: Array[AudioStream] = []
 
 func _ready() -> void:
     for i in range(1, 4):
         money_sounds.append(load("res://Sounds/money%d.wav" % i))
-        sheep_sounds.append(load("res://Sounds/sheep%d.wav" % i))
 
     SPEED = randi() % 50 + 150
     _setup_palette_swap()
@@ -52,11 +49,6 @@ func _play_random_money_sound() -> void:
     if money_sounds.size() > 0:
         audio_player.stream = money_sounds[randi() % money_sounds.size()]
         audio_player.play()
-
-func _play_random_sheep_sound() -> void:
-    if sheep_sounds.size() > 0:
-        audio_player2.stream = sheep_sounds[randi() % sheep_sounds.size()]
-        audio_player2.play()
 
 func _update() -> void:
     money_label.value = money
@@ -106,8 +98,6 @@ func _physics_process(_delta: float) -> void:
             elif target_market:
                 target_market = false
                 var result = market.buy(target_resource_name, target_amount)
-                if current_amount == 0 and target_amount > 0 and target_resource_name == "Sheep":
-                    _play_random_sheep_sound()
                 current_amount += target_amount
                 target_amount = 0
                 money -= result["total_cost"]

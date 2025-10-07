@@ -41,6 +41,15 @@ text = "Goal - 2,500"
 position = Vector2(78, 4)
 texture = ExtResource("5_jhbnp")
 
+[node name="Label" type="Label" parent="CanvasLayer/GoalLabel"]
+visible = false
+layout_mode = 0
+offset_left = 89.0
+offset_top = -1.0
+offset_right = 150.0
+offset_bottom = 11.0
+text = "9 days left"
+
 [node name="TileMapLayers" parent="." instance=ExtResource("3_h2gwf")]
 
 [node name="Market" parent="." instance=ExtResource("4_4755n")]
