@@ -250,6 +250,7 @@ func _get_non_importers(available_buildings: Array[BuildingData], existing_build
     return non_importers
 
 func _start_tutorial() -> void:
+    tutorial_label.text = ""
     tutorial_label.hide()
     await get_tree().create_timer(1.0).timeout
 
@@ -294,6 +295,7 @@ func _advance_tutorial_step() -> void:
     tutorial_step += 1
 
     if tutorial_step == 2:
+        tutorial_label.text = ""
         tutorial_label.hide()
         tutorial_worker.show()
         tutorial_worker.navigate_to(Vector2(500, 260))
@@ -308,6 +310,7 @@ func _advance_tutorial_step() -> void:
         _show_next_tutorial_text()
 
     elif tutorial_step == 3:
+        tutorial_label.text = ""
         tutorial_label.hide()
         player.can_move = true
 
@@ -320,6 +323,7 @@ func _advance_tutorial_step() -> void:
             while not player.has_moved:
                 await get_tree().process_frame
 
+            tutorial_label.text = ""
             tutorial_label.hide()
 
         while tutorial_worker.tax > 0:
@@ -350,6 +354,7 @@ func _advance_tutorial_step() -> void:
         _show_next_tutorial_text()
 
     elif tutorial_step == 4:
+        tutorial_label.text = ""
         tutorial_label.hide()
         tutorial_active = false
         taxes.set_controls_enabled()

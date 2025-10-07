@@ -86,7 +86,7 @@ func _play_random_sound() -> void:
 func _set(property: StringName, value: Variant) -> bool:
     if property == "text":
         text = value
-        if is_node_ready() and text != "":
+        if is_node_ready():
             _start_typing()
         return true
     return false
