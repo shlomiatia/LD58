@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://cxvc28t8g6ehc"]
+[gd_scene load_steps=7 format=3 uid="uid://cxvc28t8g6ehc"]
 
 [ext_resource type="Script" path="res://Levels/outro.gd" id="1_5tsnl"]
 [ext_resource type="PackedScene" uid="uid://6jy8lp78cmyv" path="res://Entities/TileMapLayers/tile_map_layers.tscn" id="1_pr3xj"]
 [ext_resource type="PackedScene" uid="uid://dnwug4pxdwecg" path="res://Entities/SinWaveTransform/Fade.tscn" id="2_73w47"]
 [ext_resource type="FontFile" uid="uid://ystbwyqr5t1k" path="res://Fonts/Jacquard24-Regular.ttf" id="3_lqmmd"]
 [ext_resource type="Theme" uid="uid://dk74o3jdyxswq" path="res://Entities/Themes/Label.tres" id="4_ovt4b"]
+[ext_resource type="PackedScene" uid="uid://bxwemukvgjghr" path="res://Entities/TypingLabel/TypingLabel.tscn" id="6_shjuo"]
 
 [node name="Outro" type="Node2D"]
 script = ExtResource("1_5tsnl")
@@ -43,25 +44,19 @@ theme_override_fonts/font = ExtResource("3_lqmmd")
 theme_override_font_sizes/font_size = 72
 text = "Death or taxes"
 
-[node name="Label" type="Label" parent="CanvasLayer"]
+[node name="Label" parent="CanvasLayer" instance=ExtResource("6_shjuo")]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -11.5
-offset_right = 20.0
-offset_bottom = 11.5
+offset_left = -158.0
+offset_top = -36.0
+offset_right = 158.0
+offset_bottom = 36.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("4_ovt4b")
-text = "We collected X taxes, and failed to reach the 2500 quota
-
-His majesty will not be pleased
-
-Thanks for playing"
-horizontal_alignment = 1
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 volume_db = -6.0
