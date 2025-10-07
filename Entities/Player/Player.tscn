@@ -47,3 +47,6 @@ offset_top = 7.0
 offset_right = 180.0
 offset_bottom = 30.0
 theme = ExtResource("4_1sh8k")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -6.0

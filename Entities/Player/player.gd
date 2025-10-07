@@ -2,6 +2,7 @@ class_name Player extends CharacterBody2D
 
 const SPEED = 150.0
 const TAX_PER_SECOND = 16
+const MONEY_SOUNDS_PER_SECOND = 60.0
 
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var area_2d: Area2D = $Area2D
@@ -9,6 +10,7 @@ const TAX_PER_SECOND = 16
 @onready var taxes: Taxes = $/root/Main/CanvasLayer/Taxes
 @onready var money_label: MoneyLabel = $MoneyLabel
 @onready var tutorial_label: Label = $TutorialLabel
+@onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 
 var worker_tax_accumulator: Dictionary = {}
 var money: int = 0
@@ -22,6 +24,20 @@ var aura_multiplier: float = 1.0:
         aura_multiplier = value
         _update_aura_radius()
 var tax_rate_multiplier: float = 1.0
+
+var _money_sound_timer: float = 0.0
+var _money_sound_interval: float = 0.0
+var _is_collecting_taxes: bool = false
+var _money_sound_streams: Array[AudioStream] = []
+
+func _ready() -> void:
+    _money_sound_streams = [
+        preload("res://Sounds/tax1.wav"),
+        preload("res://Sounds/tax2.wav"),
+        preload("res://Sounds/tax3.wav")
+    ]
+
+    _money_sound_interval = 1.0 / MONEY_SOUNDS_PER_SECOND if MONEY_SOUNDS_PER_SECOND > 0 else 0.0
 
 func _physics_process(delta: float) -> void:
     if taxes && taxes.are_controls_enabled():
@@ -76,6 +92,7 @@ func _collect_taxes(delta: float) -> void:
     var tax_amount_per_frame = TAX_PER_SECOND * delta * tax_rate_multiplier
     var nearby_bodies = area_2d.get_overlapping_bodies()
     var nearby_worker_ids = []
+    var collected_any_tax = false
 
     for body in nearby_bodies:
         if body is Worker:
@@ -98,6 +115,19 @@ func _collect_taxes(delta: float) -> void:
                     add_money(tax_to_collect_int)
 
                     worker_tax_accumulator[worker_id] -= tax_to_collect_int
+                    collected_any_tax = true
+
+    if collected_any_tax:
+        if not _is_collecting_taxes:
+            _is_collecting_taxes = true
+            _money_sound_timer = 0.0
+
+        _money_sound_timer += delta
+        if _money_sound_timer >= _money_sound_interval:
+            _play_money_sound()
+            _money_sound_timer = 0.0
+    else:
+        _is_collecting_taxes = false
 
     var keys_to_remove = []
     for worker_id in worker_tax_accumulator.keys():
@@ -110,7 +140,15 @@ func _collect_taxes(delta: float) -> void:
 func add_money(amount: int) -> void:
     money += amount
     money_label.value = money
-    GlobalData.total_taxes_collected += amount
+    GlobalData.total_taxes_collected = money
+
+func _play_money_sound() -> void:
+    if _money_sound_streams.is_empty():
+        return
+
+    audio_stream_player.stream = _money_sound_streams[randi() % _money_sound_streams.size()]
+    audio_stream_player.pitch_scale = randf_range(0.9, 1.1)
+    audio_stream_player.play()
 
 func _update_aura_radius() -> void:
     if collision_shape and collision_shape.shape is CapsuleShape2D:
