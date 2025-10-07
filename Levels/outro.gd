@@ -3,14 +3,22 @@ class_name Outro extends Node2D
 const QUOTA = 2500
 
 @onready var label: Label = $CanvasLayer/Label
+@onready var audio_player: AudioStreamPlayer = $AudioStreamPlayer
 
 func _ready() -> void:
     var total_taxes = GlobalData.total_taxes_collected if GlobalData else 0
 
+    var win_sound = preload("res://Sounds/win.wav")
+    var lose_sound = preload("res://Sounds/lose.wav")
+
     if total_taxes >= QUOTA:
         label.text = "We collected %s taxes, well over the %s quota\n\nHis majesty will be pleased\n\nThanks for playing!" % [_format_number(total_taxes), _format_number(QUOTA)]
+        audio_player.stream = win_sound
     else:
         label.text = "We collected %s taxes but failed to reach the %s quota\n\nHis majesty will not be pleased...\n\nThanks for playing!" % [_format_number(total_taxes), _format_number(QUOTA)]
+        audio_player.stream = lose_sound
+
+    audio_player.play()
 
 func _format_number(num: int) -> String:
     var num_str = str(num)

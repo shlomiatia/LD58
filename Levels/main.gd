@@ -2,8 +2,8 @@ class_name Main extends Node2D
 
 const BUILDING_SCENE := preload("res://Entities/Building/Building.tscn")
 const SLOT_POSITIONS := [
-    Vector2(80, 160), Vector2(176, 160), Vector2(272, 160), Vector2(368, 160), Vector2(464, 160),
-    Vector2(80, 336), Vector2(176, 336), Vector2(272, 336), Vector2(368, 336), Vector2(464, 336)
+    Vector2(80, 160), Vector2(192, 160), Vector2(304, 160), Vector2(416, 160), Vector2(528, 160),
+    Vector2(80, 336), Vector2(192, 336), Vector2(304, 336), Vector2(416, 336), Vector2(528, 336)
 ]
 
 @onready var taxes = $CanvasLayer/Taxes
@@ -48,6 +48,7 @@ func _place_building(building_data: BuildingData, slot_index: int) -> void:
 
 func _on_taxes_set() -> void:
     var buildings = get_tree().get_nodes_in_group("buildings")
+    _handle_income_tax_withdrawal(buildings)
     var total_demand = _calculate_total_demand(buildings)
     await _handle_production(buildings, total_demand)
 
@@ -66,8 +67,7 @@ func _on_taxes_set() -> void:
         get_tree().change_scene_to_file("res://Levels/Outro.tscn")
         return
 
-    _handle_income_tax_withdrawal(buildings)
-
+    
     for building in buildings:
         if building is Building:
             building.supply = 0

@@ -62,3 +62,6 @@ His majesty will not be pleased
 
 Thanks for playing"
 horizontal_alignment = 1
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -6.0

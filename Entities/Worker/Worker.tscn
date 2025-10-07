@@ -49,6 +49,7 @@ script = ExtResource("1_ta25y")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 1
+y_sort_enabled = true
 material = SubResource("ShaderMaterial_4oj8t")
 position = Vector2(0, -16)
 sprite_frames = ExtResource("2_2k54u")
